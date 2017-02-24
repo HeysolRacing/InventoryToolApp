@@ -1,0 +1,203 @@
+﻿@model InventoryTool.Models.FeeCode
+
+@{
+    Layout = null;
+    ViewBag.Title = "Details";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Details</title>
+</head>
+<body>
+    <div>
+        <h4>FeeCode</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Fleet)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Fleet)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Unit)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Unit)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.LogNo)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.LogNo)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.CapCost)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.CapCost)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.BookValue)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.BookValue)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Term)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Term)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Lpis)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Lpis)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.OnRdDat)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.OnRdDat)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.OfRdDat)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.OfRdDat)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Scontr)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Scontr)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.InsPremium)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.InsPremium)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.ResidualAmt)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.ResidualAmt)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Fee)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Fee)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Desc)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Desc)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.MMYY)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.MMYY)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Start)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Start)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.InsPremiStopum)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.InsPremiStopum)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Amt)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Amt)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Method)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Method)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Rate)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Rate)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.BL)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.BL)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.AC)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.AC)
+            </dd>
+    
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.FeeCode_Id }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+</body>
+</html>

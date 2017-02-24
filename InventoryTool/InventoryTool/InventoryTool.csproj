@@ -34,6 +34,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -214,6 +215,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\FeeCodesController.cs" />
     <Compile Include="Controllers\FleetsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -221,7 +223,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Migrations\Configuration.cs" />
+    <Compile Include="Models\FeeCode.cs" />
     <Compile Include="Models\FleetStatus.cs" />
     <Compile Include="ViewModels\AccountViewModels.cs" />
     <Compile Include="Models\Fleet.cs" />
@@ -305,6 +308,11 @@
     <Content Include="Views\Users\Index.cshtml" />
     <Content Include="Views\Users\Roles.cshtml" />
     <Content Include="Views\Users\AddRole.cshtml" />
+    <Content Include="Views\FeeCodes\Create.cshtml" />
+    <Content Include="Views\FeeCodes\Delete.cshtml" />
+    <Content Include="Views\FeeCodes\Details.cshtml" />
+    <Content Include="Views\FeeCodes\Edit.cshtml" />
+    <Content Include="Views\FeeCodes\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
