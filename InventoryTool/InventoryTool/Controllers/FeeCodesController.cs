@@ -47,10 +47,12 @@ namespace InventoryTool.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "FeeCode_Id,Fleet,Unit,LogNo,CapCost,BookValue,Term,Lpis,OnRdDat,OfRdDat,Scontr,InsPremium,ResidualAmt,Fee,Desc,MMYY,Start,InsPremiStopum,Amt,Method,Rate,BL,AC")] FeeCode feeCode)
+        public async Task<ActionResult> Create([Bind(Include = "FeeCode_Id,Fleet,Unit,LogNo,CapCost,BookValue,Term,Lpis,OnRdDat,OfRdDat,Scontr,InsPremium,ResidualAmt,Fee,Desc,MMYY,Start,Stop,Amt,Method,Rate,BL,AC,Createdby,Created")] FeeCode feeCode)
         {
             if (ModelState.IsValid)
             {
+                feeCode.Createdby = Environment.UserName;
+                feeCode.Created = DateTime.Now.ToString();
                 db.FeeCodes.Add(feeCode);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
@@ -79,10 +81,12 @@ namespace InventoryTool.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "FeeCode_Id,Fleet,Unit,LogNo,CapCost,BookValue,Term,Lpis,OnRdDat,OfRdDat,Scontr,InsPremium,ResidualAmt,Fee,Desc,MMYY,Start,InsPremiStopum,Amt,Method,Rate,BL,AC")] FeeCode feeCode)
+        public async Task<ActionResult> Edit([Bind(Include = "FeeCode_Id,Fleet,Unit,LogNo,CapCost,BookValue,Term,Lpis,OnRdDat,OfRdDat,Scontr,InsPremium,ResidualAmt,Fee,Desc,MMYY,Start,Stop,Amt,Method,Rate,BL,AC,Createdby,Created")] FeeCode feeCode)
         {
             if (ModelState.IsValid)
             {
+                feeCode.Createdby = Environment.UserName;
+                feeCode.Created = DateTime.Now.ToString();
                 db.Entry(feeCode).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");

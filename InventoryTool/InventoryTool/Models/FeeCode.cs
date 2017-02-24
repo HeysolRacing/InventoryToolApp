@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace InventoryTool.Models
 {
@@ -19,7 +15,7 @@ namespace InventoryTool.Models
         [Required(ErrorMessage = "You must enter {0}")]
         public int Unit { get; set; }
 
-        [Display(Name = "LOG-NO")]
+        [Display(Name = "LOG NUMBER")]
         [Required(ErrorMessage = "You must enter {0}")]
         public int LogNo { get; set; }
 
@@ -77,7 +73,7 @@ namespace InventoryTool.Models
 
         [Display(Name = "STOP")]
         [Required(ErrorMessage = "You must enter {0}")]
-        public int InsPremiStopum { get; set; }
+        public int Stop { get; set; }
 
         [Display(Name = "AMT")]
         [Required(ErrorMessage = "You must enter {0}")]
@@ -95,8 +91,16 @@ namespace InventoryTool.Models
         public string BL { get; set; }
 
         [Display(Name = "AC")]
-        [Required(ErrorMessage = "You must enter {0}")]
+        //[Required(ErrorMessage = "You must enter {0}")]
         public string AC { get; set; }
+
+        [Display(Name = "CREATED BY")]
+        //[Required(ErrorMessage = "You must enter {0}")]
+        public string Createdby { get; set; }
+
+        [Display(Name = "CREATED")]
+        //[Required(ErrorMessage = "You must enter {0}")]
+        public string Created { get; set; }
     }
 }
 //FLEET	UNIT	LOG-NO	CAPCOST	BOOK VALUE	TERM	LPIS	ONRD DAT	OFRD DAT	SCONTR	INS PREMIUM	RESIDUAL AMT	FEE	DESC	MM/YY	START	STOP	AMT	METHOD	RATE	BL	AC                                 
