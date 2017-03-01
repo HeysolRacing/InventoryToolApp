@@ -41,17 +41,20 @@ namespace InventoryTool
             var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(db));
             var user = userManager.FindByName("hsagaon@elementcorp.com");
 
-            if (!userManager.IsInRole(user.Id, "View")) // Agregar Permisos
-                userManager.AddToRole(user.Id, "View");
+            if (!userManager.IsInRole(user.Id, "InventoryView")) // Agregar Permisos
+                userManager.AddToRole(user.Id, "InventoryView");
 
-            if (!userManager.IsInRole(user.Id, "Edit")) 
-                userManager.AddToRole(user.Id, "Edit");
+            if (!userManager.IsInRole(user.Id, "InventoryEdit")) 
+                userManager.AddToRole(user.Id, "InventoryEdit");
 
-            if (!userManager.IsInRole(user.Id, "Create")) 
-                userManager.AddToRole(user.Id, "Create");
+            if (!userManager.IsInRole(user.Id, "InventoryCreate")) 
+                userManager.AddToRole(user.Id, "InventoryCreate");
 
-            if (!userManager.IsInRole(user.Id, "Delete")) 
-                userManager.AddToRole(user.Id, "Delete");
+            if (!userManager.IsInRole(user.Id, "InventoryDelete")) 
+                userManager.AddToRole(user.Id, "InventoryDelete");
+
+            if (!userManager.IsInRole(user.Id, "Administrator"))
+                userManager.AddToRole(user.Id, "Administrator");
         }
 
         private void CreateAdmin(ApplicationDbContext db)
@@ -76,21 +79,21 @@ namespace InventoryTool
             var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(db));
 
             // Se crean los roles
-            if (!roleManager.RoleExists("View"))
+            if (!roleManager.RoleExists("InventoryView"))
             {
-                roleManager.Create(new IdentityRole("View"));
+                roleManager.Create(new IdentityRole("InventoryView"));
             }
-            if (!roleManager.RoleExists("Edit"))
+            if (!roleManager.RoleExists("InventoryEdit"))
             {
-                roleManager.Create(new IdentityRole("Edit"));
+                roleManager.Create(new IdentityRole("InventoryEdit"));
             }
-            if (!roleManager.RoleExists("Create"))
+            if (!roleManager.RoleExists("InventoryCreate"))
             {
-                roleManager.Create(new IdentityRole("Create"));
+                roleManager.Create(new IdentityRole("InventoryCreate"));
             }
-            if (!roleManager.RoleExists("Delete"))
+            if (!roleManager.RoleExists("InventoryDelete"))
             {
-                roleManager.Create(new IdentityRole("Delete"));
+                roleManager.Create(new IdentityRole("InventoryDelete"));
             }
 
         }

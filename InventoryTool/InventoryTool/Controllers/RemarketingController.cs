@@ -12,11 +12,11 @@ using PagedList;
 
 namespace InventoryTool.Controllers
 {
-    public class FleetsController : Controller
+    public class RemarketingController : Controller
     {
         private InventoryToolContext db = new InventoryToolContext();
 
-        [Authorize(Roles = "InventoryView")]
+        [Authorize(Roles = "Remarketing")]
         public ViewResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
             ViewBag.CurrentSort = sortOrder;
@@ -59,7 +59,7 @@ namespace InventoryTool.Controllers
             return View(fleets.ToPagedList(pageNumber, pageSize));
         }
 
-        [Authorize(Roles = "InventoryView")]
+        [Authorize(Roles = "Remarketing")]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -74,13 +74,7 @@ namespace InventoryTool.Controllers
             return View(fleet);
         }
 
-        [Authorize(Roles = "InventoryCreate")]
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        [Authorize(Roles = "InventoryEdit")]
+        [Authorize(Roles = "Remarketing")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -96,60 +90,27 @@ namespace InventoryTool.Controllers
             return View(fleet);
         }
 
-        [Authorize(Roles = "InventoryDelete")]
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Fleet fleet = db.Fleets.Find(id);
-            if (fleet == null)
-            {
-                return HttpNotFound();
-            }
-            return View(fleet);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "FleetID,LogNumber,CorpCode,FleetNumber,UnitNumber,VinNumber,ContractType,Make,ModelCar,ModelYear,BookValue,CapCost,Inservice_date,Inservice_process,Original_Inservice,Original_Process,Offroad_date,Offroad_process,Sold_date,Sold_process,FleetCancelUnit,Amort_Term,Leased_Months_Billed,End_date,ScontrNumber,Amort,LicenseNumber,State,Roe,DealerName,Insurance,Secdep,DepartmentCode,Residual_Amount,Level_1,Level_2,Level_3,Level_4,Level_5,Level_6,TTL,OutletCode,OutletName,Created,CreatedBy")] Fleet fleet)
-        {
-            if (ModelState.IsValid)
-            {
-                fleet.Created = DateTime.Now;
-                fleet.CreatedBy = Environment.UserName;
-                db.Fleets.Add(fleet);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            return View(fleet);
-        }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "FleetID,LogNumber,CorpCode,FleetNumber,UnitNumber,VinNumber,ContractType,Make,ModelCar,ModelYear,BookValue,CapCost,Inservice_date,Inservice_process,Original_Inservice,Original_Process,Offroad_date,Offroad_process,Sold_date,Sold_process,FleetCancelUnit,Amort_Term,Leased_Months_Billed,End_date,ScontrNumber,Amort,LicenseNumber,State,Roe,DealerName,Insurance,Secdep,DepartmentCode,Residual_Amount,Level_1,Level_2,Level_3,Level_4,Level_5,Level_6,TTL,OutletCode,OutletName,Created,CreatedBy")] Fleet fleet)
         {
             if (ModelState.IsValid)
             {
+                DateTime EndDate = DateTime.Now;
+                fleet.Leased_Months_Billed = 3; //Validar como se calcula
+
+                if (fleet.Inservice_date != null)
+                   EndDate = DateTime.Parse(fleet.Inservice_date.ToString()).AddDays(fleet.Leased_Months_Billed);
+        
+                fleet.End_date = EndDate;
                 fleet.Created = DateTime.Now;
                 fleet.CreatedBy = Environment.UserName;
                 db.Entry(fleet).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(fleet);
-        }
 
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Fleet fleet = db.Fleets.Find(id);
-            db.Fleets.Remove(fleet);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            return View(fleet);
         }
 
         [HttpPost]
