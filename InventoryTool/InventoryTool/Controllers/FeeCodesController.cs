@@ -8,7 +8,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using InventoryTool.Models;
-
+using PagedList;
 
 namespace InventoryTool.Controllers
 {
@@ -18,18 +18,49 @@ namespace InventoryTool.Controllers
 
         // GET: FeeCodes
         [Authorize(Roles = "FeeCodesView")]
-        public async Task<ActionResult> Index(string searchString)
+        public async Task<ActionResult> Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
+            ViewBag.CurrentSort = sortOrder;
+
+            ViewBag.UnitSortParm = String.IsNullOrEmpty(sortOrder) ? "UNIT" : "";
+            ViewBag.FeeSortParm = String.IsNullOrEmpty(sortOrder) ? "FEE" : "";
+            ViewBag.DateSortParm = String.IsNullOrEmpty(sortOrder) ? "MMYY" : "";
+
+
+            if (searchString != null)
+                page = 1;
+            else
+                searchString = currentFilter;
+
+            ViewBag.CurrentFilter = searchString;
+
             var fleets = from s in db.FeeCodes
                          select s;
 
             if (!String.IsNullOrEmpty(searchString))
-            {
-                fleets = fleets.Where(s => s.Fee.ToString().Contains(searchString) || s.Fleet.ToString().Contains(searchString) || s.Unit.ToString().Contains(searchString) || s.LogNo.ToString().Contains(searchString));
-                return View(fleets);
-            }
+                fleets = fleets.Where(s => s.Fee.ToString().Equals(searchString) || s.Fleet.ToString().Equals(searchString) || s.Unit.ToString().Equals(searchString) || s.LogNo.ToString().Equals(searchString));
             else
-                return View(await db.FeeCodes.ToListAsync());
+                fleets = fleets.Take(200);
+
+            switch (sortOrder)
+            {
+                case "FEE":
+                    fleets = fleets.OrderByDescending(s => s.Fee);
+                    break;
+                case "UNIT":
+                    fleets = fleets.OrderBy(s => s.Unit);
+                    break;
+                case "MMYY":
+                    fleets = fleets.OrderByDescending(s => s.MMYY);
+                    break;
+                default:
+                    fleets = fleets.OrderBy(s => s.Fleet);
+                    break;
+            }
+
+            int pageSize = 3;
+            int pageNumber = (page ?? 1);
+            return View(fleets.ToPagedList(pageNumber, pageSize));
         }
 
         // GET: FeeCodes/Details/5

@@ -7,12 +7,12 @@
 <h2>Index</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create New", "Create") 
 </p>
 @using (Html.BeginForm("Index", "FeeCodes", FormMethod.Get))
 {
     <p>
-        Find by Fee Or Fleet Or Unit Or LogNumber: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+        Find by Fleet / Unit / LogNumber / Fee: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
         <input type="submit" value="Search" class="btn btn-info" />
     </p>
 }
@@ -22,7 +22,7 @@
 {
     <table>
         <tr><td>Excel file</td><td><input type="file" id="FileUpload1" name="FileUpload1" /></td>
-        <td></td><td><input type="submit" id="Submit" name="Submit" value="Submit"  class="btn btn-info"  /></td></tr>
+        <td></td><td><input type="submit" id="Submit" name="Submit" value="Submit" class="btn btn-info"  /></td></tr>
     </table>
 }
 <table class="table">
@@ -32,7 +32,8 @@
             @Html.DisplayNameFor(model => model.Fleet)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Unit)
+            @Html.ActionLink("UNIT", "Index", new { sortOrder = ViewBag.UnitSortParm, currentFilter = ViewBag.CurrentFilter })
+            <!--@@Html.DisplayNameFor(model => model.Unit)-->
         </th>
         <th>
             @Html.DisplayNameFor(model => model.LogNo)
@@ -65,13 +66,15 @@
             @Html.DisplayNameFor(model => model.ResidualAmt)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Fee)
+            @Html.ActionLink("FEE", "Index", new { sortOrder = ViewBag.FeeSortParm, currentFilter = ViewBag.CurrentFilter })
+            <!--@Html.DisplayNameFor(model => model.Fee)-->
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Desc)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.MMYY)
+            @Html.ActionLink("MM/YY", "Index", new { sortOrder = ViewBag.DateSortParm, currentFilter = ViewBag.CurrentFilter })
+            <!--@Html.DisplayNameFor(model => model.MMYY)-->
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Start)
@@ -178,8 +181,8 @@
             @Html.DisplayFor(modelItem => item.Created)
         </td>
         <td>
+            @Html.ActionLink("Details", "Details", new { id = item.FeeCode_Id }) |
             @Html.ActionLink("Edit", "Edit", new { id=item.FeeCode_Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.FeeCode_Id }) |
             @Html.ActionLink("Delete", "Delete", new { id=item.FeeCode_Id })
         </td>
     </tr>
