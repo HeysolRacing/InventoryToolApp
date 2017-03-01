@@ -9,7 +9,24 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
+@using (Html.BeginForm("Index", "FeeCodes", FormMethod.Get))
+{
+    <p>
+        Find by Fee Or Fleet Or Unit Or LogNumber: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+        <input type="submit" value="Search" class="btn btn-info" />
+    </p>
+}
+
+
+@using (Html.BeginForm("Importexcel", "ReadExcel", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <table>
+        <tr><td>Excel file</td><td><input type="file" id="FileUpload1" name="FileUpload1" /></td>
+        <td></td><td><input type="submit" id="Submit" name="Submit" value="Submit"  class="btn btn-info"  /></td></tr>
+    </table>
+}
 <table class="table">
+    <tr><td width="5px"></td></tr>
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.Fleet)

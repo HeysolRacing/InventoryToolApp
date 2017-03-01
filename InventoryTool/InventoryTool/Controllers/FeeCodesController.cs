@@ -17,12 +17,23 @@ namespace InventoryTool.Controllers
         private InventoryToolContext db = new InventoryToolContext();
 
         // GET: FeeCodes
-        public async Task<ActionResult> Index()
+        [Authorize(Roles = "FeeCodesView")]
+        public async Task<ActionResult> Index(string searchString)
         {
-            return View(await db.FeeCodes.ToListAsync());
+            var fleets = from s in db.FeeCodes
+                         select s;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                fleets = fleets.Where(s => s.Fee.ToString().Contains(searchString) || s.Fleet.ToString().Contains(searchString) || s.Unit.ToString().Contains(searchString) || s.LogNo.ToString().Contains(searchString));
+                return View(fleets);
+            }
+            else
+                return View(await db.FeeCodes.ToListAsync());
         }
 
         // GET: FeeCodes/Details/5
+        [Authorize(Roles = "FeeCodesView")]
         public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
@@ -38,6 +49,7 @@ namespace InventoryTool.Controllers
         }
 
         // GET: FeeCodes/Create
+        [Authorize(Roles = "FeeCodesCreate")]
         public ActionResult Create()
         {
             return View();
@@ -63,6 +75,7 @@ namespace InventoryTool.Controllers
         }
 
         // GET: FeeCodes/Edit/5
+        [Authorize(Roles = "FeeCodesEdit")]
         public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
@@ -96,6 +109,7 @@ namespace InventoryTool.Controllers
         }
 
         // GET: FeeCodes/Delete/5
+        [Authorize(Roles = "FeeCodesDelete")]
         public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)

@@ -44,13 +44,13 @@ namespace InventoryTool
             if (!userManager.IsInRole(user.Id, "InventoryView")) // Agregar Permisos
                 userManager.AddToRole(user.Id, "InventoryView");
 
-            if (!userManager.IsInRole(user.Id, "InventoryEdit")) 
+            if (!userManager.IsInRole(user.Id, "InventoryEdit"))
                 userManager.AddToRole(user.Id, "InventoryEdit");
 
-            if (!userManager.IsInRole(user.Id, "InventoryCreate")) 
+            if (!userManager.IsInRole(user.Id, "InventoryCreate"))
                 userManager.AddToRole(user.Id, "InventoryCreate");
 
-            if (!userManager.IsInRole(user.Id, "InventoryDelete")) 
+            if (!userManager.IsInRole(user.Id, "InventoryDelete"))
                 userManager.AddToRole(user.Id, "InventoryDelete");
 
             if (!userManager.IsInRole(user.Id, "Administrator"))
@@ -67,7 +67,7 @@ namespace InventoryTool
                 user = new ApplicationUser
                 {
                     UserName = "hsagaon@elementcorp.com",
-                    Email= "hsagaon@elementcorp.com"
+                    Email = "hsagaon@elementcorp.com"
                 };
                 userManager.Create(user, "Happy123$");
             }
@@ -95,6 +95,11 @@ namespace InventoryTool
             {
                 roleManager.Create(new IdentityRole("InventoryDelete"));
             }
+            if (!roleManager.RoleExists("Administrator"))
+            {
+                roleManager.Create(new IdentityRole("Administrator"));
+            }
+
 
         }
     }
