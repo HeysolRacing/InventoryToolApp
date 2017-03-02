@@ -35,14 +35,6 @@ namespace InventoryTool.Models
         [Required(ErrorMessage = "You must enter {0}")]
         public int Lpis { get; set; }
 
-        [Display(Name = "ONRD DAT")]
-        [Required(ErrorMessage = "You must enter {0}")]
-        public int OnRdDat { get; set; }
-
-        [Display(Name = "OFRD DAT")]
-        [Required(ErrorMessage = "You must enter {0}")]
-        public int OfRdDat { get; set; }
-
         [Display(Name = "SCONTR")]
         [Required(ErrorMessage = "You must enter {0}")]
         public string Scontr { get; set; }
@@ -50,10 +42,6 @@ namespace InventoryTool.Models
         [Display(Name = "INS PREMIUM")]
         [Required(ErrorMessage = "You must enter {0}")]
         public decimal InsPremium { get; set; }
-
-        [Display(Name = "RESIDUAL AMT")]
-        [Required(ErrorMessage = "You must enter {0}")]
-        public decimal ResidualAmt { get; set; }
 
         [Display(Name = "FEE")]
         [Required(ErrorMessage = "You must enter {0}")]

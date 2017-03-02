@@ -1,4 +1,6 @@
-﻿@model IEnumerable<InventoryTool.Models.FeeCode>
+﻿@model PagedList.IPagedList<InventoryTool.Models.FeeCode>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 @{
     ViewBag.Title = "Index";
@@ -29,79 +31,67 @@
     <tr><td width="5px"></td></tr>
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Fleet)
+            Fleet
         </th>
         <th>
             @Html.ActionLink("UNIT", "Index", new { sortOrder = ViewBag.UnitSortParm, currentFilter = ViewBag.CurrentFilter })
-            <!--@@Html.DisplayNameFor(model => model.Unit)-->
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.LogNo)
+            LogNo
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.CapCost)
+            CapCost
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.BookValue)
+            BookValue
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Term)
+           Term
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Lpis)
+            Lpis
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.OnRdDat)
+           Scontr
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.OfRdDat)
+           InsPremium
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Scontr)
+            @Html.ActionLink("FEE", "Index", new { sortOrder = ViewBag.FeeSortParm, currentFilter = ViewBag.CurrentFilter })            
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.InsPremium)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ResidualAmt)
-        </th>
-        <th>
-            @Html.ActionLink("FEE", "Index", new { sortOrder = ViewBag.FeeSortParm, currentFilter = ViewBag.CurrentFilter })
-            <!--@Html.DisplayNameFor(model => model.Fee)-->
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Desc)
+            Desc
         </th>
         <th>
             @Html.ActionLink("MM/YY", "Index", new { sortOrder = ViewBag.DateSortParm, currentFilter = ViewBag.CurrentFilter })
-            <!--@Html.DisplayNameFor(model => model.MMYY)-->
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Start)
+            Start
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Stop)
+           Stop
+        </th
+        <th>
+            Amt
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Amt)
+            Method
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Method)
+           Rate
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Rate)
+            BL
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.BL)
+            AC
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.AC)
+            Createdby
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Createdby)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Created)
+            Created
         </th>
         <th></th>
     </tr>
@@ -129,20 +119,11 @@
         <td>
             @Html.DisplayFor(modelItem => item.Lpis)
         </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.OnRdDat)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.OfRdDat)
-        </td>
-        <td>
+         <td>
             @Html.DisplayFor(modelItem => item.Scontr)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.InsPremium)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ResidualAmt)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Fee)
@@ -189,3 +170,8 @@
 }
 
 </table>
+<br />
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index",
+        new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
