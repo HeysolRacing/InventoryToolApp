@@ -13,20 +13,38 @@
 </p>
 @using (Html.BeginForm("Index", "FeeCodes", FormMethod.Get))
 {
-    <p>
-        Find by Fleet / Unit / LogNumber / Fee: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
-        <input type="submit" value="Search" class="btn btn-info" />
-    </p>
+    <table>
+        <tr>
+            <td>
+                Find by Fleet / Unit / LogNumber / Fee: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+            </td>
+            <td width="15px"></td>
+            <td>
+                Initial Date: @Html.TextBox("InitialDate", ViewBag.CurrentFilter as string)
+            </td>
+            <td width="15px"></td>
+            <td>
+                Final Date: @Html.TextBox("FinalDate", ViewBag.CurrentFilter as string)
+            </td>
+            <td width="15px"></td>
+            <td>
+                <input type="submit" value="Search" class="btn btn-info" />
+            </td>
+        </tr>
+    </table>
 }
 
 
-@using (Html.BeginForm("Importexcel", "ReadExcel", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("Importexcel", "FeeCodes", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     <table>
         <tr><td>Excel file</td><td><input type="file" id="FileUpload1" name="FileUpload1" /></td>
         <td></td><td><input type="submit" id="Submit" name="Submit" value="Submit" class="btn btn-info"  /></td></tr>
     </table>
 }
+
+@Session["Display"] 
+
 <table class="table">
     <tr><td width="5px"></td></tr>
     <tr>
@@ -46,6 +64,9 @@
             BookValue
         </th>
         <th>
+            Rental
+        </th>
+       <th>
            Term
         </th>
         <th>
@@ -71,7 +92,7 @@
         </th>
         <th>
            Stop
-        </th
+        </th>
         <th>
             Amt
         </th>
@@ -114,6 +135,9 @@
             @Html.DisplayFor(modelItem => item.BookValue)
         </td>
         <td>
+            @Html.DisplayFor(modelItem => item.Rental)
+        </td>
+        <td>
             @Html.DisplayFor(modelItem => item.Term)
         </td>
         <td>
@@ -129,16 +153,16 @@
             @Html.DisplayFor(modelItem => item.Fee)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Desc)
+            @Html.DisplayFor(modelItem => item.Descr)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.MMYY)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Start)
+            @Html.DisplayFor(modelItem => item.Star)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Stop)
+            @Html.DisplayFor(modelItem => item.Sto)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Amt)
@@ -162,16 +186,16 @@
             @Html.DisplayFor(modelItem => item.Created)
         </td>
         <td>
-            @Html.ActionLink("Details", "Details", new { id = item.FeeCode_Id }) |
-            @Html.ActionLink("Edit", "Edit", new { id=item.FeeCode_Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.FeeCode_Id })
+            @Html.ActionLink("Details", "Details", new { id = item.FeeCode_Id }) 
         </td>
     </tr>
 }
 
 </table>
 <br />
+
 Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 
 @Html.PagedListPager(Model, page => Url.Action("Index",
         new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+

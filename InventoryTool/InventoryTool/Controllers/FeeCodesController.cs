@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using InventoryTool.Models;
 using PagedList;
+using System.Data.SqlClient;
 
 namespace InventoryTool.Controllers
 {
@@ -40,7 +41,7 @@ namespace InventoryTool.Controllers
             if (!String.IsNullOrEmpty(searchString))
                 fleets = fleets.Where(s => s.Fee.ToString().Equals(searchString) || s.Fleet.ToString().Equals(searchString) || s.Unit.ToString().Equals(searchString) || s.LogNo.ToString().Equals(searchString));
             else
-                fleets = fleets.Take(200);
+                fleets = fleets.Take(100000000);
 
             switch (sortOrder)
             {
@@ -58,7 +59,7 @@ namespace InventoryTool.Controllers
                     break;
             }
 
-            int pageSize = 3;
+            int pageSize = 20;
             int pageNumber = (page ?? 1);
             return View(fleets.ToPagedList(pageNumber, pageSize));
         }
@@ -174,5 +175,94 @@ namespace InventoryTool.Controllers
             }
             base.Dispose(disposing);
         }
+
+        public ActionResult Import()
+        {
+            return View();
+        }
+
+
+        public ActionResult Importexcel()
+        {
+            string cadenaconexionSQL, line, strsql;
+            cadenaconexionSQL = System.Configuration.ConfigurationManager.ConnectionStrings["InventoryToolContext"].ConnectionString;
+            SqlConnection conn = new SqlConnection(cadenaconexionSQL);
+            SqlCommand com = new SqlCommand();
+            SqlDataAdapter da = new SqlDataAdapter();
+            DataSet ds = new DataSet();
+            int counter = 1;
+            bool band = false;
+            string[] datos;
+
+            if (Request.Files["FileUpload1"].ContentLength > 0)
+            {
+                string extension = System.IO.Path.GetExtension(Request.Files["FileUpload1"].FileName);
+                //C:\Proyectos\GitHub\FeeCodes\InventoryToolApp\InventoryTool\InventoryTool\UploadedFiles
+                string path1 = string.Format("{0}/{1}", Server.MapPath("~/UploadedFiles"), Request.Files["FileUpload1"].FileName);
+                if (System.IO.File.Exists(path1))
+                    System.IO.File.Delete(path1);
+
+                Request.Files["FileUpload1"].SaveAs(path1);
+
+                conn.Open();
+                // Read the file and display it line by line.  
+                System.IO.StreamReader file = new System.IO.StreamReader(path1);
+                string dato = file.ReadLine();
+                while (((line = file.ReadLine()) != null) && !band)
+                {
+                    datos = line.Split(',');
+                    //Primero verifico si ya existe el registro
+                    strsql = "Select Fleet From FeeCodes Where Fleet = " + Convert.ToInt32(datos[0]) + " And Lpis = " + Convert.ToInt32(datos[7]);
+                    strsql += " And Fee = " + Convert.ToInt32(datos[10]);
+                    da = new SqlDataAdapter(strsql, conn);
+                    ds = new DataSet();
+                    da.Fill(ds, "Feecodes");
+                    if (ds.Tables[0].Rows.Count <= 0)    //no existe
+                    {
+                        //Grabo
+                        strsql = "Insert into FeeCodes (Fleet, Unit, LogNo, CapCost, BookValue, Rental, Term, Lpis, Scontr, InsPremium, Fee, Descr, MMYY, ";
+                        strsql += "Star, Sto, Amt, Method, Rate, BL, AC, Createdby, Created) values(" + Convert.ToInt32(datos[0]) + "," + Convert.ToInt32(datos[1]) + ",";
+                        strsql += Convert.ToInt32(datos[2]) + "," + Convert.ToDecimal(datos[3]) + "," + Convert.ToDecimal(datos[4]) + ",";
+                        strsql += Convert.ToDecimal(datos[5]) + "," + Convert.ToInt32(datos[6]) + "," + Convert.ToInt32(datos[7]) + ",'" + datos[8] + "',";
+                        strsql += Convert.ToDecimal(datos[9]) + "," + Convert.ToInt32(datos[10]) + ",'" + datos[11] + "',";
+                        strsql += Convert.ToInt32(datos[12]) + "," + Convert.ToInt32(datos[13]) + "," + Convert.ToInt32(datos[14]) + ",";
+                        strsql += Convert.ToDecimal(datos[15]) + ",'" + datos[16] + "','" + datos[17] + "','";
+                        strsql += datos[18] + "','" + datos[19] + "','MACRO PROCESS','" + DateTime.Now.ToString() + "')";
+
+                        com = new SqlCommand();
+                        com.CommandText = strsql;
+                        com.CommandTimeout = 0;
+                        com.CommandType = CommandType.Text;
+                        com.Connection = conn;
+                        com.ExecuteNonQuery();
+                    }
+                    else
+                    {
+                        this.HttpContext.Session["Display"] = "FeeCodesDuplicated. Import will be stoped";
+                        band = true;
+                    }
+                    counter++;
+                }
+
+                file.Close();
+                file.Dispose();
+                conn.Close();
+                conn.Dispose();
+
+                if (!band)
+                    this.HttpContext.Session["Display"] = "FeeCodes Imported succesfullly";
+
+ /*
+                //Ejecuta .bat lo pbtiene del Web.config,
+                string pathBAT = "C:\\SSIS\\Bat\\" + System.Configuration.ConfigurationManager.AppSettings["ArchivoBat"];
+                System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo(pathBAT);
+                startInfo.Verb = "runas";
+                System.Diagnostics.Process.Start(startInfo);
+*/     
+            }
+            
+            return RedirectToAction("Index");
+        }
+
     }
 }

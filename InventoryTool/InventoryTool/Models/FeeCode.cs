@@ -25,9 +25,13 @@ namespace InventoryTool.Models
 
         [Display(Name = "BOOK VALUE")]
         [Required(ErrorMessage = "You must enter {0}")]
-        public decimal BookValue{ get; set; }
+        public decimal BookValue { get; set; }
 
-        [Display(Name = "TERM")]
+        [Display(Name = "RENTAL")]
+        [Required(ErrorMessage = "You must enter {0}")]
+        public decimal Rental { get; set; }
+
+        [Display(Name = "TERM")]   
         [Required(ErrorMessage = "You must enter {0}")]
         public int Term { get; set; }
 
@@ -49,7 +53,7 @@ namespace InventoryTool.Models
 
         [Display(Name = "DESC")]
         [Required(ErrorMessage = "You must enter {0}")]
-        public string Desc { get; set; }
+        public string Descr { get; set; }
 
         [Display(Name = "MM/YY")]
         [Required(ErrorMessage = "You must enter {0}")]
@@ -57,11 +61,11 @@ namespace InventoryTool.Models
 
         [Display(Name = "START")]
         [Required(ErrorMessage = "You must enter {0}")]
-        public int Start { get; set; }
+        public int Star { get; set; }
 
         [Display(Name = "STOP")]
         [Required(ErrorMessage = "You must enter {0}")]
-        public int Stop { get; set; }
+        public int Sto { get; set; }
 
         [Display(Name = "AMT")]
         [Required(ErrorMessage = "You must enter {0}")]
