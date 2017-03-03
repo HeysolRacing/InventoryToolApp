@@ -1,17 +1,11 @@
 ﻿using InventoryTool.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
-using System;
-using System.Collections.Generic;
 using System.Data.Entity;
-using System.Linq;
-using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
-using System.Web.Security;
-using System.Web.SessionState;
 
 namespace InventoryTool
 {
@@ -69,7 +63,7 @@ namespace InventoryTool
                     UserName = "hsagaon@elementcorp.com",
                     Email= "hsagaon@elementcorp.com"
                 };
-                userManager.Create(user, "Happy123$");
+                userManager.Create(user, "Happy@123");
             }
 
         }
@@ -79,6 +73,10 @@ namespace InventoryTool
             var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(db));
 
             // Se crean los roles
+            if (!roleManager.RoleExists("Administrator"))
+            {
+                roleManager.Create(new IdentityRole("Administrator"));
+            }
             if (!roleManager.RoleExists("InventoryView"))
             {
                 roleManager.Create(new IdentityRole("InventoryView"));
@@ -95,7 +93,6 @@ namespace InventoryTool
             {
                 roleManager.Create(new IdentityRole("InventoryDelete"));
             }
-
         }
     }
 }

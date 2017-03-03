@@ -1,10 +1,13 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace InventoryTool.Models
 {
     public class Fleet
     {
+        
+
         [Key]
         public int FleetID { get; set; }
 
@@ -14,17 +17,17 @@ namespace InventoryTool.Models
 
         [Display(Name = "Fleet Number")]
         [Required(ErrorMessage = "You must enter {0}")]
-        [StringLength(30, ErrorMessage = "The field {0} must be between {2} and {1} characters", MinimumLength = 5)]
+        [StringLength(30, ErrorMessage = "The field {0} must be between {2} and {1} characters", MinimumLength = 2)]
         public string FleetNumber { get; set; }
 
         [Display(Name = "Unit Number")]
         [Required(ErrorMessage = "You must enter {0}")]
-        [StringLength(30, ErrorMessage = "The field {0} must be between {2} and {1} characters", MinimumLength = 7)]
+        [StringLength(30, ErrorMessage = "The field {0} must be between {2} and {1} characters", MinimumLength = 4)]
         public string UnitNumber { get; set; }
 
         [Display(Name = "Vin Number")]
         [Required(ErrorMessage = "You must enter {0}")]
-        [StringLength(30, ErrorMessage = "The field {0} must be between {2} and {1} characters", MinimumLength = 10)]
+        [StringLength(30, ErrorMessage = "The field {0} must be between {2} and {1} characters", MinimumLength = 5)]
         public string VinNumber { get; set; }
 
         [Display(Name = "Contract Type")]
@@ -37,62 +40,66 @@ namespace InventoryTool.Models
         public string Make { get; set; }
 
         [Required(ErrorMessage = "You must enter {0}")]
-        [StringLength(20, ErrorMessage = "The field {0} must be between {2} and {1} characters", MinimumLength = 5)]
+        [StringLength(20, ErrorMessage = "The field {0} must be between {2} and {1} characters", MinimumLength = 4)]
         public string ModelCar { get; set; }
 
         public int ModelYear { get; set; }
 
+        [Display(Name = "Book Value")]
         public decimal BookValue { get; set; }
 
+        [Display(Name = "Capping Cost")]
         public decimal CapCost { get; set; }
 
         [Display(Name = "Inservice Date")]
-        [DataType(DataType.Date)]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public Nullable<DateTime> Inservice_date { get; set; }
         
         [Display(Name = "Inservice Process")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public Nullable<DateTime> Inservice_process { get; set; }
 
         [Display(Name = "Original Inservice")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public Nullable<DateTime> Original_Inservice { get; set; }
 
         [Display(Name = "Original Process")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public Nullable<DateTime> Original_Process { get; set; }
 
-        [Display(Name = "OffRoad")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
+        [Display(Name = "Off Road Date")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public Nullable<DateTime> Offroad_date { get; set; }
 
         [Display(Name = "OffRoad Process")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public Nullable<DateTime> Offroad_process { get; set; }
 
-        [Display(Name = "Sold")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
+        [Display(Name = "Sold Date")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public Nullable<DateTime> Sold_date { get; set; }
 
         [Display(Name = "Sold Process")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public Nullable<DateTime> Sold_process { get; set; }
 
         public FleetCancelUnit FleetCancelUnit { get; set; }
 
+        [Display(Name = "Amortization Term")]
         public int Amort_Term { get; set; }
 
+        [Display(Name = "Leased Months Billed")]
         public int Leased_Months_Billed { get; set; }
 
         [Display(Name = "End Date")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public Nullable<DateTime> End_date { get; set; }
 
         [Required(ErrorMessage = "You must enter {0}")]
-        [StringLength(5, ErrorMessage = "The field {0} must be between {2} and {1} characters", MinimumLength = 2)]
+        [StringLength(5, ErrorMessage = "The field {0} must be between {2} and {1} characters", MinimumLength = 1)]
         public string ScontrNumber { get; set; }
 
+        [Display(Name = "Amortization")]
         public decimal Amort { get; set; }
 
         [Required(AllowEmptyStrings = true)]
@@ -103,37 +110,55 @@ namespace InventoryTool.Models
 
         public decimal Roe { get; set; }
 
+        [Display(Name = "Dealer")]
         public string DealerName { get; set; }
 
         public decimal Insurance { get; set; }
 
         public decimal Secdep { get; set; }
 
+        [Display(Name = "Deparment")]
         public string DepartmentCode { get; set; }
 
+        [Display(Name = "Residual Amount")]
         public decimal Residual_Amount { get; set; }
 
+        [Display(Name = "Level 1")]
         public string Level_1 { get; set; }
 
+        [Display(Name = "Level 2")]
         public string Level_2 { get; set; }
 
+        [Display(Name = "Level 3")]
         public string Level_3 { get; set; }
 
+        [Display(Name = "Level 4")]
         public string Level_4 { get; set; }
 
+        [Display(Name = "Level 5")]
         public string Level_5 { get; set; }
 
+        [Display(Name = "Level 6")]
         public string Level_6 { get; set; }
 
         public string TTL { get; set; }
 
+        [Display(Name = "Outlet Code")]
         public string OutletCode { get; set; }
 
+        [Display(Name = "Outlet Name")]
         public string OutletName { get; set; }
+
+        [Display(Name = "Profit Share")]
+        public decimal Profit_Share { get; set; }
 
         public DateTime Created { get; set; }
 
         public string CreatedBy { get; set; }
+
+        [NotMapped]
+        public string Penalty { get; set; }
+
 
         //public string GetStringTypeInserviceDate  En caso de querer realizar validaciones o comparativas
         //{

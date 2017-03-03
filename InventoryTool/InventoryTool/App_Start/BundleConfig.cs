@@ -27,14 +27,15 @@ namespace InventoryTool
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
 
-            bundles.Add(new ScriptBundle("~/bundles/jqueryui").Include(
-                        "~/Scripts/jquery-ui-1.11.0.js",
-                        "~/Scripts/jquery-ui.unobtrusive-3.0.0.js"));
 
-            bundles.Add(new StyleBundle("~/Content/themes/base/base.css").Include(
-                        "~/Content/themes/base/core.css",
-                        "~/Content/themes/base/datepicker.css",
-                        "~/Content/themes/base/theme.css"));
+            bundles.Add(new ScriptBundle("~/bundles/jqueryui").Include(
+                                         "~/Scripts/jquery-ui-{version}.js",
+                                         "~/Scripts/jquery-ui.unobtrusive-3.0.0.js"));
+ 
+            bundles.Add(new StyleBundle("~/Content/themes/base/css").Include(
+                                        "~/Content/themes/base/core.css",
+                                        "~/Content/themes/base/datepicker.css",
+                                        "~/Content/themes/base/theme.css"));
         }
     }
 }

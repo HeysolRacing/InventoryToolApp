@@ -150,6 +150,9 @@
         <th>
             Outlet Name
         </th>
+        <th>
+           Profit Share
+        </th>
     </tr>
 
 @foreach (var item in Model) {
@@ -284,6 +287,9 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.OutletName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Profit_Share)
         </td>
     </tr>
 }

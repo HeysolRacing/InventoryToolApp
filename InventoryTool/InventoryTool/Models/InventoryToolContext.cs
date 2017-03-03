@@ -9,5 +9,7 @@ namespace InventoryTool.Models
         }
 
         public DbSet<Fleet> Fleets { get; set; }
+
+        public System.Data.Entity.DbSet<InventoryTool.Models.ExchangeRate> ExchangeRates { get; set; }
     }
 }

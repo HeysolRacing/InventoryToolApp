@@ -4,14 +4,19 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Inventory Tool</title>
+
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+      @Scripts.Render("~/bundles/modernizr")
+      @Styles.Render("~/Content/themes/base/css")
+
+    <link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
+      @Scripts.Render("~/bundles/jquery")
+      @Scripts.Render("~/bundles/jqueryval")
+      @Scripts.Render("~/bundles/jqueryui")
+
+    
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-   
-    @Styles.Render("~/Content/themes/base/css")
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/bundles/jqueryui")
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -30,8 +35,9 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Files<b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li>@Html.ActionLink("Fleets", "Index", "Fleets")</li>
+                            <li>@Html.ActionLink("Units", "Index", "Fleets")</li>
                             <li>@Html.ActionLink("Remarketing", "Index", "Remarketing")</li>
+                            <li>@Html.ActionLink("FX Daily Update", "Index", "ExchangeRates")</li>
                         </ul>
                     </li>
                     <li>@Html.ActionLink("Faq", "About", "Home")</li>

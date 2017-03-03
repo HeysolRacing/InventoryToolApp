@@ -10,11 +10,49 @@ using System.Web.UI;
 using InventoryTool.Models;
 using PagedList;
 
+
 namespace InventoryTool.Controllers
 {
     public class FleetsController : Controller
     {
         private InventoryToolContext db = new InventoryToolContext();
+
+        private Fleet Calculation(Fleet fleet)
+        {
+            // Penalty Calculation
+            if (fleet.Inservice_date != null)
+            {
+                CalculateDate PenaltyDD = new CalculateDate(DateTime.Parse(fleet.Inservice_date.ToString()), DateTime.Now);
+                fleet.Penalty = "Penalty - " + PenaltyDD.Days.ToString();
+            }
+            else
+            {
+                fleet.Penalty = "Penalty - 0";
+            }
+
+            // Lease Month Calculation
+            //if (fleet.Insurance > 0 && fleet.Amort_Term > 0)
+            //{
+            //    fleet.Penalty = "Penalty - " + PenaltyDD.Days.ToString();
+            //}
+            //else
+            //{
+            //    fleet.Penalty = "Penalty - 0";
+            //}
+
+            // Lease Month Calculation
+            if (fleet.Insurance > 0 && fleet.Amort_Term > 0)
+            {
+                CalculateDate PenaltyDD = new CalculateDate(DateTime.Parse(fleet.Inservice_date.ToString()), DateTime.Now);
+                fleet.Penalty = "Penalty - " + PenaltyDD.Days.ToString();
+            }
+            else
+            {
+                fleet.Penalty = "Penalty - 0";
+            }
+
+            return fleet;
+        }
 
         [Authorize(Roles = "InventoryView")]
         public ViewResult Index(string sortOrder, string currentFilter, string searchString, int? page)
@@ -67,6 +105,9 @@ namespace InventoryTool.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Fleet fleet = db.Fleets.Find(id);
+
+
+
             if (fleet == null)
             {
                 return HttpNotFound();
