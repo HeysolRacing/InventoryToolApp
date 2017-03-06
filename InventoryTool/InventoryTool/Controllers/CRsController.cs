@@ -45,9 +45,9 @@ namespace InventoryTool.Controllers
                 crs = crs.Where(s => s.WAnumber.ToString().Contains(searchString)
                                        || s.VINnumber.ToString().Contains(searchString)
                                        || s.Clientname.ToString().Contains(searchString)
-                                       && (s.Status.Equals("Pending Aproval")));
+                                       && (s.Status.Equals("Pending Aproval") || s.Status.Equals("Approved")));
             }
-            else { crs = crs.Where(s => s.Status.Equals("Pending Aproval")); }
+            else { crs = crs.Where(s => s.Status.Equals("Pending Aproval") || s.Status.Equals("Approved")); }
             switch (sortOrder)
             {
                 case "WA number":
@@ -395,7 +395,8 @@ namespace InventoryTool.Controllers
                 cR.Subtotal = subtotal;
                 cR.IVA = subtotal * 0.16m;
                 cR.Total = subtotal * 1.16m;
-                db.CRs.Add(cR);
+                //db.CRs.Add(cR);
+                db.Entry(cR).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Edit",new { id=cR.crID});
             }
