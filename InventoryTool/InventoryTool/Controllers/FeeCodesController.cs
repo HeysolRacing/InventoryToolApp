@@ -19,9 +19,11 @@ namespace InventoryTool.Controllers
 
         // GET: FeeCodes
         [Authorize(Roles = "FeeCodesView")]
-        public async Task<ActionResult> Index(string sortOrder, string currentFilter, string searchString, int? page)
+        public async Task<ActionResult> Index(string sortOrder, string currentFilter, string searchString, int? page, string InitialDate, string InitialFilter,
+                                                string FinalDate, string FinalFilter)
         {
             ViewBag.CurrentSort = sortOrder;
+            
 
             ViewBag.UnitSortParm = String.IsNullOrEmpty(sortOrder) ? "UNIT" : "";
             ViewBag.FeeSortParm = String.IsNullOrEmpty(sortOrder) ? "FEE" : "";
@@ -33,10 +35,34 @@ namespace InventoryTool.Controllers
             else
                 searchString = currentFilter;
 
+            if (InitialDate != null)
+                page = 1;
+            else
+                InitialDate = InitialFilter;
+
+            if (FinalDate != null)
+                page = 1;
+            else
+                FinalDate = FinalFilter;
+
             ViewBag.CurrentFilter = searchString;
+            ViewBag.InitialFilter = InitialDate;
+            ViewBag.FinalFilter = FinalDate;
+
+            //Busqueda por fechas
+            int inicio = 0, final = 0;
+            if (String.IsNullOrEmpty(InitialDate))
+                inicio = 19000101;
+            else
+                inicio = Convert.ToInt32(InitialDate);
+            if (String.IsNullOrEmpty(FinalDate))
+                final = Convert.ToInt32(DateTime.Now.Year.ToString() + DateTime.Now.Month.ToString("00") + DateTime.Now.Day.ToString("00"));
+            else
+                final = Convert.ToInt32(FinalDate);
 
             var fleets = from s in db.FeeCodes
-                         select s;
+                     where s.MMYY >= inicio && s.MMYY <= final
+                     select s;
 
             if (!String.IsNullOrEmpty(searchString))
                 fleets = fleets.Where(s => s.Fee.ToString().Equals(searchString) || s.Fleet.ToString().Equals(searchString) || s.Unit.ToString().Equals(searchString) || s.LogNo.ToString().Equals(searchString));
@@ -61,6 +87,7 @@ namespace InventoryTool.Controllers
 
             int pageSize = 20;
             int pageNumber = (page ?? 1);
+
             return View(fleets.ToPagedList(pageNumber, pageSize));
         }
 

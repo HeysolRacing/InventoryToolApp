@@ -20,11 +20,11 @@
             </td>
             <td width="15px"></td>
             <td>
-                Initial Date: @Html.TextBox("InitialDate", ViewBag.CurrentFilter as string)
+                Initial Date: @Html.TextBox("InitialDate", ViewBag.InitialFilter as string)
             </td>
             <td width="15px"></td>
             <td>
-                Final Date: @Html.TextBox("FinalDate", ViewBag.CurrentFilter as string)
+                Final Date: @Html.TextBox("FinalDate", ViewBag.FinalFilter as string)
             </td>
             <td width="15px"></td>
             <td>
@@ -197,5 +197,7 @@
 Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 
 @Html.PagedListPager(Model, page => Url.Action("Index",
-        new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+        new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter, InitialFilter = ViewBag.InitialFilter, FinalFilter = ViewBag.FinalFilter }))
 
+
+      
