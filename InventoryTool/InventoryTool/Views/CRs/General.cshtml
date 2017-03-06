@@ -12,10 +12,14 @@
 @Html.ActionLink("Phantom Home", "Index", "Phantom")
 </p>
 <br />
-@using (Html.BeginForm("Index", "CRs", FormMethod.Get))
+@using (Html.BeginForm("General", "CRs", FormMethod.Get))
 {
+
     <p>
-        Find by: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+        Find by: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string) 
+        &nbsp;&nbsp; Service Date from: <input type="date" name="from" placeholder="yyyy-mm-dd" value="@ViewBag.CurrentFrom">
+        &nbsp; To: &nbsp; <input type="date" name="to" placeholder="yyyy-mm-dd" value="@ViewBag.CurrentTo">
+        &nbsp;
         <input type="submit" value="Search" class="btn btn-info" />
     </p>
 }
@@ -24,13 +28,14 @@
 <table class="table">
     <tr>
         <th>
-            @Html.ActionLink("WA number", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
+            @Html.ActionLink("WA number", "Index", new { sortOrder = ViewBag.WASortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
-            @Html.ActionLink("VIN number", "Index", new { sortOrder = ViewBag.ObligorSortParm, currentFilter = ViewBag.CurrentFilter })
+            @Html.ActionLink("VIN number", "Index", new { sortOrder = ViewBag.VINSortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
-            Service date
+            @Html.ActionLink("Service date", "Index", new { sortOrder = ViewBag.DateSortParm, currentFilter = ViewBag.CurrentFilter })
+           
         </th>
         <th>
             Odometer
@@ -39,10 +44,10 @@
             Status
         </th>
         <th>
-            Supplier
+            @Html.ActionLink("Supplier", "Index", new { sortOrder = ViewBag.SupplierSortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
-            @Html.ActionLink("Client name", "Index", new { sortOrder = ViewBag.DateSortParm, currentFilter = ViewBag.CurrentFilter })
+            @Html.ActionLink("Client name", "Index", new { sortOrder = ViewBag.ClientSortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
             Subtotal
@@ -57,7 +62,7 @@
          Quantity
         </th>
         <th>
-        Atacode
+            @Html.ActionLink("Ata code", "Index", new { sortOrder = ViewBag.AtaSortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
         Description
@@ -72,10 +77,10 @@
         Create Date
         </th>
         <th>
-        Created By
+            @Html.ActionLink("Created By", "Index", new { sortOrder = ViewBag.CreatedbySortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
-            OkedBy
+        Oked By
         </th>
         <th>Invoice number
             </th>

@@ -202,12 +202,18 @@ namespace InventoryTool.Controllers
         }
 
         // GET: CRs
-        public ActionResult General(string sortOrder, string currentFilter, string searchString, int? page)
+        public ActionResult General(string sortOrder, string currentFilter, string searchString, DateTime? from, DateTime? to, int? page)
         {
             ViewBag.CurrentSort = sortOrder;
-            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "WA number" : "";
-            ViewBag.DateSortParm = String.IsNullOrEmpty(sortOrder) ? "VIN number" : "";
-            ViewBag.ObligorSortParm = String.IsNullOrEmpty(sortOrder) ? "Client name" : "";
+            ViewBag.WASortParm = String.IsNullOrEmpty(sortOrder) ? "WA number" : "";
+            ViewBag.VINSortParm = String.IsNullOrEmpty(sortOrder) ? "VIN number" : "";
+            ViewBag.ClientSortParm = String.IsNullOrEmpty(sortOrder) ? "Client name" : "";
+            ViewBag.SupplierSortParm = String.IsNullOrEmpty(sortOrder) ? "Supplier" : "";
+            ViewBag.AtaSortParm = String.IsNullOrEmpty(sortOrder) ? "Ata code" : "";
+            ViewBag.CreatedbySortParm = String.IsNullOrEmpty(sortOrder) ? "Created By" : "";
+            ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
+            ViewBag.CurrentFrom = from;
+            ViewBag.CurrentTo = to;
 
             if (searchString != null)
             {
@@ -262,7 +268,14 @@ namespace InventoryTool.Controllers
                 crs = crs.Where(s => s.WAnumber.ToString().Contains(searchString)
                                        || s.VINnumber.ToString().Contains(searchString)
                                        || s.Clientname.ToString().Contains(searchString)
-                                       );
+                                       || s.Suppliername.ToString().Contains(searchString)
+                                       || s.Atacode.ToString().Contains(searchString)
+                                       || s.CreatedBy.ToString().Contains(searchString));
+            }
+            if(from != null && to !=null)
+            {
+                var last = to.HasValue ? to.Value.AddDays(1) : to;
+                crs = crs.Where(s => s.Servicedate >= from && s.Servicedate < last);
             }
             switch (sortOrder)
             {
@@ -274,6 +287,18 @@ namespace InventoryTool.Controllers
                     break;
                 case "Client name":
                     crs = crs.OrderBy(s => s.Clientname);
+                    break;
+                case "Supplier":
+                    crs = crs.OrderBy(s => s.Suppliername);
+                    break;
+                case "Ata code":
+                    crs = crs.OrderBy(s => s.Atacode);
+                    break;
+                case "Created By":
+                    crs = crs.OrderBy(s => s.CreatedBy);
+                    break;
+                case "Date":
+                    crs = crs.OrderByDescending(s => s.Servicedate);
                     break;
                 default:  // ID ascending 
                     crs = crs.OrderBy(s => s.crID);
