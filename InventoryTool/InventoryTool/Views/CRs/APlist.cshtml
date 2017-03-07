@@ -10,11 +10,11 @@
 <br />
 
 <p>
-    @Html.ActionLink("Create New", "Phantom", "Fleets") | @Html.ActionLink("Phantom Home", "Index", "Phantom")
+    @Html.ActionLink("Unit Search", "Phantom", "Fleets") | @Html.ActionLink("Phantom Home", "Index", "Phantom")
 </p>
 
 <br />
-@using (Html.BeginForm("Index", "CRs", FormMethod.Get))
+@using (Html.BeginForm("APlist", "CRs", FormMethod.Get))
 {
     <p>
         Find by: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
@@ -25,10 +25,10 @@
 <table class="table">
     <tr>
         <th>
-            @Html.ActionLink("WA number", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
+            @Html.ActionLink("WA number", "APlist", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
-            @Html.ActionLink("VIN number", "Index", new { sortOrder = ViewBag.ObligorSortParm, currentFilter = ViewBag.CurrentFilter })
+            @Html.ActionLink("VIN number", "APlist", new { sortOrder = ViewBag.ObligorSortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
             Service date
@@ -43,7 +43,7 @@
             Supplier
         </th>
         <th>
-            @Html.ActionLink("Client name", "Index", new { sortOrder = ViewBag.DateSortParm, currentFilter = ViewBag.CurrentFilter })
+            @Html.ActionLink("Client name", "APlist", new { sortOrder = ViewBag.DateSortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
             Subtotal
@@ -71,6 +71,9 @@
             </th>*@
         <th>
             CreatedBy
+        </th>
+        <th>
+            Maintenance Comments
         </th>
         <th></th>
     </tr>
@@ -126,6 +129,9 @@
                 </td>*@
             <td>
                 @Html.DisplayFor(modelItem => item.CreatedBy)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MaintenanceComments)
             </td>
             <td>
               

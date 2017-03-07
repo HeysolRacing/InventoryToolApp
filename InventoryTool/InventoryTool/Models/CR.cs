@@ -35,7 +35,7 @@ namespace InventoryTool.Models
         public string OkedBy { get; set; }
         [Display(Name = "Invoice Number")]
         public string Invoicenumber { get; set; }
-        [Display(Name = "Service Date")]
+        [Display(Name = "Invoice Date")]
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime Invoicedate { get; set; }

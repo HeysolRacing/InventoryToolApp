@@ -65,6 +65,7 @@ namespace InventoryTool.Controllers
             ViewBag.CurrentSort = sortOrder;
             ViewBag.VINSortParm = String.IsNullOrEmpty(sortOrder) ? "Vin Number" : "";
             ViewBag.FleetSortParm = String.IsNullOrEmpty(sortOrder) ? "Fleet Number" : "";
+            ViewBag.UnitSortParm = String.IsNullOrEmpty(sortOrder) ? "Unit Number" : "";
 
             if (searchString != null)
                 page = 1;
@@ -77,10 +78,9 @@ namespace InventoryTool.Controllers
                          select s;
 
             if (!String.IsNullOrEmpty(searchString))
-            { fleets = fleets.Where(s => s.VinNumber.ToString().Contains(searchString) || s.FleetNumber.ToString().Contains(searchString)
+            { fleets = fleets.Where(s => s.VinNumber.ToString().Contains(searchString) || s.FleetNumber.ToString().Contains(searchString) || s.UnitNumber.ToString().Contains(searchString)
             &&(s.Offroad_date == null && (s.ScontrNumber.ToString().Contains("5555")|| s.ScontrNumber.ToString().Contains("5556")
                                             || s.ScontrNumber.ToString().Contains("C") || s.ScontrNumber.ToString().Contains("D"))));
-
             }
             else
             {
@@ -94,7 +94,10 @@ namespace InventoryTool.Controllers
                     fleets = fleets.OrderByDescending(s => s.VinNumber);
                     break;
                 case "Fleet Number":
-                    fleets = fleets.OrderBy(s => s.UnitNumber);
+                    fleets = fleets.OrderBy(s => s.FleetNumber);
+                    break;
+                case "Unit Number":
+                    fleets = fleets.OrderBy(s => s.FleetNumber);
                     break;
                 default:
                     fleets = fleets.OrderBy(s => s.Inservice_date);

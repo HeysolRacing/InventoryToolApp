@@ -9,7 +9,7 @@
 <h2>C&Rs List</h2>
 <br />
 <p>
-    @Html.ActionLink("Create New", "Phantom","Fleets") | @Html.ActionLink("Phantom Home", "Index", "Phantom")
+    @Html.ActionLink("Unit Search", "Phantom","Fleets") | @Html.ActionLink("Phantom Home", "Index", "Phantom")
 </p>
 <br />
 @using (Html.BeginForm("Index", "CRs", FormMethod.Get))
@@ -70,6 +70,9 @@
         <th>
         CreatedBy
         </th>
+        <th>
+            Maintenance Comments
+        </th>
         <th></th>
     </tr>
 
@@ -123,6 +126,9 @@
         </td>*@
         <td>
             @Html.DisplayFor(modelItem => item.CreatedBy)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MaintenanceComments)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.crID }) |

@@ -14,21 +14,23 @@
         else { @Html.ActionLink("Back", "Create",new { id = @ViewBag.cr });}}
 </p>
 <br />
-@using (Html.BeginForm("Index", "CRs", FormMethod.Get))
+@*@using (Html.BeginForm("Historic", "CRs", FormMethod.Get))
 {
     <p>
         Find by: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
         <input type="submit" value="Search" class="btn btn-info" />
     </p>
-}
+}*@
 
 <table class="table">
     <tr>
         <th>
-            @Html.ActionLink("WA number", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
+            WA number
+            @*@Html.ActionLink("WA number", "Historic", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter, id = ViewBag.cr, vin= ViewBag.vin, screen = ViewBag.screen })*@
         </th>
         <th>
-            @Html.ActionLink("VIN number", "Index", new { sortOrder = ViewBag.ObligorSortParm, currentFilter = ViewBag.CurrentFilter })
+            VIN number
+            @*@Html.ActionLink("VIN number", "Historic", new { sortOrder = ViewBag.ObligorSortParm, currentFilter = ViewBag.CurrentFilter, id = ViewBag.cr, vin = ViewBag.vin, screen = ViewBag.screen })*@
         </th>
         <th>
             Service date
@@ -43,7 +45,8 @@
             Supplier
         </th>
         <th>
-            @Html.ActionLink("Client name", "Index", new { sortOrder = ViewBag.DateSortParm, currentFilter = ViewBag.CurrentFilter })
+            Client name
+            @*@Html.ActionLink("Client name", "Historic", new { sortOrder = ViewBag.DateSortParm, currentFilter = ViewBag.CurrentFilter, id = ViewBag.cr, vin = ViewBag.vin, screen = ViewBag.screen })*@
         </th>
         <th>
             Subtotal
@@ -129,7 +132,7 @@
             </td>
             <td>
 
-                @Html.ActionLink("Details", "Details", new { id = item.crID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.crID, screen = ViewBag.screen })
             </td>
         </tr>
     }

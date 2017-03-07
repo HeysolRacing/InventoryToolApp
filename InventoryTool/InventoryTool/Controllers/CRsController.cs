@@ -20,6 +20,7 @@ namespace InventoryTool.Controllers
         private InventoryToolContext db = new InventoryToolContext();
 
         // GET: CRs
+        [Authorize(Roles = "PhantomView")]
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
             ViewBag.CurrentSort = sortOrder;
@@ -99,10 +100,10 @@ namespace InventoryTool.Controllers
                       select s;
             if (!String.IsNullOrEmpty(searchString))
             {
-                crs = crs.Where(s => s.WAnumber.ToString().Contains(searchString)
+                crs = crs.Where(s => s.Status.Equals("Approved") && (s.WAnumber.ToString().Contains(searchString)
                                        || s.VINnumber.ToString().Contains(searchString)
                                        || s.Clientname.ToString().Contains(searchString)
-                                       && (s.Status.Equals("Approved")));
+                                       ));
             }
             else { crs = crs.Where(s => s.Status.Equals("Approved")); }
             switch (sortOrder)
@@ -127,53 +128,54 @@ namespace InventoryTool.Controllers
 
         }
         // GET: CRs
-        public ActionResult Historic(string sortOrder, string currentFilter, string searchString, int? page, int id, string vin, int screen)
+        [Authorize(Roles = "PhantomView")]
+        public ActionResult Historic( int? page, int id, string vin, int screen)
         {
-            ViewBag.CurrentSort = sortOrder;
-            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "WA number" : "";
-            ViewBag.DateSortParm = String.IsNullOrEmpty(sortOrder) ? "VIN number" : "";
-            ViewBag.ObligorSortParm = String.IsNullOrEmpty(sortOrder) ? "Client name" : "";
+            page = 1;
+            //string sortOrder, string currentFilter, string searchString,
+            //ViewBag.CurrentSort = sortOrder;
+            //ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "WA number" : "";
+            //ViewBag.DateSortParm = String.IsNullOrEmpty(sortOrder) ? "VIN number" : "";
+            //ViewBag.ObligorSortParm = String.IsNullOrEmpty(sortOrder) ? "Client name" : "";
             ViewBag.cr = id;
             ViewBag.screen = screen;
+            ViewBag.vin = vin;
 
-            if (searchString != null)
-            {
-                page = 1;
-            }
-            else
-            {
-                searchString = currentFilter;
-            }
+            //if (searchString != null)
+            //{
+            //    page = 1;
+            //}
+            //else
+            //{
+            //    searchString = currentFilter;
+            //}
 
-            ViewBag.CurrentFilter = searchString;
+            //ViewBag.CurrentFilter = searchString;
 
             var crs = from s in db.CRs
                       select s;
-            if (!String.IsNullOrEmpty(searchString))
-            {
-                crs = crs.Where(s => s.WAnumber.ToString().Contains(searchString)
-                                       || s.VINnumber.ToString().Contains(searchString)
-                                       || s.Clientname.ToString().Contains(searchString)
-                                       && (s.VINnumber.Contains(vin) && !s.Status.Equals("none")));
-            }
-            else {
-                crs = crs.Where(s => s.VINnumber.Contains(vin));
-            }
-            switch (sortOrder)
-            {
-                case "WA number":
-                    crs = crs.OrderByDescending(s => s.WAnumber);
-                    break;
-                case "VIN number":
-                    crs = crs.OrderBy(s => s.VINnumber);
-                    break;
-                case "Client name":
-                    crs = crs.OrderBy(s => s.Clientname);
-                    break;
-                default:  // ID ascending 
-                    crs = crs.OrderBy(s => s.crID);
-                    break;
-            }
+            //if (!String.IsNullOrEmpty(searchString))
+            //{
+                crs = crs.Where(s => s.VINnumber.Contains(vin) && !s.Status.Equals("none")).OrderBy(s => s.crID);
+            //}
+            //else {
+            //    crs = crs.Where(s => s.VINnumber.Contains(vin) && !s.Status.Equals("none"));
+            //}
+            //switch (sortOrder)
+            //{
+            //    case "WA number":
+            //        crs = crs.OrderByDescending(s => s.WAnumber);
+            //        break;
+            //    case "VIN number":
+            //        crs = crs.OrderBy(s => s.VINnumber);
+            //        break;
+            //    case "Client name":
+            //        crs = crs.OrderBy(s => s.Clientname);
+            //        break;
+            //    default:  // ID ascending 
+            //        crs = crs.OrderBy(s => s.crID);
+            //        break;
+            //}
 
             int pageSize = 100;
             int pageNumber = (page ?? 1);
@@ -181,9 +183,11 @@ namespace InventoryTool.Controllers
 
         }
         // GET: CRs/Details/5
-        [Authorize(Roles = "APhantomView")]
-        public ActionResult Details(int? id)
+       
+        public ActionResult Details(int? id, int? screen)
         {
+            ViewBag.screen = screen;
+            ViewBag.id = id;
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -194,6 +198,7 @@ namespace InventoryTool.Controllers
             return View(crdetail.ToList());
         }
         // GET: CRs/Details/5
+        [Authorize(Roles = "APhantomView")]
         public ActionResult APDetails(int? id)
         {
             if (id == null)
@@ -207,6 +212,7 @@ namespace InventoryTool.Controllers
         }
 
         // GET: CRs
+        
         public ActionResult General(string sortOrder, string currentFilter, string searchString, DateTime? from, DateTime? to, int? page)
         {
             ViewBag.CurrentSort = sortOrder;
@@ -237,7 +243,7 @@ namespace InventoryTool.Controllers
                       select new { a.crID, a.WAnumber, a.VINnumber,a.Servicedate,a.Odometer,a.Status,a.Supplier,a.Suppliername
                       ,a.Clientname,a.Subtotal,a.IVA, a.Total, c.ID, c.IDCR, c.Quantity,c.Atacode,c.Description
                       ,c.Requested,c.Authorized,c.CreateDate,c.CreatedBy, a.OkedBy
-                      ,a.Invoicenumber,a.Amountpaid,a.Paymentdate,a.MaintenanceComments,a.ApComments};
+                      ,a.Invoicenumber, a.Invoicedate,a.Amountpaid,a.Paymentdate,a.MaintenanceComments,a.ApComments};
 
             //public int crID { get; set; }
             //public string WAnumber { get; set; }
@@ -342,6 +348,7 @@ namespace InventoryTool.Controllers
                 ag.CreatedBy = item.CreatedBy;
                 ag.OkedBy = item.OkedBy;
                 ag.Invoicenumber = item.Invoicenumber;
+                ag.Invoicedate = item.Invoicedate;
                 ag.Amountpaid = item.Amountpaid;
                 ag.Paymentdate = item.Paymentdate;
                 ag.MaintenanceComments = item.MaintenanceComments;
@@ -359,6 +366,7 @@ namespace InventoryTool.Controllers
         }
 
         // GET: CRs/Create
+        [Authorize(Roles = "PhantomCreate")]
         public ActionResult Create(int? id)
         {
             if (id == null)
@@ -414,6 +422,7 @@ namespace InventoryTool.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "PhantomCreate")]
         public ActionResult Create(CR cR)
         {
             if (ModelState.IsValid)
@@ -440,6 +449,7 @@ namespace InventoryTool.Controllers
         }
 
         // GET: CRs/Edit/5
+        [Authorize(Roles = "PhantomEdit")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -495,6 +505,7 @@ namespace InventoryTool.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "PhantomEdit")]
         public ActionResult Edit(CR cR)
         {
             if (ModelState.IsValid)
@@ -523,6 +534,7 @@ namespace InventoryTool.Controllers
             return RedirectToAction("Index", "Ssuppliers", new { id = id, screen = screen });
         }
         // GET: CRs/Delete/5
+        [Authorize(Roles = "PhantomEdit")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -540,6 +552,7 @@ namespace InventoryTool.Controllers
         // POST: CRs/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "PhantomEdit")]
         public ActionResult DeleteConfirmed(int id)
         {
             CR cR = db.CRs.Find(id);
@@ -570,6 +583,7 @@ namespace InventoryTool.Controllers
 
 
         // GET: CRs/Approve/5
+        [Authorize(Roles = "PhantomEdit")]
         public ActionResult Approve(int? id)
         {
             if (id == null)
@@ -586,6 +600,7 @@ namespace InventoryTool.Controllers
 
         [HttpPost, ActionName("Approve")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "PhantomEdit")]
         public ActionResult ApproveConfirmed(CR cR)
         {
             cR.Status = "Approved";
@@ -595,6 +610,7 @@ namespace InventoryTool.Controllers
         }
 
         // GET: CRs/Close/5
+        [Authorize(Roles = "APhantomView")]
         public ActionResult Close(int? id)
         {
             if (id == null)
@@ -617,7 +633,7 @@ namespace InventoryTool.Controllers
             cR.Status = "Closed";
             db.Entry(cR).State = EntityState.Modified;
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("APlist");
         }
 
         //POST: CRs/ExportData

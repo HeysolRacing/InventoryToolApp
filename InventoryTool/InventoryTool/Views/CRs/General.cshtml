@@ -28,26 +28,26 @@
 <table class="table">
     <tr>
         <th>
-            @Html.ActionLink("WA number", "Index", new { sortOrder = ViewBag.WASortParm, currentFilter = ViewBag.CurrentFilter })
+            @Html.ActionLink("WA number", "General", new { sortOrder = ViewBag.WASortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
-            @Html.ActionLink("VIN number", "Index", new { sortOrder = ViewBag.VINSortParm, currentFilter = ViewBag.CurrentFilter })
+            @Html.ActionLink("VIN number", "General", new { sortOrder = ViewBag.VINSortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
-            @Html.ActionLink("Service date", "Index", new { sortOrder = ViewBag.DateSortParm, currentFilter = ViewBag.CurrentFilter })
+            @Html.ActionLink("Service date", "General", new { sortOrder = ViewBag.DateSortParm, currentFilter = ViewBag.CurrentFilter })
            
         </th>
         <th>
             Odometer
         </th>
         <th>
-            @Html.ActionLink("Status", "Index", new { sortOrder = ViewBag.StatusSortParm, currentFilter = ViewBag.CurrentFilter })
+            @Html.ActionLink("Status", "General", new { sortOrder = ViewBag.StatusSortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
-            @Html.ActionLink("Supplier", "Index", new { sortOrder = ViewBag.SupplierSortParm, currentFilter = ViewBag.CurrentFilter })
+            @Html.ActionLink("Supplier", "General", new { sortOrder = ViewBag.SupplierSortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
-            @Html.ActionLink("Client name", "Index", new { sortOrder = ViewBag.ClientSortParm, currentFilter = ViewBag.CurrentFilter })
+            @Html.ActionLink("Client name", "General", new { sortOrder = ViewBag.ClientSortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
             Subtotal
@@ -62,7 +62,7 @@
          Quantity
         </th>
         <th>
-            @Html.ActionLink("Ata code", "Index", new { sortOrder = ViewBag.AtaSortParm, currentFilter = ViewBag.CurrentFilter })
+            @Html.ActionLink("Ata code", "General", new { sortOrder = ViewBag.AtaSortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
         Description
@@ -77,7 +77,7 @@
         Create Date
         </th>
         <th>
-            @Html.ActionLink("Created By", "Index", new { sortOrder = ViewBag.CreatedbySortParm, currentFilter = ViewBag.CurrentFilter })
+            @Html.ActionLink("Created By", "General", new { sortOrder = ViewBag.CreatedbySortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
         Oked By
@@ -161,13 +161,17 @@
                     @Html.DisplayFor(modelItem => item.Invoicenumber)
                 </td>
                 <td>
+                    @{if (item.Status == "Closed") { 
                     @Html.DisplayFor(modelItem => item.Invoicedate)
+                        } }
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Amountpaid)
                 </td>
                 <td>
+                    @{if (item.Status == "Closed"){
                     @Html.DisplayFor(modelItem => item.Paymentdate)
+                        } }
                 </td>
             <td>
                 @Html.DisplayFor(modelItem => item.MaintenanceComments)

@@ -8,7 +8,7 @@
 
 @Html.ActionLink("Historic", "Historic", new {id = Model.cr.crID, vin = Model.cr.VINnumber, screen=2 } ) |
 @Html.ActionLink("C&Rs List", "Index") |
-@Html.ActionLink("Create New", "Phantom", "Fleets")
+@Html.ActionLink("Unit Search", "Phantom", "Fleets")
 
 <div class="row">
 @using (Html.BeginForm())
@@ -36,6 +36,7 @@
             <div class="col-md-12">
                 <input type="submit" value="Save changes" class="btn btn-warning" />
                 <span> | @Html.ActionLink("Approve", "Approve", new { id = Model.cr.crID })</span>
+                <span> | @Html.ActionLink("Back to List", "Index")</span>
             </div>
         </div>
         <hr />
@@ -73,8 +74,6 @@
             @Html.LabelFor(model => model.cr.Odometer, htmlAttributes: new { @class = "control-label col-md-4" })
             <div class="col-md-6">
                 @Html.EditorFor(model => model.cr.Odometer, new { htmlAttributes = new { @class = "form-control" } })
-                @*@{var historic = (CR)ViewData["CRhistoric"]; }
-                <span style="color:brown">(Last: @historic.Odometer)</span>*@
             </div>
         </div>
 
@@ -84,7 +83,7 @@
                 @Html.DisplayFor(model => model.cr.Status, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.HiddenFor(model => model.cr.Status)
             </div>
-        </div>
+        </div> 
         <div class="form-group col-md-6">
             
             @Html.LabelFor(model => model.cr.Supplier, htmlAttributes: new { @class = "control-label col-md-4" })
@@ -98,8 +97,16 @@
                 <p><span>Supplier name:</span>@supplier.SupplierName</p>
                 <span>Telephone/fax/email:</span>@supplier.Telephonefaxemail
             </div>
-        
-        </div>     
+            
+           
+        </div> 
+        <div class="form-group col-md-6">
+            @Html.LabelFor(model => model.cr.MaintenanceComments, htmlAttributes: new { @class = "control-label col-md-4" })
+            <div class="col-md-6">
+                @Html.EditorFor(model => model.cr.MaintenanceComments, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.cr.MaintenanceComments, "", new { @class = "text-danger" })
+            </div>
+        </div>    
     </div>
 }
 </div>
@@ -112,7 +119,7 @@
 @using (Html.BeginForm("Create", "CRdetails", new { screen = 2 }, FormMethod.Post))
 {
     @Html.AntiForgeryToken()
-
+<br />
     <div class="form-horizontal">
         <h4>ATA Codes</h4>
         <hr />
