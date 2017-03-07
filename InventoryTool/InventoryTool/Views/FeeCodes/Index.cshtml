@@ -1,6 +1,8 @@
 ﻿@model PagedList.IPagedList<InventoryTool.Models.FeeCode>
 @using PagedList.Mvc;
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
 
 @{
     ViewBag.Title = "Index";
@@ -20,11 +22,14 @@
             </td>
             <td width="15px"></td>
             <td>
-                Initial Date: @Html.TextBox("InitialDate", ViewBag.InitialFilter as string)
+                Initial Date (mm/dd/yyyy):
+                @Html.JQueryUI().Datepicker("InitialDate").AutoSize(true)
+                <!--@Html.TextBox("nitialDate", ViewBag.InitialFilter as string)-->
             </td>
             <td width="15px"></td>
             <td>
-                Final Date: @Html.TextBox("FinalDate", ViewBag.FinalFilter as string)
+                Final Date (mm/dd/yyyy): <!--@Html.TextBox("FinalDate", ViewBag.FinalFilter as string)-->
+                @Html.JQueryUI().Datepicker("FinalDate").AutoSize(true)
             </td>
             <td width="15px"></td>
             <td>

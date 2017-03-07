@@ -22,6 +22,9 @@ namespace InventoryTool.Controllers
         public async Task<ActionResult> Index(string sortOrder, string currentFilter, string searchString, int? page, string InitialDate, string InitialFilter,
                                                 string FinalDate, string FinalFilter)
         {
+            int inicio = 0, final = 0, pos1 = 0, pos2 = 0;
+            string trans;
+
             ViewBag.CurrentSort = sortOrder;
             
 
@@ -50,15 +53,47 @@ namespace InventoryTool.Controllers
             ViewBag.FinalFilter = FinalDate;
 
             //Busqueda por fechas
-            int inicio = 0, final = 0;
+
+
             if (String.IsNullOrEmpty(InitialDate))
                 inicio = 19000101;
-            else
-                inicio = Convert.ToInt32(InitialDate);
+            else              // 3/6/2017 
+            {
+                pos1 = InitialDate.IndexOf('/');
+                pos2 = InitialDate.LastIndexOf('/');
+                trans = InitialDate.Substring(pos2 + 1);
+                if (pos1 == 1)
+                    trans += "0" + InitialDate.Substring(0, 1);
+                else
+                    trans += InitialDate.Substring(0, 2);
+
+                if (pos2 - pos1 <= 2)
+                    trans += "0" + InitialDate.Substring(pos1 + 1, 1);
+                else
+                    trans += InitialDate.Substring(pos1 + 1, 2);
+                inicio = Convert.ToInt32(trans);
+
+            }
+
             if (String.IsNullOrEmpty(FinalDate))
                 final = Convert.ToInt32(DateTime.Now.Year.ToString() + DateTime.Now.Month.ToString("00") + DateTime.Now.Day.ToString("00"));
             else
-                final = Convert.ToInt32(FinalDate);
+            {
+                pos1 = FinalDate.IndexOf('/');
+                pos2 = FinalDate.LastIndexOf('/');
+                trans = FinalDate.Substring(pos2 + 1);
+                if (pos1 == 1)
+                    trans += "0" + FinalDate.Substring(0, 1);
+                else
+                    trans += FinalDate.Substring(0, 2);
+
+                if (pos2 - pos1 <= 2)
+                    trans += "0" + FinalDate.Substring(pos1 + 1, 1);
+                else
+                    trans += FinalDate.Substring(pos1 + 1, 2);
+                final = Convert.ToInt32(trans);
+            }
+                
 
             var fleets = from s in db.FeeCodes
                      where s.MMYY >= inicio && s.MMYY <= final
@@ -265,7 +300,7 @@ namespace InventoryTool.Controllers
                     }
                     else
                     {
-                        this.HttpContext.Session["Display"] = "FeeCodesDuplicated. Import will be stoped";
+                        this.HttpContext.Session["Display"] = "There were FeeCodes duplicated, please review";
                         band = true;
                     }
                     counter++;
@@ -277,15 +312,7 @@ namespace InventoryTool.Controllers
                 conn.Dispose();
 
                 if (!band)
-                    this.HttpContext.Session["Display"] = "FeeCodes Imported succesfullly";
-
- /*
-                //Ejecuta .bat lo pbtiene del Web.config,
-                string pathBAT = "C:\\SSIS\\Bat\\" + System.Configuration.ConfigurationManager.AppSettings["ArchivoBat"];
-                System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo(pathBAT);
-                startInfo.Verb = "runas";
-                System.Diagnostics.Process.Start(startInfo);
-*/     
+                    this.HttpContext.Session["Display"] = "FeeCodes imported succesfullly";  
             }
             
             return RedirectToAction("Index");
