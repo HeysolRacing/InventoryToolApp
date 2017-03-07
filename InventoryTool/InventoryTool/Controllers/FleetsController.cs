@@ -78,14 +78,14 @@ namespace InventoryTool.Controllers
 
             if (!String.IsNullOrEmpty(searchString))
             { fleets = fleets.Where(s => s.VinNumber.ToString().Contains(searchString) || s.FleetNumber.ToString().Contains(searchString)
-            &&(s.Offroad_date != null && (s.ScontrNumber.ToString().Contains("5555")|| s.ScontrNumber.ToString().Contains("5556")
+            &&(s.Offroad_date == null && (s.ScontrNumber.ToString().Contains("5555")|| s.ScontrNumber.ToString().Contains("5556")
                                             || s.ScontrNumber.ToString().Contains("C") || s.ScontrNumber.ToString().Contains("D"))));
 
             }
             else
             {
-                fleets = fleets.Where(s => s.ScontrNumber.ToString().Contains("5555") || s.ScontrNumber.ToString().Contains("5556")
-                                            || s.ScontrNumber.ToString().Contains("C") || s.ScontrNumber.ToString().Contains("D"));
+                fleets = fleets.Where(s => s.Offroad_date == null && (s.ScontrNumber.ToString().Contains("5555") || s.ScontrNumber.ToString().Contains("5556")
+                                            || s.ScontrNumber.ToString().Contains("C") || s.ScontrNumber.ToString().Contains("D")));
             }
 
             switch (sortOrder)

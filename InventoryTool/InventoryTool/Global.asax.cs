@@ -89,13 +89,13 @@ namespace InventoryTool
         {
             var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
 
-            var user = userManager.FindByName("hsagaon@elementcorp.com");
+            var user = userManager.FindByName("sugalde@elementcorp.com");
             if (user == null)
             {
                 user = new ApplicationUser
                 {
-                    UserName = "hsagaon@elementcorp.com",
-                    Email= "hsagaon@elementcorp.com"
+                    UserName = "sugalde@elementcorp.com",
+                    Email= "sugalde@elementcorp.com"
                 };
                 userManager.Create(user, "Happy123$");
             }

@@ -41,7 +41,7 @@
             Odometer
         </th>
         <th>
-            Status
+            @Html.ActionLink("Status", "Index", new { sortOrder = ViewBag.StatusSortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
             @Html.ActionLink("Supplier", "Index", new { sortOrder = ViewBag.SupplierSortParm, currentFilter = ViewBag.CurrentFilter })

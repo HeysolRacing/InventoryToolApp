@@ -26,6 +26,7 @@ namespace InventoryTool.Controllers
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "WA number" : "";
             ViewBag.DateSortParm = String.IsNullOrEmpty(sortOrder) ? "VIN number" : "";
             ViewBag.ObligorSortParm = String.IsNullOrEmpty(sortOrder) ? "Client name" : "";
+            ViewBag.StatusSortParm = String.IsNullOrEmpty(sortOrder) ? "Status" : "";
 
             if (searchString != null)
             {
@@ -45,6 +46,7 @@ namespace InventoryTool.Controllers
                 crs = crs.Where(s => s.WAnumber.ToString().Contains(searchString)
                                        || s.VINnumber.ToString().Contains(searchString)
                                        || s.Clientname.ToString().Contains(searchString)
+                                       || s.Status.ToString().Contains(searchString)
                                        && (s.Status.Equals("Pending Aproval") || s.Status.Equals("Approved")));
             }
             else { crs = crs.Where(s => s.Status.Equals("Pending Aproval") || s.Status.Equals("Approved")); }
@@ -58,6 +60,9 @@ namespace InventoryTool.Controllers
                     break;
                 case "Client name":
                     crs = crs.OrderBy(s => s.Clientname);
+                    break;
+                case "Status":
+                    crs = crs.OrderBy(s => s.Status);
                     break;
                 default:  // ID ascending 
                     crs = crs.OrderBy(s => s.crID);
@@ -270,7 +275,9 @@ namespace InventoryTool.Controllers
                                        || s.Clientname.ToString().Contains(searchString)
                                        || s.Suppliername.ToString().Contains(searchString)
                                        || s.Atacode.ToString().Contains(searchString)
-                                       || s.CreatedBy.ToString().Contains(searchString));
+                                       || s.CreatedBy.ToString().Contains(searchString)
+                                         || s.Status.ToString().Contains(searchString));
+                                     
             }
             if(from != null && to !=null)
             {
@@ -296,6 +303,9 @@ namespace InventoryTool.Controllers
                     break;
                 case "Created By":
                     crs = crs.OrderBy(s => s.CreatedBy);
+                    break;
+                case "Status":
+                    crs = crs.OrderBy(s => s.Status);
                     break;
                 case "Date":
                     crs = crs.OrderByDescending(s => s.Servicedate);

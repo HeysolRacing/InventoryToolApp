@@ -79,6 +79,8 @@ namespace InventoryTool.Controllers
             CR cR = db.CRs.Find(cr);
             cR.Supplier = ssupplier.SupplierID;
             cR.Suppliername = ssupplier.SupplierName;
+            TryUpdateModel(cR);
+            db.Entry(cR).State = EntityState.Modified;
             db.SaveChanges();
             if (screen == 1)
             { return RedirectToAction("Create", "CRs", new { id = cr }); }
