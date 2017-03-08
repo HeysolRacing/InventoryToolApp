@@ -59,6 +59,73 @@ namespace InventoryTool.Controllers
             return View(fleets.ToPagedList(pageNumber, pageSize));
         }
 
+        //[Authorize(Roles = "InventoryView")]
+        public ViewResult Phantom(string sortOrder, string currentFilter, string searchString, int? page)
+        {
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.VINSortParm = String.IsNullOrEmpty(sortOrder) ? "Vin Number" : "";
+            ViewBag.FleetSortParm = String.IsNullOrEmpty(sortOrder) ? "Fleet Number" : "";
+            ViewBag.UnitSortParm = String.IsNullOrEmpty(sortOrder) ? "Unit Number" : "";
+
+            if (searchString != null)
+                page = 1;
+            else
+                searchString = currentFilter;
+
+            ViewBag.CurrentFilter = searchString;
+
+            var fleets = from s in db.Fleets
+                         select s;
+
+            if (!String.IsNullOrEmpty(searchString))
+            { fleets = fleets.Where(s => s.VinNumber.ToString().Contains(searchString) || s.FleetNumber.ToString().Contains(searchString) || s.UnitNumber.ToString().Contains(searchString)
+            &&(s.Offroad_date == null && (s.ScontrNumber.ToString().Contains("5555")|| s.ScontrNumber.ToString().Contains("5556")
+                                            || s.ScontrNumber.ToString().Contains("C") || s.ScontrNumber.ToString().Contains("D"))));
+            }
+            else
+            {
+                fleets = fleets.Where(s => s.Offroad_date == null && (s.ScontrNumber.ToString().Contains("5555") || s.ScontrNumber.ToString().Contains("5556")
+                                            || s.ScontrNumber.ToString().Contains("C") || s.ScontrNumber.ToString().Contains("D")));
+            }
+
+            switch (sortOrder)
+            {
+                case "Vin Number":
+                    fleets = fleets.OrderByDescending(s => s.VinNumber);
+                    break;
+                case "Fleet Number":
+                    fleets = fleets.OrderBy(s => s.FleetNumber);
+                    break;
+                case "Unit Number":
+                    fleets = fleets.OrderBy(s => s.FleetNumber);
+                    break;
+                default:
+                    fleets = fleets.OrderBy(s => s.Inservice_date);
+                    break;
+            }
+
+            int pageSize = 50;
+            int pageNumber = (page ?? 1);
+            return View(fleets.ToPagedList(pageNumber, pageSize));
+        }
+
+        public ActionResult Select(int? id)
+        {
+            Fleet fleet = db.Fleets.Find(id);
+            CR cr = new CR();
+            cr.VINnumber = fleet.VinNumber;
+            cr.Status = "none";
+            cr.Clientname = fleet.Level_2;
+            cr.CreatedBy = Environment.UserName;
+            cr.Servicedate = DateTime.Now;
+            cr.Invoicedate = DateTime.Now;
+            cr.Paymentdate = DateTime.Now;
+            db.CRs.Add(cr);
+            db.SaveChanges();
+            var crid = cr.crID;
+            return RedirectToAction("Create","CRs", new { id = crid });
+        }
+
         [Authorize(Roles = "InventoryView")]
         public ActionResult Details(int? id)
         {

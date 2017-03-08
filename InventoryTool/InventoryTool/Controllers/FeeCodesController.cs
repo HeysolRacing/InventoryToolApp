@@ -38,7 +38,7 @@ namespace InventoryTool.Controllers
             else
                 searchString = currentFilter;
 
-            if (InitialDate != null)
+            /*if (InitialDate != null)
                 page = 1;
             else
                 InitialDate = InitialFilter;
@@ -46,7 +46,7 @@ namespace InventoryTool.Controllers
             if (FinalDate != null)
                 page = 1;
             else
-                FinalDate = FinalFilter;
+                FinalDate = FinalFilter;*/
 
             ViewBag.CurrentFilter = searchString;
             ViewBag.InitialFilter = InitialDate;

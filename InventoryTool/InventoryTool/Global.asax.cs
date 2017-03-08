@@ -40,46 +40,62 @@ namespace InventoryTool
             var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
             var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(db));
             var user = userManager.FindByName("hsagaon@elementcorp.com");
+            var user2 = userManager.FindByName("sugalde@elementcorp.com");
 
             if (!userManager.IsInRole(user.Id, "InventoryView")) // Agregar Permisos
                 userManager.AddToRole(user.Id, "InventoryView");
 
-            if (!userManager.IsInRole(user.Id, "InventoryEdit"))
+            if (!userManager.IsInRole(user.Id, "InventoryEdit")) 
                 userManager.AddToRole(user.Id, "InventoryEdit");
 
-            if (!userManager.IsInRole(user.Id, "InventoryCreate"))
+            if (!userManager.IsInRole(user.Id, "InventoryCreate")) 
                 userManager.AddToRole(user.Id, "InventoryCreate");
 
-            if (!userManager.IsInRole(user.Id, "InventoryDelete"))
+            if (!userManager.IsInRole(user.Id, "InventoryDelete")) 
                 userManager.AddToRole(user.Id, "InventoryDelete");
+
+            if (!userManager.IsInRole(user.Id, "APhantomView")) // Agregar Permisos
+                userManager.AddToRole(user.Id, "APhantomView");
+
+            if (!userManager.IsInRole(user.Id, "APhantomEdit"))
+                userManager.AddToRole(user.Id, "APhantomEdit");
+
+            if (!userManager.IsInRole(user.Id, "APhantomCreate"))
+                userManager.AddToRole(user.Id, "APhantomCreate");
+
+            if (!userManager.IsInRole(user.Id, "APhantomDelete"))
+                userManager.AddToRole(user.Id, "APhantomDelete");
 
             if (!userManager.IsInRole(user.Id, "Administrator"))
                 userManager.AddToRole(user.Id, "Administrator");
 
-            if (!userManager.IsInRole(user.Id, "FeeCodesView")) // Agregar Permisos
-                userManager.AddToRole(user.Id, "FeeCodesView");
+            if (!userManager.IsInRole(user2.Id, "PhantomView")) // Agregar Permisos
+                userManager.AddToRole(user2.Id, "PhantomView");
 
-            if (!userManager.IsInRole(user.Id, "FeeCodesEdit"))
-                userManager.AddToRole(user.Id, "FeeCodesEdit");
+            if (!userManager.IsInRole(user2.Id, "PhantomEdit"))
+                userManager.AddToRole(user2.Id, "PhantomEdit");
 
-            if (!userManager.IsInRole(user.Id, "FeeCodesCreate"))
-                userManager.AddToRole(user.Id, "FeeCodesCreate");
+            if (!userManager.IsInRole(user2.Id, "PhantomCreate"))
+                userManager.AddToRole(user2.Id, "PhantomCreate");
 
-            if (!userManager.IsInRole(user.Id, "FeeCodesDelete"))
-                userManager.AddToRole(user.Id, "FeeCodesDelete");
+            if (!userManager.IsInRole(user2.Id, "PhantomDelete"))
+                userManager.AddToRole(user2.Id, "PhantomDelete");
+
+            if (!userManager.IsInRole(user2.Id, "Administrator"))
+                userManager.AddToRole(user2.Id, "Administrator");
         }
 
         private void CreateAdmin(ApplicationDbContext db)
         {
             var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
 
-            var user = userManager.FindByName("hsagaon@elementcorp.com");
+            var user = userManager.FindByName("sugalde@elementcorp.com");
             if (user == null)
             {
                 user = new ApplicationUser
                 {
-                    UserName = "hsagaon@elementcorp.com",
-                    Email = "hsagaon@elementcorp.com"
+                    UserName = "sugalde@elementcorp.com",
+                    Email= "sugalde@elementcorp.com"
                 };
                 userManager.Create(user, "Happy123$");
             }
@@ -90,6 +106,11 @@ namespace InventoryTool
         {
             var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(db));
 
+            // Administrator
+            if (!roleManager.RoleExists("Administrator"))
+            {
+                roleManager.Create(new IdentityRole("Administrator"));
+            }
             // Se crean los roles
             if (!roleManager.RoleExists("InventoryView"))
             {
@@ -107,28 +128,40 @@ namespace InventoryTool
             {
                 roleManager.Create(new IdentityRole("InventoryDelete"));
             }
-            if (!roleManager.RoleExists("FeeCodesView"))
+            // PhantomRoles
+            if (!roleManager.RoleExists("PhantomView"))
             {
-                roleManager.Create(new IdentityRole("FeeCodesView"));
+                roleManager.Create(new IdentityRole("PhantomView"));
             }
-            if (!roleManager.RoleExists("FeeCodesEdit"))
+            if (!roleManager.RoleExists("PhantomEdit"))
             {
-                roleManager.Create(new IdentityRole("FeeCodesEdit"));
+                roleManager.Create(new IdentityRole("PhantomEdit"));
             }
-            if (!roleManager.RoleExists("FeeCodesCreate"))
+            if (!roleManager.RoleExists("PhantomCreate"))
             {
-                roleManager.Create(new IdentityRole("FeeCodesCreate"));
+                roleManager.Create(new IdentityRole("PhantomCreate"));
             }
-            if (!roleManager.RoleExists("FeeCodesDelete"))
+            if (!roleManager.RoleExists("PhantomDelete"))
             {
-                roleManager.Create(new IdentityRole("FeeCodesDelete"));
+                roleManager.Create(new IdentityRole("PhantomDelete"));
             }
-            if (!roleManager.RoleExists("Administrator"))
+            //AP- PhantomRoles
+            if (!roleManager.RoleExists("APhantomView"))
             {
-                roleManager.Create(new IdentityRole("Administrator"));
+                roleManager.Create(new IdentityRole("APhantomView"));
             }
-
-
+            if (!roleManager.RoleExists("APhantomEdit"))
+            {
+                roleManager.Create(new IdentityRole("APhantomEdit"));
+            }
+            if (!roleManager.RoleExists("APhantomCreate"))
+            {
+                roleManager.Create(new IdentityRole("APhantomCreate"));
+            }
+            if (!roleManager.RoleExists("APhantomDelete"))
+            {
+                roleManager.Create(new IdentityRole("APhantomDelete"));
+            }
         }
     }
 }

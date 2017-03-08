@@ -10,9 +10,10 @@
 
 <h2>Index</h2>
 
-<p>
+><!--<p>
     @Html.ActionLink("Create New", "Create") 
-</p>
+</p>-->
+
 @using (Html.BeginForm("Index", "FeeCodes", FormMethod.Get))
 {
     <table>
@@ -57,7 +58,7 @@
             Fleet
         </th>
         <th>
-            @Html.ActionLink("UNIT", "Index", new { sortOrder = ViewBag.UnitSortParm, currentFilter = ViewBag.CurrentFilter })
+            @Html.ActionLink("UNIT", "Index", new { sortOrder = ViewBag.UnitSortParm, currentFilter = ViewBag.CurrentFilter, InitialDate = ViewBag.InitialFilter, InitialFilter = ViewBag.InitialFilter, FinalDate = ViewBag.FinalFilter, FinalFilter = ViewBag.FinalFilter })
         </th>
         <th>
             LogNo
@@ -84,13 +85,13 @@
            InsPremium
         </th>
         <th>
-            @Html.ActionLink("FEE", "Index", new { sortOrder = ViewBag.FeeSortParm, currentFilter = ViewBag.CurrentFilter })            
+            @Html.ActionLink("FEE", "Index", new { sortOrder = ViewBag.FeeSortParm, currentFilter = ViewBag.CurrentFilter, InitialDate = ViewBag.InitialFilter, InitialFilter = ViewBag.InitialFilter, FinalDate = ViewBag.FinalFilter, FinalFilter = ViewBag.FinalFilter })            
         </th>
         <th>
             Desc
         </th>
         <th>
-            @Html.ActionLink("MM/YY", "Index", new { sortOrder = ViewBag.DateSortParm, currentFilter = ViewBag.CurrentFilter })
+            @Html.ActionLink("MM/YY", "Index", new { sortOrder = ViewBag.DateSortParm, currentFilter = ViewBag.CurrentFilter, InitialDate = ViewBag.InitialFilter, InitialFilter = ViewBag.InitialFilter, FinalDate = ViewBag.FinalFilter, FinalFilter = ViewBag.FinalFilter })
         </th>
         <th>
             Start
@@ -202,7 +203,7 @@
 Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 
 @Html.PagedListPager(Model, page => Url.Action("Index",
-        new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter, InitialFilter = ViewBag.InitialFilter, FinalFilter = ViewBag.FinalFilter }))
+        new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter, InitialDate = ViewBag.InitialFilter,  InitialFilter = ViewBag.InitialFilter, FinalDate = ViewBag.FinalFilter, FinalFilter = ViewBag.FinalFilter }))
 
 
       
