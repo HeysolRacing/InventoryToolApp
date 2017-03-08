@@ -6,9 +6,9 @@
     <title>@ViewBag.Title - Inventory Tool</title>
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
     @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
-   
     @Styles.Render("~/Content/themes/base/css")
+
+    @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/jqueryui")
@@ -35,10 +35,10 @@
                         </ul>
                     </li>
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Fees<b class="caret"></b></a>
+                        <a href="FeeCodes" class="dropdown-toggle" data-toggle="dropdown">Fees<b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <li>@Html.ActionLink("FeeCodes", "Index", "FeeCodes")</li>
-                            <li>@Html.ActionLink("ReadExcel", "Import", "ReadExcel")</li>
+                            <!--<li>@Html.ActionLink("ReadExcel", "Import", "ReadExcel")</li>-->
                         </ul>
                     </li>
 

@@ -1,4 +1,8 @@
-﻿@model IEnumerable<InventoryTool.Models.FeeCode>
+﻿@model PagedList.IPagedList<InventoryTool.Models.FeeCode>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
 
 @{
     ViewBag.Title = "Index";
@@ -7,81 +11,113 @@
 <h2>Index</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create New", "Create") 
 </p>
+@using (Html.BeginForm("Index", "FeeCodes", FormMethod.Get))
+{
+    <table>
+        <tr>
+            <td>
+                Find by Fleet / Unit / LogNumber / Fee: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+            </td>
+            <td width="15px"></td>
+            <td>
+                Initial Date (mm/dd/yyyy):
+                @Html.JQueryUI().Datepicker("InitialDate").AutoSize(true)
+                <!--@Html.TextBox("nitialDate", ViewBag.InitialFilter as string)-->
+            </td>
+            <td width="15px"></td>
+            <td>
+                Final Date (mm/dd/yyyy): <!--@Html.TextBox("FinalDate", ViewBag.FinalFilter as string)-->
+                @Html.JQueryUI().Datepicker("FinalDate").AutoSize(true)
+            </td>
+            <td width="15px"></td>
+            <td>
+                <input type="submit" value="Search" class="btn btn-info" />
+            </td>
+        </tr>
+    </table>
+}
+
+
+@using (Html.BeginForm("Importexcel", "FeeCodes", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <table>
+        <tr><td>Excel file</td><td><input type="file" id="FileUpload1" name="FileUpload1" /></td>
+        <td></td><td><input type="submit" id="Submit" name="Submit" value="Submit" class="btn btn-info"  /></td></tr>
+    </table>
+}
+
+@Session["Display"] 
+
 <table class="table">
+    <tr><td width="5px"></td></tr>
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Fleet)
+            Fleet
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Unit)
+            @Html.ActionLink("UNIT", "Index", new { sortOrder = ViewBag.UnitSortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.LogNo)
+            LogNo
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.CapCost)
+            CapCost
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.BookValue)
+            BookValue
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Term)
+            Rental
+        </th>
+       <th>
+           Term
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Lpis)
+            Lpis
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.OnRdDat)
+           Scontr
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.OfRdDat)
+           InsPremium
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Scontr)
+            @Html.ActionLink("FEE", "Index", new { sortOrder = ViewBag.FeeSortParm, currentFilter = ViewBag.CurrentFilter })            
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.InsPremium)
+            Desc
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ResidualAmt)
+            @Html.ActionLink("MM/YY", "Index", new { sortOrder = ViewBag.DateSortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Fee)
+            Start
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Desc)
+           Stop
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.MMYY)
+            Amt
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Start)
+            Method
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Stop)
+           Rate
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Amt)
+            BL
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Method)
+            AC
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Rate)
+            Createdby
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.BL)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.AC)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Createdby)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Created)
+            Created
         </th>
         <th></th>
     </tr>
@@ -104,40 +140,34 @@
             @Html.DisplayFor(modelItem => item.BookValue)
         </td>
         <td>
+            @Html.DisplayFor(modelItem => item.Rental)
+        </td>
+        <td>
             @Html.DisplayFor(modelItem => item.Term)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Lpis)
         </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.OnRdDat)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.OfRdDat)
-        </td>
-        <td>
+         <td>
             @Html.DisplayFor(modelItem => item.Scontr)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.InsPremium)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.ResidualAmt)
-        </td>
-        <td>
             @Html.DisplayFor(modelItem => item.Fee)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Desc)
+            @Html.DisplayFor(modelItem => item.Descr)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.MMYY)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Start)
+            @Html.DisplayFor(modelItem => item.Star)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Stop)
+            @Html.DisplayFor(modelItem => item.Sto)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Amt)
@@ -161,11 +191,18 @@
             @Html.DisplayFor(modelItem => item.Created)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.FeeCode_Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.FeeCode_Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.FeeCode_Id })
+            @Html.ActionLink("Details", "Details", new { id = item.FeeCode_Id }) 
         </td>
     </tr>
 }
 
 </table>
+<br />
+
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index",
+        new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter, InitialFilter = ViewBag.InitialFilter, FinalFilter = ViewBag.FinalFilter }))
+
+
+      
