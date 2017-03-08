@@ -235,7 +235,6 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PhantomController.cs" />
     <Compile Include="Controllers\RemarketingController.cs" />
-    <Compile Include="Controllers\ReadExcelController.cs" />
     <Compile Include="Controllers\SsuppliersController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
@@ -383,8 +382,6 @@
     <Content Include="Views\FeeCodes\Details.cshtml" />
     <Content Include="Views\FeeCodes\Edit.cshtml" />
     <Content Include="Views\FeeCodes\Index.cshtml" />
-    <Content Include="Views\ReadExcel\Index.cshtml" />
-    <Content Include="Views\ReadExcel\Import.cshtml" />
     <Content Include="Views\CRs\Create.cshtml" />
     <Content Include="Views\CRs\Delete.cshtml" />
     <Content Include="Views\CRs\Details.cshtml" />
@@ -443,7 +440,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>4671</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
