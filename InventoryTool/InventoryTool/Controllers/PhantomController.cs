@@ -16,7 +16,11 @@ namespace InventoryTool.Controllers
         {
             return View();
         }
-
+        // GET: B2B
+        public ActionResult B2B()
+        {
+            return View();
+        }
         // GET: Phantom/Search
         public ActionResult Search()
         {
@@ -41,9 +45,10 @@ namespace InventoryTool.Controllers
             return RedirectToAction("APlist", "CRs");
         }
 
-        public ActionResult txt()
+        public ActionResult txt(string searchString)
         {
-            string path = "C:\\estilos\\B2B.txt";
+            string path = searchString + "B2B.txt";
+            //"C:\\estilos\\B2B.txt";
 
             var crs = from s in db.CRs
                       select s;
@@ -71,8 +76,7 @@ namespace InventoryTool.Controllers
                     sw.Close();
                 }
             }
-
-            return RedirectToAction("Index");
+            return RedirectToAction("B2B");
         }
         
     }

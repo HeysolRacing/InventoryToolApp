@@ -436,6 +436,7 @@
     <Content Include="Views\Risks\List.cshtml" />
     <Content Include="Views\Risks\Check.cshtml" />
     <Content Include="Views\TransactionLogs\Error.cshtml" />
+    <Content Include="Views\Phantom\B2B.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
