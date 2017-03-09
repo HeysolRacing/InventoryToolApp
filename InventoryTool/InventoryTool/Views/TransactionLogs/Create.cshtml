@@ -1,0 +1,118 @@
+﻿@model ContosoUniversity.Models.TransactionLog
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<script src="@Url.Content("~/Scripts/jquery-1.10.2.min.js")"></script>
+<script src ="@Url.Content( "~/Scripts/jquery.validate.min.js")"></script >
+@{ 
+<script>
+    $(document).ready(function () {
+        $('#formcreate').validate({
+            onkeyup: function (element) {
+                $(element).valid();
+            },
+            rules: {
+                QuotationAmount: { required: true },
+                QuotationAmountConfirm: {
+                    required: true,
+                    equalTo: "#QuotationAmount"
+                }
+            },
+            messages: {
+                QuotationAmount: {
+                    required: "Please provide an amount"
+                },
+                QuotationAmountConfirm: {
+                    required: "Please provide an Amount",
+                    equalTo: "Please enter the same amount as above"
+                }
+            }
+        });
+    });
+    
+</script>}
+
+<h2>New Request</h2>
+
+<br />
+@Html.ActionLink("Historic", "Index", "TransactionLogs") 
+<hr />
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal" id="formcreate">
+        @*<h4>TransactionLog</h4>*@
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.FleetNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.FleetNumber, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.FleetNumber, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.QuotationID, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.QuotationID, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.QuotationID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @*<div class="form-group">
+            @Html.LabelFor(model => model.CreditLineInitial, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.CreditLineInitial, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.CreditLineInitial, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.QuotationAmount, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.QuotationAmount, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.QuotationAmount, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        @*<div class="form-group">
+            @Html.Label("Confirm QuotationAmount", htmlAttributes: new { @class = "control -label col-md-2" })
+            <div class="col-md-10">
+                <input type="text" value="" class="form-control" id="QuotationAmountConfirm" />
+            </div>
+        </div>*@
+
+        @*<div class="form-group">
+            @Html.LabelFor(model => model.CreatedBy, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.CreatedBy, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.CreatedBy, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Created, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Created, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Created, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Request" class="btn btn-default" onclick="return confirm('Are you sure you whant to save this values?');return false;"/>
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "List", "Risks")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

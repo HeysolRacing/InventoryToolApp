@@ -237,7 +237,9 @@
     <Compile Include="Controllers\RemarketingController.cs" />
     <Compile Include="Controllers\ReadExcelController.cs" />
     <Compile Include="Controllers\RemarketingsController.cs" />
+    <Compile Include="Controllers\RisksController.cs" />
     <Compile Include="Controllers\SsuppliersController.cs" />
+    <Compile Include="Controllers\TransactionLogsController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -251,7 +253,9 @@
     <Compile Include="Models\FleetCancelUnit.cs" />
     <Compile Include="Models\FleetStatus.cs" />
     <Compile Include="Models\Remarketing.cs" />
+    <Compile Include="Models\Risk.cs" />
     <Compile Include="Models\Ssupplier.cs" />
+    <Compile Include="Models\TransactionLog.cs" />
     <Compile Include="ViewModels\AccountViewModels.cs" />
     <Compile Include="Models\Fleet.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -423,6 +427,19 @@
     <Content Include="Views\Remarketings\Index.cshtml" />
     <Content Include="Views\Remarketings\OffEdit.cshtml" />
     <Content Include="Views\Remarketings\SaleEdit.cshtml" />
+    <Content Include="Views\Risks\Create.cshtml" />
+    <Content Include="Views\Risks\Delete.cshtml" />
+    <Content Include="Views\Risks\Details.cshtml" />
+    <Content Include="Views\Risks\Edit.cshtml" />
+    <Content Include="Views\TransactionLogs\Create.cshtml" />
+    <Content Include="Views\TransactionLogs\Delete.cshtml" />
+    <Content Include="Views\TransactionLogs\Details.cshtml" />
+    <Content Include="Views\TransactionLogs\Edit.cshtml" />
+    <Content Include="Views\TransactionLogs\Index.cshtml" />
+    <Content Include="Views\Risks\RiskDetails.cshtml" />
+    <Content Include="Views\Risks\List.cshtml" />
+    <Content Include="Views\Risks\Check.cshtml" />
+    <Content Include="Views\TransactionLogs\Error.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
