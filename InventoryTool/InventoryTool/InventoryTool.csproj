@@ -236,6 +236,7 @@
     <Compile Include="Controllers\PhantomController.cs" />
     <Compile Include="Controllers\RemarketingController.cs" />
     <Compile Include="Controllers\ReadExcelController.cs" />
+    <Compile Include="Controllers\RemarketingsController.cs" />
     <Compile Include="Controllers\SsuppliersController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
@@ -249,6 +250,7 @@
     <Compile Include="Models\FeeCode.cs" />
     <Compile Include="Models\FleetCancelUnit.cs" />
     <Compile Include="Models\FleetStatus.cs" />
+    <Compile Include="Models\Remarketing.cs" />
     <Compile Include="Models\Ssupplier.cs" />
     <Compile Include="ViewModels\AccountViewModels.cs" />
     <Compile Include="Models\Fleet.cs" />
@@ -312,6 +314,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Properties\PublishProfiles\InventoryTool.pubxml" />
+    <None Include="Properties\PublishProfiles\publish.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -413,6 +416,13 @@
     <Content Include="Views\CRs\APDetails.cshtml" />
     <Content Include="Views\Phantom\Index.cshtml" />
     <Content Include="Views\CRs\General.cshtml" />
+    <Content Include="Views\Remarketings\Create.cshtml" />
+    <Content Include="Views\Remarketings\Delete.cshtml" />
+    <Content Include="Views\Remarketings\Details.cshtml" />
+    <Content Include="Views\Remarketings\Edit.cshtml" />
+    <Content Include="Views\Remarketings\Index.cshtml" />
+    <Content Include="Views\Remarketings\OffEdit.cshtml" />
+    <Content Include="Views\Remarketings\SaleEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
