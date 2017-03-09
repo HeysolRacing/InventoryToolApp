@@ -234,7 +234,6 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PhantomController.cs" />
-    <Compile Include="Controllers\RemarketingController.cs" />
     <Compile Include="Controllers\ReadExcelController.cs" />
     <Compile Include="Controllers\RemarketingsController.cs" />
     <Compile Include="Controllers\RisksController.cs" />
@@ -379,9 +378,6 @@
     <Content Include="Views\Fleets\Details.cshtml" />
     <Content Include="Views\Fleets\Edit.cshtml" />
     <Content Include="Views\Fleets\Index.cshtml" />
-    <Content Include="Views\Remarketing\Details.cshtml" />
-    <Content Include="Views\Remarketing\Edit.cshtml" />
-    <Content Include="Views\Remarketing\Index.cshtml" />
     <Content Include="Views\Users\Index.cshtml" />
     <Content Include="Views\Users\Roles.cshtml" />
     <Content Include="Views\Users\AddRole.cshtml" />
