@@ -248,6 +248,10 @@
     <Compile Include="Migrations\201703101745215_column.Designer.cs">
       <DependentUpon>201703101745215_column.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201703102248102_solddate.cs" />
+    <Compile Include="Migrations\201703102248102_solddate.Designer.cs">
+      <DependentUpon>201703102248102_solddate.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\Acode.cs" />
     <Compile Include="Models\CR.cs" />
     <Compile Include="Models\CRdetail.cs" />
@@ -467,6 +471,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201703101745215_column.resx">
       <DependentUpon>201703101745215_column.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703102248102_solddate.resx">
+      <DependentUpon>201703102248102_solddate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
