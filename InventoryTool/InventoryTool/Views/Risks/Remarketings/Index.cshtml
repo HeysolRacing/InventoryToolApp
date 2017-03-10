@@ -15,10 +15,9 @@
         <input type="submit" value="Search" class="btn btn-info" />
     </p>
 }
-<br />
 <table class="table">
     <tr>
-        <th>@Html.ActionLink("Status", "Index", new { sortOrder = ViewBag.StatusSortParm, currentFilter = ViewBag.CurrentFilter })</th>
+        <th>Status</th>
         <th>
             @Html.ActionLink("Fleet Number", "Index", new { sortOrder = ViewBag.FleetSortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
@@ -101,20 +100,22 @@
     <tr>
         <td>
             @{
-                switch (item.Status)
+                switch ()
                 {
-                    case "Active":
-                        @Html.ActionLink("Off-ROAD", "OffEdit", new { id = item.ID })
+                    case "Log Number":
+                        Remarketings = Remarketings.OrderByDescending(s => s.LogNumber);
                         break;
-                    case "Inactive":
-                        @Html.ActionLink("Sale", "SaleEdit", new { id = item.ID })
+                    case "Fleet Number":
+                        Remarketings = Remarketings.OrderBy(s => s.FleetNumber);
                         break;
                     default:
-                        <span>Sold</span>
+                        Remarketings = Remarketings.OrderByDescending(s => s.ID);
                         break;
                 }
 
-            }          
+            }
+            @Html.ActionLink("Off-road", "OffEdit", new { id = item.ID }) |
+            @Html.ActionLink("Sale", "SaleEdit", new { id = item.ID }) 
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.FleetNumber)

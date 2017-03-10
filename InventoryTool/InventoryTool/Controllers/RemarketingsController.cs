@@ -21,6 +21,7 @@ namespace InventoryTool.Controllers
             ViewBag.CurrentSort = sortOrder;
             ViewBag.FleetSortParm = String.IsNullOrEmpty(sortOrder) ? "Fleet Number" : "";
             ViewBag.LogSortParm = String.IsNullOrEmpty(sortOrder) ? "Log Number" : "";
+            ViewBag.StatusSortParm = String.IsNullOrEmpty(sortOrder) ? "Status" : "";
 
             if (searchString != null)
                 page = 1;
@@ -33,7 +34,7 @@ namespace InventoryTool.Controllers
                                select s;
 
             if (!String.IsNullOrEmpty(searchString))
-                Remarketings = Remarketings.Where(s => s.LogNumber.ToString().Contains(searchString) || s.FleetNumber.ToString().Contains(searchString));
+                Remarketings = Remarketings.Where(s => s.LogNumber.ToString().Contains(searchString) || s.FleetNumber.ToString().Contains(searchString) || s.Status.ToString().Contains(searchString));
 
             switch (sortOrder)
             {
@@ -42,6 +43,9 @@ namespace InventoryTool.Controllers
                     break;
                 case "Fleet Number":
                     Remarketings = Remarketings.OrderBy(s => s.FleetNumber);
+                    break;
+                case "Status":
+                    Remarketings = Remarketings.OrderBy(s => s.Status);
                     break;
                 default:
                     Remarketings = Remarketings.OrderByDescending(s => s.ID);

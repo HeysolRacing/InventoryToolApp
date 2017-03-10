@@ -243,6 +243,10 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201703101745215_column.cs" />
+    <Compile Include="Migrations\201703101745215_column.Designer.cs">
+      <DependentUpon>201703101745215_column.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\Acode.cs" />
     <Compile Include="Models\CR.cs" />
     <Compile Include="Models\CRdetail.cs" />
@@ -416,13 +420,6 @@
     <Content Include="Views\CRs\APDetails.cshtml" />
     <Content Include="Views\Phantom\Index.cshtml" />
     <Content Include="Views\CRs\General.cshtml" />
-    <Content Include="Views\Remarketings\Create.cshtml" />
-    <Content Include="Views\Remarketings\Delete.cshtml" />
-    <Content Include="Views\Remarketings\Details.cshtml" />
-    <Content Include="Views\Remarketings\Edit.cshtml" />
-    <Content Include="Views\Remarketings\Index.cshtml" />
-    <Content Include="Views\Remarketings\OffEdit.cshtml" />
-    <Content Include="Views\Remarketings\SaleEdit.cshtml" />
     <Content Include="Views\Risks\Create.cshtml" />
     <Content Include="Views\Risks\Delete.cshtml" />
     <Content Include="Views\Risks\Details.cshtml" />
@@ -437,6 +434,13 @@
     <Content Include="Views\Risks\Check.cshtml" />
     <Content Include="Views\TransactionLogs\Error.cshtml" />
     <Content Include="Views\Phantom\B2B.cshtml" />
+    <Content Include="Views\Remarketings\Create.cshtml" />
+    <Content Include="Views\Remarketings\Delete.cshtml" />
+    <Content Include="Views\Remarketings\Details.cshtml" />
+    <Content Include="Views\Remarketings\Edit.cshtml" />
+    <Content Include="Views\Remarketings\Index.cshtml" />
+    <Content Include="Views\Remarketings\OffEdit.cshtml" />
+    <Content Include="Views\Remarketings\SaleEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -452,6 +456,11 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201703101745215_column.resx">
+      <DependentUpon>201703101745215_column.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

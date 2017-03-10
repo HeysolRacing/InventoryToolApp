@@ -69,6 +69,11 @@ namespace InventoryTool.Models
         [Display(Name = "Sale Value [MXN]")]
         public decimal? SaleValue { get; set; }
 
+        [Display(Name = "Sold Date")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
+        public Nullable<DateTime> SoldDate { get; set; }
+
         [Display(Name = "Book Value")]
         public decimal? BookValue { get; set; }
 
@@ -89,5 +94,16 @@ namespace InventoryTool.Models
 
         [Display(Name = "P&L Gain/Loss")]
         public decimal? PLGainLoss { get; set; }
+
+        public string Status { get; set; }
+
+        [Display(Name = "Outlet Code")]
+        public string OutletCode { get; set; }
+
+        [Display(Name = "Outlet Name")]
+        public string Outletname { get; set; }
+
+
+
     }
 }

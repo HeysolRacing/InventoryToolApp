@@ -62,12 +62,13 @@ namespace InventoryTool.Controllers
                     foreach(CR item in crs)
                     {
                         string vin = item.VINnumber;
-                        //vin = vin.Substring(6);
+                        string wa = item.WAnumber;
+                        string padwa = wa.Insert(0, "".PadLeft(2, ' '));
                         DateTime date = item.Servicedate;
                         string outputValue =item.Total.ToString("0000000.00");
                         string odometer = item.Odometer.ToString("0000000000");
-                        string formatdate = date.Year.ToString() + date.Month.ToString() + date.Day.ToString();
-                        string record = item.WAnumber + "|" + vin + "|" + outputValue + "|" + formatdate + "|" + odometer;
+                        string formatdate = date.Year.ToString() + date.Month.ToString("00") + date.Day.ToString("00");
+                        string record = padwa + "|" + vin + "|" + outputValue + "|" + formatdate + "|" + odometer;
                         sw.WriteLine(record);
                     }
                    
