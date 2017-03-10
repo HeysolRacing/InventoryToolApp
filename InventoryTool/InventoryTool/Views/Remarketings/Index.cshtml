@@ -74,6 +74,9 @@
         Sale Value
         </th>
         <th>
+        Sale Date
+        </th>
+        <th>
         Book Value
         </th>
         <th>
@@ -103,10 +106,10 @@
             @{
                 switch (item.Status)
                 {
-                    case "Active":
+                    case "ACTIVE":
                         @Html.ActionLink("Off-ROAD", "OffEdit", new { id = item.ID })
                         break;
-                    case "Inactive":
+                    case "INACTIVE":
                         @Html.ActionLink("Sale", "SaleEdit", new { id = item.ID })
                         break;
                     default:
@@ -169,6 +172,9 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.SaleValue)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SoldDate)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.BookValue)

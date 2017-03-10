@@ -103,7 +103,5 @@ namespace InventoryTool.Models
         [Display(Name = "Outlet Name")]
         public string Outletname { get; set; }
 
-
-
     }
 }

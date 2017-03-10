@@ -30,7 +30,7 @@ namespace InventoryTool.Controllers
 
             ViewBag.CurrentFilter = searchString;
 
-            var fleets = from s in db.Fleets
+            var fleets = from s in db.Fleets.Include(d => d.Driven)
                          select s;
 
             if (!String.IsNullOrEmpty(searchString))
