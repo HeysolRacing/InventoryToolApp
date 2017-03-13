@@ -26,6 +26,7 @@ namespace ContosoUniversity.Controllers
         //}
 
         //[HttpPost]
+        [Authorize(Roles ="RiskView")]
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
             
@@ -87,6 +88,7 @@ namespace ContosoUniversity.Controllers
         }
 
         // GET: TransactionLogs/Create
+        [Authorize(Roles = "RiskCreate")]
         public ActionResult Create()
         {
             return View();
@@ -101,7 +103,7 @@ namespace ContosoUniversity.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken]      
         public ActionResult Create([Bind(Include = "ID,FleetNumber,QuotationID,CreditLineInitial,QuotationAmount")] TransactionLog transactionLog)
         {
             if (ModelState.IsValid)
@@ -161,6 +163,7 @@ namespace ContosoUniversity.Controllers
         }
 
         // GET: TransactionLogs/Edit/5
+        [Authorize(Roles = "RiskEdit")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -179,7 +182,7 @@ namespace ContosoUniversity.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken]       
         public ActionResult Edit([Bind(Include = "ID,FleetNumber,QuotationID,CreditLineInitial,QuotationAmount,CreatedBy,Created")] TransactionLog transactionLog)
         {
             if (ModelState.IsValid)

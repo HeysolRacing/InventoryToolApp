@@ -39,8 +39,8 @@ namespace InventoryTool
         {
             var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
             var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(db));
-            var user = userManager.FindByName("hsagaon@elementcorp.com");
-            var user2 = userManager.FindByName("sugalde@elementcorp.com");
+            var user2 = userManager.FindByName("hsagaon@elementcorp.com");
+            var user = userManager.FindByName("sugalde@elementcorp.com");
 
             if (!userManager.IsInRole(user.Id, "InventoryView")) // Agregar Permisos
                 userManager.AddToRole(user.Id, "InventoryView");
@@ -161,6 +161,42 @@ namespace InventoryTool
             if (!roleManager.RoleExists("APhantomDelete"))
             {
                 roleManager.Create(new IdentityRole("APhantomDelete"));
+            }
+
+            //RiskRoles
+            if (!roleManager.RoleExists("RiskView"))
+            {
+                roleManager.Create(new IdentityRole("RiskView"));
+            }
+            if (!roleManager.RoleExists("RiskEdit"))
+            {
+                roleManager.Create(new IdentityRole("RiskEdit"));
+            }
+            if (!roleManager.RoleExists("RiskCreate"))
+            {
+                roleManager.Create(new IdentityRole("RiskCreate"));
+            }
+            if (!roleManager.RoleExists("RiskDelete"))
+            {
+                roleManager.Create(new IdentityRole("RiskDelete"));
+            }
+
+            //ExchangeRoles
+            if (!roleManager.RoleExists("ExchangeView"))
+            {
+                roleManager.Create(new IdentityRole("ExchangeView"));
+            }
+            if (!roleManager.RoleExists("ExchangeEdit"))
+            {
+                roleManager.Create(new IdentityRole("ExchangeEdit"));
+            }
+            if (!roleManager.RoleExists("ExchangeCreate"))
+            {
+                roleManager.Create(new IdentityRole("ExchangeCreate"));
+            }
+            if (!roleManager.RoleExists("ExchangeDelete"))
+            {
+                roleManager.Create(new IdentityRole("ExchangeDelete"));
             }
         }
     }

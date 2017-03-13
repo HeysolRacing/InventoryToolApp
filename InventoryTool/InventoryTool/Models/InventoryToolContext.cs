@@ -27,5 +27,7 @@ namespace InventoryTool.Models
         public System.Data.Entity.DbSet<ContosoUniversity.Models.TransactionLog> TransactionLogs { get; set; }
 
         public System.Data.Entity.DbSet<InventoryTool.Models.Driven> Drivens { get; set; }
+
+        public System.Data.Entity.DbSet<InventoryTool.Models.ExchangeRate> ExchangeRates { get; set; }
     }
 }

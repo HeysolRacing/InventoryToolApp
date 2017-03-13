@@ -230,6 +230,7 @@
     <Compile Include="Controllers\CRdetailsController.cs" />
     <Compile Include="Controllers\CRsController.cs" />
     <Compile Include="Controllers\DrivensController.cs" />
+    <Compile Include="Controllers\ExchangeRatesController.cs" />
     <Compile Include="Controllers\FeeCodesController.cs" />
     <Compile Include="Controllers\FleetsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -256,6 +257,7 @@
     <Compile Include="Models\CR.cs" />
     <Compile Include="Models\CRdetail.cs" />
     <Compile Include="Models\Driven.cs" />
+    <Compile Include="Models\ExchangeRate.cs" />
     <Compile Include="Models\General.cs" />
     <Compile Include="Models\Migrations\Configuration.cs" />
     <Compile Include="Models\FeeCode.cs" />
@@ -452,6 +454,11 @@
     <Content Include="Views\Drivens\Details.cshtml" />
     <Content Include="Views\Drivens\Edit.cshtml" />
     <Content Include="Views\Drivens\Index.cshtml" />
+    <Content Include="Views\ExchangeRates\Create.cshtml" />
+    <Content Include="Views\ExchangeRates\Delete.cshtml" />
+    <Content Include="Views\ExchangeRates\Details.cshtml" />
+    <Content Include="Views\ExchangeRates\Edit.cshtml" />
+    <Content Include="Views\ExchangeRates\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -20,11 +20,12 @@ namespace ContosoUniversity.Controllers
         private InventoryToolContext db = new InventoryToolContext();
 
         //GET: Risks
+        [Authorize(Roles = "RiskView")]
         public ActionResult Index()
         {
             return View(db.Risks.ToList());
         }
-
+        [Authorize(Roles ="RiskView")]
         public ViewResult List(string sortOrder, string currentFilter, string searchString, int? page)
         {
             ViewBag.CurrentSort = sortOrder;
@@ -74,6 +75,7 @@ namespace ContosoUniversity.Controllers
 
 
         // GET: Risks/Details/5
+        [Authorize(Roles ="RiskView")]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -105,6 +107,7 @@ namespace ContosoUniversity.Controllers
         }
 
         // GET: Risks/Create
+        [Authorize(Roles ="RiskCreate")]
         public ActionResult Create()
         {
             return View();
@@ -137,6 +140,7 @@ namespace ContosoUniversity.Controllers
         }
 
         // GET: Risks/Edit/5
+        [Authorize(Roles ="RiskEdit")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -170,6 +174,7 @@ namespace ContosoUniversity.Controllers
         }
 
         // GET: Risks/Delete/5
+        [Authorize(Roles ="RiskDelete")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
