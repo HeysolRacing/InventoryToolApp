@@ -9,11 +9,11 @@ namespace InventoryTool.Models
 
         [Display(Name = "FLEET")]
         [Required(ErrorMessage = "You must enter {0}")]
-        public int Fleet { get; set; }
+        public string Fleet { get; set; }
 
         [Display(Name = "UNIT")]
         [Required(ErrorMessage = "You must enter {0}")]
-        public int Unit { get; set; }
+        public string  Unit { get; set; }
 
         [Display(Name = "LOG NUMBER")]
         [Required(ErrorMessage = "You must enter {0}")]

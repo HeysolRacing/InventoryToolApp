@@ -1,0 +1,209 @@
+﻿@model PagedList.IPagedList<InventoryTool.Models.Remarketing>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+@{
+    ViewBag.Title = "Remarketing";
+}
+<br />
+<h2>Remarketing</h2>
+<br />
+@using (Html.BeginForm("Index", "Remarketings", FormMethod.Get))
+{
+    <p>
+        Find by : @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+        <input type="submit" value="Search" class="btn btn-info" />
+    </p>
+}
+<br />
+<table class="table">
+    <tr>
+        <th>@Html.ActionLink("Status", "Index", new { sortOrder = ViewBag.StatusSortParm, currentFilter = ViewBag.CurrentFilter })</th>
+        <th>
+            @Html.ActionLink("Fleet Number", "Index", new { sortOrder = ViewBag.FleetSortParm, currentFilter = ViewBag.CurrentFilter })
+        </th>
+        <th>
+            UnitNumber
+        </th>
+        <th>
+            @Html.ActionLink("Log Number", "Index", new { sortOrder = ViewBag.LogSortParm, currentFilter = ViewBag.CurrentFilter })
+        </th>
+        <th>
+            Roe
+        </th>
+        <th>
+            Spot Rate
+        </th>
+        <th>
+            Subcontract Number
+        </th>
+        <th>
+            On-road Date
+        </th>
+        <th>
+            End Date
+        </th>
+        <th>
+            Term
+        </th>
+        <th>
+            Offroad Date
+        </th>
+        <th>
+            Current Period
+        </th>
+        <th>
+            Amortization
+        </th>
+        <th>
+            Interest
+        </th>
+        <th>
+            Rent
+        </th>
+        <th>
+            Remaining Months
+        </th>
+        <th>
+            Rate
+        </th>
+        <th>
+            Penalty
+        </th>
+        <th>
+            Sale Value
+        </th>
+        <th>
+            Sale Date
+        </th>
+        <th>
+            Book Value
+        </th>
+        <th>
+            Gain/Loss
+        </th>
+        <th>
+            Profit Share Amount
+        </th>
+        <th>
+            Profit Share Percentage
+        </th>
+        <th>
+            Complementary Rent
+        </th>
+        <th>
+            Credit Note
+        </th>
+        <th>
+            P&L Gain/Loss
+        </th>
+
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @{
+                    switch (item.Status)
+                    {
+                        case "ACTIVE":
+                            @Html.ActionLink("Off-ROAD", "OffEdit", new { id = item.ID })
+                            break;
+                        case "INACTIVE":
+                            @Html.ActionLink("Sale", "SaleEdit", new { id = item.ID })
+                            break;
+                        default:
+                            <span>Sold</span>
+                            break;
+                    }
+
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FleetNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UnitNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LogNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Roe)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SpotRate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ScontrNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OnroadDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EndDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Term)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OffroadDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CurrentPeriod)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Amortization)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Interest)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Rent)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RemainingMonths)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Rate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Penalty)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SaleValue)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SoldDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BookValue)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GainLoss)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProfitShareAmount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProfitSharePercentage)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ComplementaryRent)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreditNote)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PLGainLoss)
+            </td>
+
+        </tr>
+                    }
+
+</table>
+<br />
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index",
+        new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))

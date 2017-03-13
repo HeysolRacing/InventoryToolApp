@@ -19,5 +19,7 @@ namespace InventoryTool.Models
         public System.Data.Entity.DbSet<InventoryTool.Models.Ssupplier> Suppliers { get; set; }
 
         public System.Data.Entity.DbSet<InventoryTool.Models.Acode> Atacodes { get; set; }
+
+        public System.Data.Entity.DbSet<InventoryTool.Models.Remarketing> Remarketings { get; set; }
     }
 }
