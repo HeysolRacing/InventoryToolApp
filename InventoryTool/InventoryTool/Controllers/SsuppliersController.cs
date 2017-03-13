@@ -64,6 +64,56 @@ namespace InventoryTool.Controllers
             return View(suppliers.ToPagedList(pageNumber, pageSize));
 
         }
+        // GET: Ssuppliers
+        public ActionResult List(string sortOrder, string currentFilter, string searchString, int? page, int? id, int? screen)
+        {
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "Supplier Name" : "";
+            ViewBag.DateSortParm = String.IsNullOrEmpty(sortOrder) ? "Telephone/fax/email" : "";
+            ViewBag.ObligorSortParm = String.IsNullOrEmpty(sortOrder) ? "ZIP Code" : "";
+            ViewBag.cr = id;
+            ViewBag.screen = screen;
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewBag.CurrentFilter = searchString;
+
+            var suppliers = from s in db.Suppliers
+                            select s;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                suppliers = suppliers.Where(s => s.SupplierName.ToString().Contains(searchString)
+                                       || s.Telephone.ToString().Contains(searchString)
+                                       || s.ZIPCode.ToString().Contains(searchString));
+            }
+            switch (sortOrder)
+            {
+                case "Supplier Name":
+                    suppliers = suppliers.OrderByDescending(s => s.SupplierName);
+                    break;
+                case "Telephone/fax/email":
+                    suppliers = suppliers.OrderBy(s => s.Telephone);
+                    break;
+                case "ZIP Code":
+                    suppliers = suppliers.OrderBy(s => s.ZIPCode);
+                    break;
+                default:  // ID ascending 
+                    suppliers = suppliers.OrderBy(s => s.SupplierID);
+                    break;
+            }
+
+            int pageSize = 100;
+            int pageNumber = (page ?? 1);
+            return View(suppliers.ToPagedList(pageNumber, pageSize));
+
+        }
+
 
         public ActionResult Select(int? id, int cr, int screen)
         {
