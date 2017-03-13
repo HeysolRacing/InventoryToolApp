@@ -410,11 +410,6 @@
     <Content Include="Views\CRdetails\Details.cshtml" />
     <Content Include="Views\CRdetails\Edit.cshtml" />
     <Content Include="Views\CRdetails\Index.cshtml" />
-    <Content Include="Views\Ssuppliers\Create.cshtml" />
-    <Content Include="Views\Ssuppliers\Delete.cshtml" />
-    <Content Include="Views\Ssuppliers\Details.cshtml" />
-    <Content Include="Views\Ssuppliers\Edit.cshtml" />
-    <Content Include="Views\Ssuppliers\Index.cshtml" />
     <Content Include="Views\Acodes\Create.cshtml" />
     <Content Include="Views\Acodes\Delete.cshtml" />
     <Content Include="Views\Acodes\Details.cshtml" />
@@ -459,6 +454,11 @@
     <Content Include="Views\ExchangeRates\Details.cshtml" />
     <Content Include="Views\ExchangeRates\Edit.cshtml" />
     <Content Include="Views\ExchangeRates\Index.cshtml" />
+    <Content Include="Views\Ssuppliers\Create.cshtml" />
+    <Content Include="Views\Ssuppliers\Delete.cshtml" />
+    <Content Include="Views\Ssuppliers\Details.cshtml" />
+    <Content Include="Views\Ssuppliers\Edit.cshtml" />
+    <Content Include="Views\Ssuppliers\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

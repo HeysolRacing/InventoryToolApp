@@ -26,8 +26,9 @@
         <th>
             @Html.ActionLink("Supplier Name", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
+        <th>Legal Name</th>
         <th>
-         Street
+         Address
         </th>
         <th>
         City
@@ -36,42 +37,42 @@
         State
         </th>
         <th>
-       Country
-        </th>
-        <th>
             @Html.ActionLink("ZIP Code", "Index", new { sortOrder = ViewBag.ObligorSortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
-      Affiliate store
+            @Html.ActionLink("Main phone", "Index", new { sortOrder = ViewBag.DateSortParm, currentFilter = ViewBag.CurrentFilter })
+        </th>
+        <th>Fax
+        </th> 
+        <th>
+         E-mail
+        </th>       
+        <th>
+       Country
+        </th>   
+        <th>
+        Status
+        </th>   
+        <th>
+      Store
         </th>
         <th>
-        Supplier Rate
+      Bill Method
         </th>
         <th>
-        Class
+       Type
         </th>
         <th>
-       Franchise
+        Discount Parts
         </th>
         <th>
-            @Html.ActionLink("Telephone/fax/email", "Index", new { sortOrder = ViewBag.DateSortParm, currentFilter = ViewBag.CurrentFilter })
+        Discount Labor
+        </th>      
+        <th>
+       Payment Terms
         </th>
         <th>
-       Contact Name
         </th>
-        <th>
-     Status
-        </th>
-        <th>
-        Type
-        </th>
-        <th>
-     Rating
-        </th>
-        <th>
-       Last WA date
-        </th>
-        
     </tr>
 
 @foreach (var item in Model) {
@@ -85,6 +86,9 @@
             @Html.DisplayFor(modelItem => item.SupplierName)
         </td>
         <td>
+            @Html.DisplayFor(modelItem => item.LegalName)
+        </td>
+        <td>
             @Html.DisplayFor(modelItem => item.Street)
         </td>
         <td>
@@ -94,40 +98,45 @@
             @Html.DisplayFor(modelItem => item.State)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Country)
-        </td>
-        <td>
             @Html.DisplayFor(modelItem => item.ZIPCode)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Affiliatestore)
+            @Html.DisplayFor(modelItem => item.Telephone)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.SupplierRate)
+            @Html.DisplayFor(modelItem => item.Fax)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Class)
+            @Html.DisplayFor(modelItem => item.email)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Franchise)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Telephonefaxemail)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ContactName)
-        </td>
+            @Html.DisplayFor(modelItem => item.Country_cd)
+        </td>   
         <td>
             @Html.DisplayFor(modelItem => item.Status)
+        </td>    
+        <td>
+            @Html.DisplayFor(modelItem => item.StoreNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BillMethod)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Type)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Rating)
+            @Html.DisplayFor(modelItem => item.DiscParts)
+        </td>       
+        <td>
+            @Html.DisplayFor(modelItem => item.DiscLabor)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.LastWAdate)
+            @Html.DisplayFor(modelItem => item.PaymentTerms)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.SupplierID }) |
+            @Html.ActionLink("Details", "Details", new { id = item.SupplierID }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.SupplierID })
         </td>
     </tr>
 }
