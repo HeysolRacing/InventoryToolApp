@@ -38,15 +38,15 @@ namespace InventoryTool.Controllers
             else
                 searchString = currentFilter;
 
-            if (InitialDate != null)
-                page = 1;
-            else
-                InitialDate = InitialFilter;
+            //if (InitialDate != null)
+            //    page = 1;
+            //else
+            //    InitialDate = InitialFilter;
 
-            if (FinalDate != null)
-                page = 1;
-            else
-                FinalDate = FinalFilter;
+            //if (FinalDate != null)
+            //    page = 1;
+            //else
+            //    FinalDate = FinalFilter;
 
             ViewBag.CurrentFilter = searchString;
             ViewBag.InitialFilter = InitialDate;
@@ -270,7 +270,7 @@ namespace InventoryTool.Controllers
                 // Read the file and display it line by line.  
                 System.IO.StreamReader file = new System.IO.StreamReader(path1);
                 string dato = file.ReadLine();
-                while (((line = file.ReadLine()) != null) && !band)
+                while ((line = file.ReadLine()) != null)
                 {
                     datos = line.Split(',');
                     //Primero verifico si ya existe el registro
