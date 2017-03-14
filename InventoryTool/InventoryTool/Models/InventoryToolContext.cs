@@ -21,5 +21,15 @@ namespace InventoryTool.Models
         public System.Data.Entity.DbSet<InventoryTool.Models.Acode> Atacodes { get; set; }
 
         public System.Data.Entity.DbSet<InventoryTool.Models.Remarketing> Remarketings { get; set; }
+
+        public System.Data.Entity.DbSet<ContosoUniversity.Models.Risk> Risks { get; set; }
+
+        public System.Data.Entity.DbSet<ContosoUniversity.Models.TransactionLog> TransactionLogs { get; set; }
+
+        public System.Data.Entity.DbSet<InventoryTool.Models.Driven> Drivens { get; set; }
+
+        public System.Data.Entity.DbSet<InventoryTool.Models.ExchangeRate> ExchangeRates { get; set; }
+
+        public System.Data.Entity.DbSet<InventoryTool.Models.OutletCode> OutletCodes { get; set; }
     }
 }

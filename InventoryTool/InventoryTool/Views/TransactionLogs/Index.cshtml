@@ -1,0 +1,111 @@
+﻿@model PagedList.IPagedList<ContosoUniversity.Models.TransactionLog>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewBag.Title = "Request";
+}
+<br />
+<h2>Credit Request List</h2>
+<br />
+<h4>@Html.ActionLink("Go back", "Create", "TransactionLogs")</h4>
+<br />
+
+@using (Html.BeginForm("Index", "TransactionLogs", FormMethod.Get))
+{
+    <p>
+        Find by status: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+        <input type="submit" value="Search" />
+    </p>
+}
+@using (Html.BeginForm("ExportData", "TransactionLogs", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+<table class="table">
+    <tr>
+        <th>
+       Fleet Number
+        </th>
+        <th>
+       Quotation ID
+        </th>
+        <th>
+      CreditLine Initial
+        </th>
+        <th>
+            Outstanding Balance
+        </th>
+        <th>
+            Work in Progress
+        </th>
+        <th>
+            In Flight
+        </th>
+        <th>
+            Sum
+        </th>
+        <th>
+       Quotation Amount
+        </th>
+        <th>
+       Created By
+        </th>
+        <th>
+            @Html.ActionLink("Created Date", "Index", new { sortOrder = ViewBag.DateSortParm, currentFilter = ViewBag.CurrentFilter })
+        </th>
+        <th>@Html.ActionLink("Status", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })</th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.FleetNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.QuotationID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CreditLineInitial)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OutstandingBalance)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.WorkProgress)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.InFlight)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Sum)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.QuotationAmount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CreatedBy)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Created)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RequestStatus)
+        </td>
+        @*<td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+        </td>*@
+    </tr>
+}
+    <tr>
+        <td>
+            <input type="submit" name="Export" id="Export" value="Export" class="btn btn-success"/>
+        </td>
+    </tr>
+</table>
+}
+<br />
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index",
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))

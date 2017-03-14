@@ -36,11 +36,11 @@ namespace InventoryTool.Controllers
             ViewBag.CurrentFilter = searchString;
 
             var suppliers = from s in db.Suppliers
-                        select s;
+                            select s;
             if (!String.IsNullOrEmpty(searchString))
             {
                 suppliers = suppliers.Where(s => s.SupplierName.ToString().Contains(searchString)
-                                       || s.Telephonefaxemail.ToString().Contains(searchString)
+                                       || s.Telephone.ToString().Contains(searchString)
                                        || s.ZIPCode.ToString().Contains(searchString));
             }
             switch (sortOrder)
@@ -49,7 +49,7 @@ namespace InventoryTool.Controllers
                     suppliers = suppliers.OrderByDescending(s => s.SupplierName);
                     break;
                 case "Telephone/fax/email":
-                    suppliers = suppliers.OrderBy(s => s.Telephonefaxemail);
+                    suppliers = suppliers.OrderBy(s => s.Telephone);
                     break;
                 case "ZIP Code":
                     suppliers = suppliers.OrderBy(s => s.ZIPCode);
@@ -62,8 +62,58 @@ namespace InventoryTool.Controllers
             int pageSize = 100;
             int pageNumber = (page ?? 1);
             return View(suppliers.ToPagedList(pageNumber, pageSize));
-            
+
         }
+        // GET: Ssuppliers
+        public ActionResult List(string sortOrder, string currentFilter, string searchString, int? page, int? id, int? screen)
+        {
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "Supplier Name" : "";
+            ViewBag.DateSortParm = String.IsNullOrEmpty(sortOrder) ? "Telephone/fax/email" : "";
+            ViewBag.ObligorSortParm = String.IsNullOrEmpty(sortOrder) ? "ZIP Code" : "";
+            ViewBag.cr = id;
+            ViewBag.screen = screen;
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewBag.CurrentFilter = searchString;
+
+            var suppliers = from s in db.Suppliers
+                            select s;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                suppliers = suppliers.Where(s => s.SupplierName.ToString().Contains(searchString)
+                                       || s.Telephone.ToString().Contains(searchString)
+                                       || s.ZIPCode.ToString().Contains(searchString));
+            }
+            switch (sortOrder)
+            {
+                case "Supplier Name":
+                    suppliers = suppliers.OrderByDescending(s => s.SupplierName);
+                    break;
+                case "Telephone/fax/email":
+                    suppliers = suppliers.OrderBy(s => s.Telephone);
+                    break;
+                case "ZIP Code":
+                    suppliers = suppliers.OrderBy(s => s.ZIPCode);
+                    break;
+                default:  // ID ascending 
+                    suppliers = suppliers.OrderBy(s => s.SupplierID);
+                    break;
+            }
+
+            int pageSize = 100;
+            int pageNumber = (page ?? 1);
+            return View(suppliers.ToPagedList(pageNumber, pageSize));
+
+        }
+
 
         public ActionResult Select(int? id, int cr, int screen)
         {
@@ -86,6 +136,7 @@ namespace InventoryTool.Controllers
             { return RedirectToAction("Create", "CRs", new { id = cr }); }
             else { return RedirectToAction("Edit", "CRs", new { id = cr }); }
         }
+
         // GET: Ssuppliers/Details/5
         public ActionResult Details(int? id)
         {
@@ -112,7 +163,7 @@ namespace InventoryTool.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "SupplierID,SupplierName,Street,City,State,Country,ZIPCode,Affiliatestore,SupplierRate,Class,Franchise,Telephonefaxemail,ContactName,Status,Type,Rating,LastWAdate")] Ssupplier ssupplier)
+        public ActionResult Create([Bind(Include = "SupplierID,SupplierName,LegalName,Street,City,State,Country_cd,ZIPCode,StoreNumber,NatlAccountCode,BillMethod,DiscParts,DiscLabor,PaymentTerms,disc_cap_amt,supplier_typ_cd,Telephone,Fax,WebLink,email,ContactName,Status,Type,TaxID")] Ssupplier ssupplier)
         {
             if (ModelState.IsValid)
             {
@@ -144,7 +195,7 @@ namespace InventoryTool.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "SupplierID,SupplierName,Street,City,State,Country,ZIPCode,Affiliatestore,SupplierRate,Class,Franchise,Telephonefaxemail,ContactName,Status,Type,Rating,LastWAdate")] Ssupplier ssupplier)
+        public ActionResult Edit([Bind(Include = "SupplierID,SupplierName,LegalName,Street,City,State,Country_cd,ZIPCode,StoreNumber,NatlAccountCode,BillMethod,DiscParts,DiscLabor,PaymentTerms,disc_cap_amt,supplier_typ_cd,Telephone,Fax,WebLink,email,ContactName,Status,Type,TaxID")] Ssupplier ssupplier)
         {
             if (ModelState.IsValid)
             {

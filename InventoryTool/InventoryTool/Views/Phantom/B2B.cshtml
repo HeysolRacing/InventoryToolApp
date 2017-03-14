@@ -1,0 +1,18 @@
+﻿
+@{
+    ViewBag.Title = "B2B";
+}
+<br />
+<h2>B2B</h2>
+
+<hr />
+<br />
+<h4 style="color: green">Welcome! please, enter the directory path to export the ECB2B file.</h4>
+
+@using (Html.BeginForm("txt", "Phantom", FormMethod.Get))
+{
+    <p>
+        File path: @Html.TextBox("SearchString", ViewBag.CurrentPath as string)
+        <input type="submit" value="Export" class="btn btn-success" onclick="alert('File exported!')"/>
+    </p>
+}

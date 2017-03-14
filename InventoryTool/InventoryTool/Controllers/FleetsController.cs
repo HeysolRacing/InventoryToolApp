@@ -30,13 +30,13 @@ namespace InventoryTool.Controllers
 
             ViewBag.CurrentFilter = searchString;
 
-            var fleets = from s in db.Fleets
+            var fleets = from s in db.Fleets.Include(d => d.Driven)
                          select s;
 
             if (!String.IsNullOrEmpty(searchString))
                 fleets = fleets.Where(s => s.LogNumber.ToString().Contains(searchString) || s.FleetNumber.ToString().Contains(searchString));
-            else
-                fleets = fleets.Take(200);
+            //else
+            //    fleets = fleets.Take(200);
 
             switch (sortOrder)
             {
@@ -54,7 +54,7 @@ namespace InventoryTool.Controllers
                     break;
             }
 
-            int pageSize = 3;
+            int pageSize = 100;
             int pageNumber = (page ?? 1);
             return View(fleets.ToPagedList(pageNumber, pageSize));
         }
@@ -79,13 +79,11 @@ namespace InventoryTool.Controllers
 
             if (!String.IsNullOrEmpty(searchString))
             { fleets = fleets.Where(s => s.VinNumber.ToString().Contains(searchString) || s.FleetNumber.ToString().Contains(searchString) || s.UnitNumber.ToString().Contains(searchString)
-            &&(s.Offroad_date == null && (s.ScontrNumber.ToString().Contains("5555")|| s.ScontrNumber.ToString().Contains("5556")
-                                            || s.ScontrNumber.ToString().Contains("C") || s.ScontrNumber.ToString().Contains("D"))));
+            &&( (s.ContractType.Contains("N5"))));
             }
             else
             {
-                fleets = fleets.Where(s => s.Offroad_date == null && (s.ScontrNumber.ToString().Contains("5555") || s.ScontrNumber.ToString().Contains("5556")
-                                            || s.ScontrNumber.ToString().Contains("C") || s.ScontrNumber.ToString().Contains("D")));
+                fleets = fleets.Where(s =>(s.ContractType.ToString().Contains("N5")));
             }
 
             switch (sortOrder)

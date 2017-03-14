@@ -4,7 +4,7 @@
 @{
     ViewBag.Title = "Index";
 }
-
+<br />
 <h2>Units</h2>
 
 <p>
@@ -150,6 +150,36 @@
         <th>
             Outlet Name
         </th>
+        <td>
+         Costumer Reference
+        </td>
+        <td>
+        Client Unit
+        </td>
+        <td>
+        VRN
+        </td>
+        <td>
+        Driver Name
+        </td>
+        <td>
+       Driver Last Name
+        </td>
+        <td>
+        Address1
+        </td>
+        <td>
+       Address2
+        </td>
+        <td>
+       City
+        </td>
+        <td>
+     State
+        </td>
+        <td>
+      ZIP
+        </td>
     </tr>
 
 @foreach (var item in Model) {
@@ -284,6 +314,36 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.OutletName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Driven.CostumerReference)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Driven.ClientUnit)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Driven.VRN)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Driven.DriverName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Driven.DriverLastName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Driven.Address1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Driven.Address2)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Driven.City)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Driven.State)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Driven.ZIP)
         </td>
     </tr>
 }

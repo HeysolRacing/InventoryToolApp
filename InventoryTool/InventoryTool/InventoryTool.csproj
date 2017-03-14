@@ -229,27 +229,49 @@
     <Compile Include="Controllers\AcodesController.cs" />
     <Compile Include="Controllers\CRdetailsController.cs" />
     <Compile Include="Controllers\CRsController.cs" />
+    <Compile Include="Controllers\DrivensController.cs" />
+    <Compile Include="Controllers\ExchangeRatesController.cs" />
     <Compile Include="Controllers\FeeCodesController.cs" />
     <Compile Include="Controllers\FleetsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PhantomController.cs" />
+    <Compile Include="Controllers\ReadExcelController.cs" />
     <Compile Include="Controllers\RemarketingsController.cs" />
+    <Compile Include="Controllers\RisksController.cs" />
     <Compile Include="Controllers\SsuppliersController.cs" />
+    <Compile Include="Controllers\TransactionLogsController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201703101745215_column.cs" />
+    <Compile Include="Migrations\201703101745215_column.Designer.cs">
+      <DependentUpon>201703101745215_column.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703102248102_solddate.cs" />
+    <Compile Include="Migrations\201703102248102_solddate.Designer.cs">
+      <DependentUpon>201703102248102_solddate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703132211463_fix.cs" />
+    <Compile Include="Migrations\201703132211463_fix.Designer.cs">
+      <DependentUpon>201703132211463_fix.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\Acode.cs" />
     <Compile Include="Models\CR.cs" />
     <Compile Include="Models\CRdetail.cs" />
+    <Compile Include="Models\Driven.cs" />
+    <Compile Include="Models\ExchangeRate.cs" />
     <Compile Include="Models\General.cs" />
     <Compile Include="Models\Migrations\Configuration.cs" />
     <Compile Include="Models\FeeCode.cs" />
     <Compile Include="Models\FleetCancelUnit.cs" />
     <Compile Include="Models\FleetStatus.cs" />
+    <Compile Include="Models\OutletCode.cs" />
     <Compile Include="Models\Remarketing.cs" />
+    <Compile Include="Models\Risk.cs" />
     <Compile Include="Models\Ssupplier.cs" />
+    <Compile Include="Models\TransactionLog.cs" />
     <Compile Include="ViewModels\AccountViewModels.cs" />
     <Compile Include="Models\Fleet.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -312,6 +334,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Properties\PublishProfiles\InventoryTool.pubxml" />
+    <None Include="Properties\PublishProfiles\publish.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -367,11 +390,6 @@
     <Content Include="Views\Users\Index.cshtml" />
     <Content Include="Views\Users\Roles.cshtml" />
     <Content Include="Views\Users\AddRole.cshtml" />
-    <Content Include="Views\Fleets\Create.cshtml" />
-    <Content Include="Views\Fleets\Delete.cshtml" />
-    <Content Include="Views\Fleets\Details.cshtml" />
-    <Content Include="Views\Fleets\Edit.cshtml" />
-    <Content Include="Views\Fleets\Index.cshtml" />
     <Content Include="Views\Users\Index.cshtml" />
     <Content Include="Views\Users\Roles.cshtml" />
     <Content Include="Views\Users\AddRole.cshtml" />
@@ -380,6 +398,8 @@
     <Content Include="Views\FeeCodes\Details.cshtml" />
     <Content Include="Views\FeeCodes\Edit.cshtml" />
     <Content Include="Views\FeeCodes\Index.cshtml" />
+    <Content Include="Views\ReadExcel\Index.cshtml" />
+    <Content Include="Views\ReadExcel\Import.cshtml" />
     <Content Include="Views\CRs\Create.cshtml" />
     <Content Include="Views\CRs\Delete.cshtml" />
     <Content Include="Views\CRs\Details.cshtml" />
@@ -390,17 +410,11 @@
     <Content Include="Views\CRdetails\Details.cshtml" />
     <Content Include="Views\CRdetails\Edit.cshtml" />
     <Content Include="Views\CRdetails\Index.cshtml" />
-    <Content Include="Views\Ssuppliers\Create.cshtml" />
-    <Content Include="Views\Ssuppliers\Delete.cshtml" />
-    <Content Include="Views\Ssuppliers\Details.cshtml" />
-    <Content Include="Views\Ssuppliers\Edit.cshtml" />
-    <Content Include="Views\Ssuppliers\Index.cshtml" />
     <Content Include="Views\Acodes\Create.cshtml" />
     <Content Include="Views\Acodes\Delete.cshtml" />
     <Content Include="Views\Acodes\Details.cshtml" />
     <Content Include="Views\Acodes\Edit.cshtml" />
     <Content Include="Views\Acodes\Index.cshtml" />
-    <Content Include="Views\Fleets\Phantom.cshtml" />
     <Content Include="Views\CRs\Approve.cshtml" />
     <Content Include="Views\CRs\Close.cshtml" />
     <Content Include="Views\CRs\APlist.cshtml" />
@@ -408,6 +422,20 @@
     <Content Include="Views\CRs\APDetails.cshtml" />
     <Content Include="Views\Phantom\Index.cshtml" />
     <Content Include="Views\CRs\General.cshtml" />
+    <Content Include="Views\Risks\Create.cshtml" />
+    <Content Include="Views\Risks\Delete.cshtml" />
+    <Content Include="Views\Risks\Details.cshtml" />
+    <Content Include="Views\Risks\Edit.cshtml" />
+    <Content Include="Views\TransactionLogs\Create.cshtml" />
+    <Content Include="Views\TransactionLogs\Delete.cshtml" />
+    <Content Include="Views\TransactionLogs\Details.cshtml" />
+    <Content Include="Views\TransactionLogs\Edit.cshtml" />
+    <Content Include="Views\TransactionLogs\Index.cshtml" />
+    <Content Include="Views\Risks\RiskDetails.cshtml" />
+    <Content Include="Views\Risks\List.cshtml" />
+    <Content Include="Views\Risks\Check.cshtml" />
+    <Content Include="Views\TransactionLogs\Error.cshtml" />
+    <Content Include="Views\Phantom\B2B.cshtml" />
     <Content Include="Views\Remarketings\Create.cshtml" />
     <Content Include="Views\Remarketings\Delete.cshtml" />
     <Content Include="Views\Remarketings\Details.cshtml" />
@@ -415,6 +443,26 @@
     <Content Include="Views\Remarketings\Index.cshtml" />
     <Content Include="Views\Remarketings\OffEdit.cshtml" />
     <Content Include="Views\Remarketings\SaleEdit.cshtml" />
+    <Content Include="Views\Drivens\Create.cshtml" />
+    <Content Include="Views\Drivens\Delete.cshtml" />
+    <Content Include="Views\Drivens\Details.cshtml" />
+    <Content Include="Views\Drivens\Edit.cshtml" />
+    <Content Include="Views\Drivens\Index.cshtml" />
+    <Content Include="Views\ExchangeRates\Create.cshtml" />
+    <Content Include="Views\ExchangeRates\Edit.cshtml" />
+    <Content Include="Views\ExchangeRates\Index.cshtml" />
+    <Content Include="Views\Ssuppliers\Create.cshtml" />
+    <Content Include="Views\Ssuppliers\Delete.cshtml" />
+    <Content Include="Views\Ssuppliers\Details.cshtml" />
+    <Content Include="Views\Ssuppliers\Edit.cshtml" />
+    <Content Include="Views\Ssuppliers\Index.cshtml" />
+    <Content Include="Views\Ssuppliers\List.cshtml" />
+    <Content Include="Views\Fleets\Create.cshtml" />
+    <Content Include="Views\Fleets\Delete.cshtml" />
+    <Content Include="Views\Fleets\Details.cshtml" />
+    <Content Include="Views\Fleets\Edit.cshtml" />
+    <Content Include="Views\Fleets\Index.cshtml" />
+    <Content Include="Views\Fleets\Phantom.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -431,6 +479,17 @@
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201703101745215_column.resx">
+      <DependentUpon>201703101745215_column.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703102248102_solddate.resx">
+      <DependentUpon>201703102248102_solddate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703132211463_fix.resx">
+      <DependentUpon>201703132211463_fix.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
@@ -445,7 +504,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>False</UseIIS>
+          <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>4671</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>

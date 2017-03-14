@@ -1,4 +1,5 @@
-﻿@model PagedList.IPagedList<InventoryTool.Models.Remarketing>
+﻿
+@model PagedList.IPagedList<InventoryTool.Models.Remarketing>
 @using PagedList.Mvc;
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 @{
@@ -22,184 +23,189 @@
             @Html.ActionLink("Fleet Number", "Index", new { sortOrder = ViewBag.FleetSortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
-            UnitNumber
+        UnitNumber
         </th>
         <th>
             @Html.ActionLink("Log Number", "Index", new { sortOrder = ViewBag.LogSortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
-            Roe
+        Roe
         </th>
         <th>
-            Spot Rate
+        Spot Rate
         </th>
         <th>
-            Subcontract Number
+        Subcontract Number
         </th>
         <th>
-            On-road Date
+        On-road Date
         </th>
         <th>
-            End Date
+        End Date
         </th>
         <th>
-            Term
+        Term
         </th>
         <th>
-            Offroad Date
+        Offroad Date
         </th>
         <th>
-            Current Period
+        Current Period
         </th>
         <th>
-            Amortization
+        Amortization
         </th>
         <th>
-            Interest
+        Interest
         </th>
         <th>
-            Rent
+        Rent
         </th>
         <th>
-            Remaining Months
+       Remaining Months
         </th>
         <th>
-            Rate
+        Rate
         </th>
         <th>
-            Penalty
+        Penalty
         </th>
         <th>
-            Sale Value
+        Sale Value
         </th>
         <th>
-            Sale Date
+        Sale Date
         </th>
         <th>
-            Book Value
+        Book Value
         </th>
         <th>
-            Gain/Loss
+        Gain/Loss
         </th>
         <th>
-            Profit Share Amount
+        Profit Share Amount
         </th>
         <th>
-            Profit Share Percentage
+        Profit Share Percentage
         </th>
         <th>
-            Complementary Rent
+        Complementary Rent
         </th>
         <th>
-            Credit Note
+        Credit Note
         </th>
         <th>
-            P&L Gain/Loss
+        P&L Gain/Loss
         </th>
-
+        <th>OutletCode</th>
+        <th>OutletName</th>
     </tr>
 
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @{
-                    switch (item.Status)
-                    {
-                        case "ACTIVE":
-                            @Html.ActionLink("Off-ROAD", "OffEdit", new { id = item.ID })
-                            break;
-                        case "INACTIVE":
-                            @Html.ActionLink("Sale", "SaleEdit", new { id = item.ID })
-                            break;
-                        default:
-                            <span>Sold</span>
-                            break;
-                    }
-
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @{
+                switch (item.Status)
+                {
+                    case "ACTIVE":
+                        @Html.ActionLink("ON-ROAD", "OffEdit", new { id = item.ID })
+                        break;
+                    case "INACTIVE":
+                        @Html.ActionLink("OFF-ROAD", "SaleEdit", new { id = item.ID })
+                        break;
+                    default:
+                        <span>Sold</span>
+                        break;
                 }
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FleetNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UnitNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LogNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Roe)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SpotRate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ScontrNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.OnroadDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EndDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Term)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.OffroadDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CurrentPeriod)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Amortization)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Interest)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Rent)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RemainingMonths)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Rate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Penalty)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SaleValue)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SoldDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BookValue)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.GainLoss)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProfitShareAmount)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProfitSharePercentage)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ComplementaryRent)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreditNote)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PLGainLoss)
-            </td>
 
-        </tr>
-                    }
+            }          
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FleetNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UnitNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LogNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Roe)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SpotRate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ScontrNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OnroadDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EndDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Term)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OffroadDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CurrentPeriod)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Amortization)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Interest)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Rent)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RemainingMonths)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Rate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Penalty)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SaleValue)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SoldDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BookValue)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.GainLoss)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ProfitShareAmount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ProfitSharePercentage)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ComplementaryRent)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CreditNote)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PLGainLoss)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OutletCode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Outletname)
+        </td>
+    </tr>
+}
 
 </table>
 <br />

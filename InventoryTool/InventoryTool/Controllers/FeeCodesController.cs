@@ -38,7 +38,7 @@ namespace InventoryTool.Controllers
             else
                 searchString = currentFilter;
 
-            /*if (InitialDate != null)
+            if (InitialDate != null)
                 page = 1;
             else
                 InitialDate = InitialFilter;
@@ -46,7 +46,7 @@ namespace InventoryTool.Controllers
             if (FinalDate != null)
                 page = 1;
             else
-                FinalDate = FinalFilter;*/
+                FinalDate = FinalFilter;
 
             ViewBag.CurrentFilter = searchString;
             ViewBag.InitialFilter = InitialDate;
@@ -270,7 +270,7 @@ namespace InventoryTool.Controllers
                 // Read the file and display it line by line.  
                 System.IO.StreamReader file = new System.IO.StreamReader(path1);
                 string dato = file.ReadLine();
-                while (((line = file.ReadLine()) != null))
+                while (((line = file.ReadLine()) != null) && !band)
                 {
                     datos = line.Split(',');
                     //Primero verifico si ya existe el registro
@@ -283,7 +283,7 @@ namespace InventoryTool.Controllers
                     {
                         //Grabo
                         strsql = "Insert into FeeCodes (Fleet, Unit, LogNo, CapCost, BookValue, Rental, Term, Lpis, Scontr, InsPremium, Fee, Descr, MMYY, ";
-                        strsql += "Star, Sto, Amt, Method, Rate, BL, AC, Createdby, Created) values('" + datos[0] + "','" + datos[1] + "',";
+                        strsql += "Star, Sto, Amt, Method, Rate, BL, AC, Createdby, Created) values(" + Convert.ToInt32(datos[0]) + "," + Convert.ToInt32(datos[1]) + ",";
                         strsql += Convert.ToInt32(datos[2]) + "," + Convert.ToDecimal(datos[3]) + "," + Convert.ToDecimal(datos[4]) + ",";
                         strsql += Convert.ToDecimal(datos[5]) + "," + Convert.ToInt32(datos[6]) + "," + Convert.ToInt32(datos[7]) + ",'" + datos[8] + "',";
                         strsql += Convert.ToDecimal(datos[9]) + "," + Convert.ToInt32(datos[10]) + ",'" + datos[11] + "',";

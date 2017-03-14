@@ -13,7 +13,7 @@ namespace InventoryTool.Models
 
         [Display(Name = "UNIT")]
         [Required(ErrorMessage = "You must enter {0}")]
-        public string  Unit { get; set; }
+        public string Unit { get; set; }
 
         [Display(Name = "LOG NUMBER")]
         [Required(ErrorMessage = "You must enter {0}")]
