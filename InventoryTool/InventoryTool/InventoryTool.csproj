@@ -389,11 +389,6 @@
     <Content Include="Views\Users\Index.cshtml" />
     <Content Include="Views\Users\Roles.cshtml" />
     <Content Include="Views\Users\AddRole.cshtml" />
-    <Content Include="Views\Fleets\Create.cshtml" />
-    <Content Include="Views\Fleets\Delete.cshtml" />
-    <Content Include="Views\Fleets\Details.cshtml" />
-    <Content Include="Views\Fleets\Edit.cshtml" />
-    <Content Include="Views\Fleets\Index.cshtml" />
     <Content Include="Views\Users\Index.cshtml" />
     <Content Include="Views\Users\Roles.cshtml" />
     <Content Include="Views\Users\AddRole.cshtml" />
@@ -419,7 +414,6 @@
     <Content Include="Views\Acodes\Details.cshtml" />
     <Content Include="Views\Acodes\Edit.cshtml" />
     <Content Include="Views\Acodes\Index.cshtml" />
-    <Content Include="Views\Fleets\Phantom.cshtml" />
     <Content Include="Views\CRs\Approve.cshtml" />
     <Content Include="Views\CRs\Close.cshtml" />
     <Content Include="Views\CRs\APlist.cshtml" />
@@ -462,6 +456,12 @@
     <Content Include="Views\Ssuppliers\Edit.cshtml" />
     <Content Include="Views\Ssuppliers\Index.cshtml" />
     <Content Include="Views\Ssuppliers\List.cshtml" />
+    <Content Include="Views\Fleets\Create.cshtml" />
+    <Content Include="Views\Fleets\Delete.cshtml" />
+    <Content Include="Views\Fleets\Details.cshtml" />
+    <Content Include="Views\Fleets\Edit.cshtml" />
+    <Content Include="Views\Fleets\Index.cshtml" />
+    <Content Include="Views\Fleets\Phantom.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
