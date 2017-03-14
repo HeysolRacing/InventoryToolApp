@@ -47,7 +47,8 @@ namespace InventoryTool.Models
         public decimal CapCost { get; set; }
 
         [Display(Name = "Inservice Date")]
-        [DataType(DataType.Date)]
+        //[DataType(DataType.Date)]
+        //[DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public Nullable<DateTime> Inservice_date { get; set; }
         
@@ -81,9 +82,9 @@ namespace InventoryTool.Models
 
         public FleetCancelUnit FleetCancelUnit { get; set; }
 
-        public int Amort_Term { get; set; }
+        public int? Amort_Term { get; set; }
 
-        public int Leased_Months_Billed { get; set; }
+        public int? Leased_Months_Billed { get; set; }
 
         [Display(Name = "End Date")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]

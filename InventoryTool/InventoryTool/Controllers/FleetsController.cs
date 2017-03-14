@@ -35,8 +35,8 @@ namespace InventoryTool.Controllers
 
             if (!String.IsNullOrEmpty(searchString))
                 fleets = fleets.Where(s => s.LogNumber.ToString().Contains(searchString) || s.FleetNumber.ToString().Contains(searchString));
-            else
-                fleets = fleets.Take(200);
+            //else
+            //    fleets = fleets.Take(200);
 
             switch (sortOrder)
             {
@@ -54,7 +54,7 @@ namespace InventoryTool.Controllers
                     break;
             }
 
-            int pageSize = 3;
+            int pageSize = 100;
             int pageNumber = (page ?? 1);
             return View(fleets.ToPagedList(pageNumber, pageSize));
         }
@@ -79,11 +79,11 @@ namespace InventoryTool.Controllers
 
             if (!String.IsNullOrEmpty(searchString))
             { fleets = fleets.Where(s => s.VinNumber.ToString().Contains(searchString) || s.FleetNumber.ToString().Contains(searchString) || s.UnitNumber.ToString().Contains(searchString)
-            &&(s.Offroad_date == null && (s.ContractType.Contains("N5"))));
+            &&( (s.ContractType.Contains("N5"))));
             }
             else
             {
-                fleets = fleets.Where(s => s.Offroad_date == null && (s.ContractType.ToString().Contains("N5")));
+                fleets = fleets.Where(s =>(s.ContractType.ToString().Contains("N5")));
             }
 
             switch (sortOrder)
