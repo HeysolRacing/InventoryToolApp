@@ -1,11 +1,11 @@
 ﻿@model InventoryTool.Models.Remarketing
-
+@using InventoryTool.Models
 @{
     ViewBag.Title = "Remarketing";
 }
 <br /><br />
 <h2>Set Sale Value [MXN]</h2>
-
+@{ List<OutletCode> outletcodes = ViewBag.OutletCodes; }
 <div>
     <br />
     @using (Html.BeginForm())
@@ -30,18 +30,18 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.OutletCode, htmlAttributes: new { @class = "control-label col-md-1" })
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.OutletCode, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.OutletCode, "", new { @class = "text-danger" })
+                    @Html.DropDownListFor(model => model.OutletCode, new SelectList(outletcodes, "Outletcode", "Outletname"))
+                    @*@Html.ValidationMessageFor(model => model.OutletCode, "", new { @class = "text-danger" })*@
                 </div>
             </div>
-            <div class="form-group">
+            @*<div class="form-group">
                 @Html.LabelFor(model => model.Outletname, htmlAttributes: new { @class = "control-label col-md-1" })
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.Outletname, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.Outletname, "", new { @class = "text-danger" })
                 </div>
                 <br />
-            </div>
+            </div>*@
             <br />
             <div class="form-actions no-color">
                 <input type="submit" value="Save" class="btn btn-primary" /> |

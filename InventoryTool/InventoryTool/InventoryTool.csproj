@@ -267,6 +267,7 @@
     <Compile Include="Models\FeeCode.cs" />
     <Compile Include="Models\FleetCancelUnit.cs" />
     <Compile Include="Models\FleetStatus.cs" />
+    <Compile Include="Models\OutletCode.cs" />
     <Compile Include="Models\Remarketing.cs" />
     <Compile Include="Models\Risk.cs" />
     <Compile Include="Models\Ssupplier.cs" />

@@ -29,5 +29,7 @@ namespace InventoryTool.Models
         public System.Data.Entity.DbSet<InventoryTool.Models.Driven> Drivens { get; set; }
 
         public System.Data.Entity.DbSet<InventoryTool.Models.ExchangeRate> ExchangeRates { get; set; }
+
+        public System.Data.Entity.DbSet<InventoryTool.Models.OutletCode> OutletCodes { get; set; }
     }
 }

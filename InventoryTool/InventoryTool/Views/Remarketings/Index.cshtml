@@ -97,7 +97,8 @@
         <th>
         P&L Gain/Loss
         </th>
-      
+        <th>OutletCode</th>
+        <th>OutletName</th>
     </tr>
 
 @foreach (var item in Model) {
@@ -197,7 +198,12 @@
         <td>
             @Html.DisplayFor(modelItem => item.PLGainLoss)
         </td>
-        
+        <td>
+            @Html.DisplayFor(modelItem => item.OutletCode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Outletname)
+        </td>
     </tr>
 }
 

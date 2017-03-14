@@ -170,6 +170,10 @@ namespace InventoryTool.Controllers
             {
                 return HttpNotFound();
             }
+           var outletcodes = db.OutletCodes.ToList();
+            foreach(OutletCode item in outletcodes)
+            { item.Outletname = item.Outletcode + "-" + item.Outletname; }
+            ViewBag.OutletCodes = outletcodes;
             return View(remarketing);
         }
 
@@ -182,6 +186,10 @@ namespace InventoryTool.Controllers
         {
             if (ModelState.IsValid)
             {
+                var outlet = from s in db.OutletCodes
+                             where s.Outletcode.Contains(remarketing.OutletCode)
+                             select s;
+                remarketing.Outletname = outlet.ToList()[0].Outletname;
                 db.Entry(remarketing).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
