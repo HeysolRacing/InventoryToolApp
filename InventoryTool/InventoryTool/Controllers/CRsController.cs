@@ -211,8 +211,7 @@ namespace InventoryTool.Controllers
             return View(crdetail.ToList());
         }
 
-        // GET: CRs
-        
+        // GET: CRs 
         public ActionResult General(string sortOrder, string currentFilter, string searchString, DateTime? from, DateTime? to, int? page)
         {
             ViewBag.CurrentSort = sortOrder;
@@ -240,7 +239,7 @@ namespace InventoryTool.Controllers
             var crs = from a in db.CRs
                       join c in db.CRdetails on a.crID equals c.IDCR
                       where a.Status != "none"
-                      select new { a.crID, a.WAnumber, a.VINnumber,a.Servicedate,a.Odometer,a.Status,a.Supplier,a.Suppliername
+                      select new { a.crID, a.WAnumber, a.FleetNumber, a.UnitNumber, a.VINnumber,a.Servicedate,a.Odometer,a.Status,a.Supplier,a.Suppliername
                       ,a.Clientname,a.Subtotal,a.IVA, a.Total, c.ID, c.IDCR, c.Quantity,c.Atacode,c.Description
                       ,c.Requested,c.Authorized,c.CreateDate,c.CreatedBy, a.OkedBy
                       ,a.Invoicenumber, a.Invoicedate,a.Amountpaid,a.Paymentdate,a.MaintenanceComments,a.ApComments};
@@ -327,6 +326,8 @@ namespace InventoryTool.Controllers
                 General ag = new General();
                 ag.crID = item.crID;
                 ag.WAnumber = item.WAnumber;
+                ag.FleetNumber = item.FleetNumber;
+                ag.UnitNumber = item.UnitNumber;
                 ag.VINnumber = item.VINnumber;
                 ag.Servicedate = item.Servicedate;
                 ag.Odometer = item.Odometer;

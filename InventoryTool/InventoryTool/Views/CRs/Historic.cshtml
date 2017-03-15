@@ -25,9 +25,11 @@
 <table class="table">
     <tr>
         <th>
-            WA number
+            C&R number
             @*@Html.ActionLink("WA number", "Historic", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter, id = ViewBag.cr, vin= ViewBag.vin, screen = ViewBag.screen })*@
         </th>
+        <th>Fleet Number</th>
+        <th>Unit Number</th>
         <th>
             VIN number
             @*@Html.ActionLink("VIN number", "Historic", new { sortOrder = ViewBag.ObligorSortParm, currentFilter = ViewBag.CurrentFilter, id = ViewBag.cr, vin = ViewBag.vin, screen = ViewBag.screen })*@
@@ -83,6 +85,12 @@
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.WAnumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FleetNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UnitNumber)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.VINnumber)

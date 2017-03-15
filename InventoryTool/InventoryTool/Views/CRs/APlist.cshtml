@@ -25,8 +25,10 @@
 <table class="table">
     <tr>
         <th>
-            @Html.ActionLink("WA number", "APlist", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
+            @Html.ActionLink("C&R number", "APlist", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
+        <th>Fleet Number</th>
+        <th>Unit Number</th>
         <th>
             @Html.ActionLink("VIN number", "APlist", new { sortOrder = ViewBag.ObligorSortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
@@ -83,6 +85,12 @@
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.WAnumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FleetNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UnitNumber)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.VINnumber)

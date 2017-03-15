@@ -26,7 +26,6 @@ namespace InventoryTool.Models
         [DisplayFormat(DataFormatString = "{0:#,###0.00}")]
         public decimal Authorized { get; set; }
         [Display(Name = "Create Date")]
-        [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime CreateDate { get; set; }
         [Display(Name = "Created By")]
