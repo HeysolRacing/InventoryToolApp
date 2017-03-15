@@ -112,6 +112,8 @@ namespace InventoryTool.Controllers
             Fleet fleet = db.Fleets.Find(id);
             CR cr = new CR();
             cr.VINnumber = fleet.VinNumber;
+            cr.FleetNumber = fleet.FleetNumber;
+            cr.UnitNumber = fleet.UnitNumber;
             cr.Status = "none";
             cr.Clientname = fleet.Level_2;
             cr.CreatedBy = Environment.UserName;
