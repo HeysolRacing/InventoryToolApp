@@ -236,7 +236,6 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PhantomController.cs" />
-    <Compile Include="Controllers\ReadExcelController.cs" />
     <Compile Include="Controllers\RemarketingsController.cs" />
     <Compile Include="Controllers\RisksController.cs" />
     <Compile Include="Controllers\SsuppliersController.cs" />
@@ -386,8 +385,6 @@
     <Content Include="Views\FeeCodes\Details.cshtml" />
     <Content Include="Views\FeeCodes\Edit.cshtml" />
     <Content Include="Views\FeeCodes\Index.cshtml" />
-    <Content Include="Views\ReadExcel\Index.cshtml" />
-    <Content Include="Views\ReadExcel\Import.cshtml" />
     <Content Include="Views\CRs\Create.cshtml" />
     <Content Include="Views\CRs\Delete.cshtml" />
     <Content Include="Views\CRs\Details.cshtml" />
