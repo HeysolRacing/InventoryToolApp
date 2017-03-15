@@ -38,7 +38,7 @@ namespace InventoryTool.Models
         public Nullable<DateTime> EndDate { get; set; }
 
         [Display(Name = "Term")]
-        public int Term { get; set; }
+        public int? Term { get; set; }
 
         [Display(Name = "Off-road Date")]
         [DataType(DataType.Date)]

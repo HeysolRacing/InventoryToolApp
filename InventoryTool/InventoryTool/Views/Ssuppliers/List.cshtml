@@ -9,9 +9,9 @@
 <br />
 <h2>Suppliers Catalog</h2>
 <br />
-@*<p>
+<p>
         @Html.ActionLink("Create New", "Create")
-    </p>*@
+    </p>
 @using (Html.BeginForm("Index", "Ssuppliers", FormMethod.Get))
 {
     <p>
@@ -82,7 +82,7 @@
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.SupplierID }) |
                 @Html.ActionLink("Details", "Details", new { id = item.SupplierID }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.SupplierID })
+                @Html.ActionLink("Cancel", "Delete", new { id = item.SupplierID })
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.SupplierName)

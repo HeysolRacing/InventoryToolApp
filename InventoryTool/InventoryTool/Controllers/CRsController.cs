@@ -398,9 +398,10 @@ namespace InventoryTool.Controllers
                       select s;
             crs = crs.Where(s => s.VINnumber.ToString().Contains(cR.VINnumber.ToString()) && s.Odometer > 0);
             crs = crs.OrderByDescending(s => s.crID);
-            var crshistoric = crs.First();
-            if (crshistoric == null)
-            { crshistoric = new CR(); }
+            var crshistoric = new CR();
+            if (crs.Count() >0)
+            { crshistoric = crs.First(); }
+           
             ViewData["CRhistoric"] = crshistoric;
 
 

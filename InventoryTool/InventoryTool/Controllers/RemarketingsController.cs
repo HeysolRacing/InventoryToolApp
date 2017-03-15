@@ -151,6 +151,7 @@ namespace InventoryTool.Controllers
         {
             if (ModelState.IsValid)
             {
+
                 db.Entry(remarketing).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
