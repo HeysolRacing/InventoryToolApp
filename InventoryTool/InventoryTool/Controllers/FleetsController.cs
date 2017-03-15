@@ -79,11 +79,11 @@ namespace InventoryTool.Controllers
 
             if (!String.IsNullOrEmpty(searchString))
             { fleets = fleets.Where(s => s.VinNumber.ToString().Contains(searchString) || s.FleetNumber.ToString().Contains(searchString) || s.UnitNumber.ToString().Contains(searchString)
-            &&( (s.ContractType.Contains("N5"))));
+            &&((s.Offroad_date == null && s.ContractType.Contains("N5"))));
             }
             else
             {
-                fleets = fleets.Where(s =>(s.ContractType.ToString().Contains("N5")));
+                fleets = fleets.Where(s => s.Offroad_date == null && s.ContractType.ToString().Contains("N5"));
             }
 
             switch (sortOrder)
