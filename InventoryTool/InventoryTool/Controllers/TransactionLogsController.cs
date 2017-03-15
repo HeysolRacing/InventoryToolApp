@@ -107,8 +107,7 @@ namespace ContosoUniversity.Controllers
         public ActionResult Create([Bind(Include = "ID,FleetNumber,QuotationID,CreditLineInitial,QuotationAmount")] TransactionLog transactionLog)
         {
             if (ModelState.IsValid)
-            {
-                
+            {                
                 transactionLog.CreatedBy = Environment.UserName;
                 transactionLog.Created = DateTime.Now;
                 var risk = from s in db.Risks

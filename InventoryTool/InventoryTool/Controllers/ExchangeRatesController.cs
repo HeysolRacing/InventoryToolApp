@@ -3,6 +3,7 @@ using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 using InventoryTool.Models;
+using System.Data.Entity;
 
 namespace InventoryTool.Controllers
 {
@@ -68,6 +69,7 @@ namespace InventoryTool.Controllers
         {
             if (ModelState.IsValid)
             {
+                db.Entry(exchangeRate).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
