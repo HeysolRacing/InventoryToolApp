@@ -123,7 +123,7 @@ namespace InventoryTool.Controllers
                     break;
             }
 
-            int pageSize = 20;
+            int pageSize = 100;
             int pageNumber = (page ?? 1);
 
             return View(fleets.ToPagedList(pageNumber, pageSize));
