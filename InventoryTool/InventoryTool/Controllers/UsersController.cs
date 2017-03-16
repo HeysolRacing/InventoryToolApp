@@ -16,7 +16,7 @@ namespace InventoryTool.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        //[Authorize(Roles = "Administrator")]
+        [Authorize(Roles = "Administrator")]
         public ActionResult Index()
         {
             var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
@@ -38,7 +38,7 @@ namespace InventoryTool.Controllers
             return View(usersView);
         }
 
-        //[Authorize(Roles = "Administrator")]
+        [Authorize(Roles = "Administrator")]
         public ActionResult Roles(string userID)
         {
             var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(db));
@@ -74,7 +74,7 @@ namespace InventoryTool.Controllers
             return View(userView);
         }
 
-        //[Authorize(Roles = "Administrator")]
+        [Authorize(Roles = "Administrator")]
         public ActionResult AddRole(string userID)
         {
             if(string.IsNullOrEmpty(userID))
@@ -168,7 +168,7 @@ namespace InventoryTool.Controllers
             return View("Roles",userView);
         }
 
-        //[Authorize(Roles = "Administrator")]
+        [Authorize(Roles = "Administrator")]
         public ActionResult Delete(string userID, string roleID)
         {
             if (string.IsNullOrEmpty(userID) || string.IsNullOrEmpty(roleID))

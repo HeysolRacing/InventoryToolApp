@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using InventoryTool.Models;
 using InventoryTool.ViewModels;
+using System.Security.Claims;
 
 namespace InventoryTool.Controllers
 {
@@ -54,7 +55,23 @@ namespace InventoryTool.Controllers
                           where s.code.ToString().Contains(detail.Atacode.ToString())
                           select s;
             detail.CreateDate = DateTime.Now;
-            detail.CreatedBy = Environment.UserName;
+            var userIdValue = Environment.UserName;
+
+
+            var claimsIdentity = User.Identity as ClaimsIdentity;
+            if (claimsIdentity != null)
+            {
+                // the principal identity is a claims identity.
+                // now we need to find the NameIdentifier claim
+                var userIdClaim = claimsIdentity.Claims
+                    .FirstOrDefault(x => x.Type == ClaimTypes.Name);
+
+                if (userIdClaim != null)
+                {
+                    userIdValue = userIdClaim.Value;
+                }
+            }
+            detail.CreatedBy = userIdValue;
             detail.Description = atacode.ToList()[0].Description;
             if (ModelState.IsValid)
             {

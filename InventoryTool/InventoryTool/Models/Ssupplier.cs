@@ -20,19 +20,26 @@ namespace InventoryTool.Models
         public string Street { get; set; }
         public string City { get; set; }
         public string State { get; set; }
+        [Display(Name = "Country (US/CA/MX)")]
         public string Country_cd { get; set; }
         [Display(Name = "ZIP Code")]
         public int ZIPCode { get; set; }
         [Display(Name = "Affiliate Store")]
         public string StoreNumber { get; set; }
         [Display(Name = "Account Code")]
+        [Range(0, int.MaxValue, ErrorMessage = "Please enter positive integer number")]
         public int NatlAccountCode { get; set; }
         [Display(Name = "Bill Method")]
         public string BillMethod { get; set; }
+        [Display(Name = "Discount Parts")]
         public int DiscParts { get; set; }
+        [Display(Name = "Discount Labour")]
         public int DiscLabor { get; set; }
+        [Display(Name = "Payment Terms")]
         public int PaymentTerms { get; set; }
+        [Display(Name = "Discount Amount")]
         public int disc_cap_amt { get; set; }
+        [Display(Name = "Suplier Type")]
         public string supplier_typ_cd { get; set; }
         [Display(Name = "Main phone")]
         public string Telephone{ get; set; }
@@ -46,6 +53,7 @@ namespace InventoryTool.Models
         public string ContactName  { get; set; }
         public string Status { get; set; }
         public string Type { get; set; }
+        [Display(Name = "Tax Id")]
         public string TaxID { get; set; }
     }
 }

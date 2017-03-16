@@ -1,7 +1,7 @@
 ﻿@model InventoryTool.ViewModels.newCR
 @using InventoryTool.Models
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Edit"; 
 }
 <br />
 <h2>Edit C&R</h2>
@@ -92,9 +92,9 @@
 
                 <div class="col-md-6">
                     @Html.ActionLink("Supplier", "Supplier", new { @class = "control-label col-md-4", id = Model.cr.crID, screen = 2 })
-                    @Html.EditorFor(model => model.cr.Supplier, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.DisplayFor(model => model.cr.Supplier, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(m => m.cr.Odometer, "", new { @class = "text-danger" })
-                    @Html.ValidationMessageFor(m => m.cr.Supplier, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(m => m.cr.Supplier)
                     @{Ssupplier supplier = (Ssupplier)ViewData["supplier"]; }
                     <p><span>Supplier name:</span>@supplier.SupplierName</p>
                     <span>Telephone/fax/email:</span>@supplier.Telephone

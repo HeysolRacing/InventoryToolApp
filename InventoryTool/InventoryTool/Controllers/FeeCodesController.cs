@@ -10,6 +10,9 @@ using System.Web.Mvc;
 using InventoryTool.Models;
 using PagedList;
 using System.Data.SqlClient;
+using System.Web.UI.WebControls;
+using System.IO;
+using System.Web.UI;
 
 namespace InventoryTool.Controllers
 {
@@ -38,15 +41,15 @@ namespace InventoryTool.Controllers
             else
                 searchString = currentFilter;
 
-            if (InitialDate != null)
-                page = 1;
-            else
-                InitialDate = InitialFilter;
+            //if (InitialDate != null)
+            //    page = 1;
+            //else
+            //    InitialDate = InitialFilter;
 
-            if (FinalDate != null)
-                page = 1;
-            else
-                FinalDate = FinalFilter;
+            //if (FinalDate != null)
+            //    page = 1;
+            //else
+            //    FinalDate = FinalFilter;
 
             ViewBag.CurrentFilter = searchString;
             ViewBag.InitialFilter = InitialDate;
@@ -120,7 +123,7 @@ namespace InventoryTool.Controllers
                     break;
             }
 
-            int pageSize = 20;
+            int pageSize = 100;
             int pageNumber = (page ?? 1);
 
             return View(fleets.ToPagedList(pageNumber, pageSize));
@@ -270,7 +273,7 @@ namespace InventoryTool.Controllers
                 // Read the file and display it line by line.  
                 System.IO.StreamReader file = new System.IO.StreamReader(path1);
                 string dato = file.ReadLine();
-                while (((line = file.ReadLine()) != null) && !band)
+                while ((line = file.ReadLine()) != null)
                 {
                     datos = line.Split(',');
                     //Primero verifico si ya existe el registro
@@ -318,5 +321,25 @@ namespace InventoryTool.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpPost]
+        public ActionResult ExportData()
+        {
+            GridView gv = new GridView();
+            gv.DataSource = db.FeeCodes.ToList();
+            gv.DataBind();
+            Response.ClearContent();
+            Response.Buffer = true;
+            Response.AddHeader("content-disposition", "attachment; filename=FeeCodesAll.xls");
+            Response.ContentType = "application/ms-excel";
+            Response.Charset = "";
+            StringWriter sw = new StringWriter();
+            HtmlTextWriter htw = new HtmlTextWriter(sw);
+            gv.RenderControl(htw);
+            Response.Output.Write(sw.ToString());
+            Response.Flush();
+            Response.End();
+
+            return RedirectToAction("Index");
+        }
     }
 }

@@ -22,14 +22,11 @@
             </td>
             <td width="15px"></td>
             <td>
-                Initial Date (mm/dd/yyyy):
-                @Html.JQueryUI().Datepicker("InitialDate").AutoSize(true)
-                <!--@Html.TextBox("nitialDate", ViewBag.InitialFilter as string)-->
+                Initial Date (mm/dd/yyyy): @Html.JQueryUI().Datepicker("InitialDate").AutoSize(true)
             </td>
             <td width="15px"></td>
             <td>
-                Final Date (mm/dd/yyyy): <!--@Html.TextBox("FinalDate", ViewBag.FinalFilter as string)-->
-                @Html.JQueryUI().Datepicker("FinalDate").AutoSize(true)
+                Final Date (mm/dd/yyyy): @Html.JQueryUI().Datepicker("FinalDate").AutoSize(true)
             </td>
             <td width="15px"></td>
             <td>
@@ -50,6 +47,8 @@
 
 @Session["Display"] 
 
+@using (Html.BeginForm("ExportData", "FeeCodes", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
 <table class="table">
     <tr><td width="5px"></td></tr>
     <tr>
@@ -195,8 +194,13 @@
         </td>
     </tr>
 }
-
+    @*<tr>
+        <td>
+            <input type="submit" name="Export" id="Export" value="Export" class="btn btn-success" />
+        </td>
+    </tr>*@
 </table>
+}
 <br />
 
 Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount

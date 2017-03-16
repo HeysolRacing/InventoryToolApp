@@ -555,9 +555,10 @@ namespace InventoryTool.Controllers
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "PhantomEdit")]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(int id, string comments)
         {
             CR cR = db.CRs.Find(id);
+            cR.MaintenanceComments = comments;
             cR.Status = "Canceled";
             db.SaveChanges();
             return RedirectToAction("Index");

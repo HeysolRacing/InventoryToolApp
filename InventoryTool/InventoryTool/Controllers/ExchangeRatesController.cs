@@ -4,6 +4,7 @@ using System.Net;
 using System.Web.Mvc;
 using InventoryTool.Models;
 using System.Data.Entity;
+using System.Security.Claims;
 
 namespace InventoryTool.Controllers
 {
@@ -52,7 +53,23 @@ namespace InventoryTool.Controllers
                 {
                     exchangeRate.Exchangedate = DateTime.Now;
                     exchangeRate.Created = DateTime.Now;
-                    exchangeRate.CreatedBy = Environment.UserName;
+                    var userIdValue = Environment.UserName;
+
+
+                    var claimsIdentity = User.Identity as ClaimsIdentity;
+                    if (claimsIdentity != null)
+                    {
+                        // the principal identity is a claims identity.
+                        // now we need to find the NameIdentifier claim
+                        var userIdClaim = claimsIdentity.Claims
+                            .FirstOrDefault(x => x.Type == ClaimTypes.Name);
+
+                        if (userIdClaim != null)
+                        {
+                            userIdValue = userIdClaim.Value;
+                        }
+                    }
+                    exchangeRate.CreatedBy = userIdValue;
                     db.ExchangeRates.Add(exchangeRate);
                     db.SaveChanges();
                 }

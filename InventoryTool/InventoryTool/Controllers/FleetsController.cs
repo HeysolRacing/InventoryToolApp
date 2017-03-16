@@ -9,6 +9,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI;
 using InventoryTool.Models;
 using PagedList;
+using System.Security.Claims;
 
 namespace InventoryTool.Controllers
 {
@@ -59,7 +60,7 @@ namespace InventoryTool.Controllers
             return View(fleets.ToPagedList(pageNumber, pageSize));
         }
 
-        //[Authorize(Roles = "InventoryView")]
+        [Authorize(Roles = "PhantomView")]
         public ViewResult Phantom(string sortOrder, string currentFilter, string searchString, int? page)
         {
             ViewBag.CurrentSort = sortOrder;
@@ -107,6 +108,7 @@ namespace InventoryTool.Controllers
             return View(fleets.ToPagedList(pageNumber, pageSize));
         }
 
+        [Authorize(Roles = "PhantomCreate")]
         public ActionResult Select(int? id)
         {
             Fleet fleet = db.Fleets.Find(id);
@@ -116,7 +118,24 @@ namespace InventoryTool.Controllers
             cr.UnitNumber = fleet.UnitNumber;
             cr.Status = "none";
             cr.Clientname = fleet.Level_2;
-            cr.CreatedBy = Environment.UserName;
+            var userIdValue = Environment.UserName;
+
+
+            var claimsIdentity = User.Identity as ClaimsIdentity;
+            if (claimsIdentity != null)
+            {
+                // the principal identity is a claims identity.
+                // now we need to find the NameIdentifier claim
+                var userIdClaim = claimsIdentity.Claims
+                    .FirstOrDefault(x => x.Type == ClaimTypes.Name);
+
+                if (userIdClaim != null)
+                {
+                    userIdValue = userIdClaim.Value;
+                }
+            }
+
+            cr.CreatedBy = userIdValue;
             cr.Servicedate = DateTime.Now;
             cr.Invoicedate = DateTime.Now;
             cr.Paymentdate = DateTime.Now;
@@ -185,7 +204,23 @@ namespace InventoryTool.Controllers
             if (ModelState.IsValid)
             {
                 fleet.Created = DateTime.Now;
-                fleet.CreatedBy = Environment.UserName;
+                var userIdValue = Environment.UserName;
+
+
+                var claimsIdentity = User.Identity as ClaimsIdentity;
+                if (claimsIdentity != null)
+                {
+                    // the principal identity is a claims identity.
+                    // now we need to find the NameIdentifier claim
+                    var userIdClaim = claimsIdentity.Claims
+                        .FirstOrDefault(x => x.Type == ClaimTypes.Name);
+
+                    if (userIdClaim != null)
+                    {
+                        userIdValue = userIdClaim.Value;
+                    }
+                }
+                fleet.CreatedBy = userIdValue;
                 db.Fleets.Add(fleet);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -201,7 +236,23 @@ namespace InventoryTool.Controllers
             if (ModelState.IsValid)
             {
                 fleet.Created = DateTime.Now;
-                fleet.CreatedBy = Environment.UserName;
+                var userIdValue = Environment.UserName;
+
+
+                var claimsIdentity = User.Identity as ClaimsIdentity;
+                if (claimsIdentity != null)
+                {
+                    // the principal identity is a claims identity.
+                    // now we need to find the NameIdentifier claim
+                    var userIdClaim = claimsIdentity.Claims
+                        .FirstOrDefault(x => x.Type == ClaimTypes.Name);
+
+                    if (userIdClaim != null)
+                    {
+                        userIdValue = userIdClaim.Value;
+                    }
+                }
+                fleet.CreatedBy = userIdValue;
                 db.Entry(fleet).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
