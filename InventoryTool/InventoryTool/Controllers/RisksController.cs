@@ -12,6 +12,7 @@ using System.IO;
 using System.Web.UI;
 using PagedList;
 using InventoryTool.Models;
+using System.Security.Claims;
 
 namespace ContosoUniversity.Controllers
 {
@@ -123,7 +124,21 @@ namespace ContosoUniversity.Controllers
             if (ModelState.IsValid)
             {
                 risk.Created = DateTime.Now;
-                risk.CreatedBy = Environment.UserName;
+                var userIdValue = Environment.UserName;
+                var claimsIdentity = User.Identity as ClaimsIdentity;
+                if (claimsIdentity != null)
+                {
+                    // the principal identity is a claims identity.
+                    // now we need to find the NameIdentifier claim
+                    var userIdClaim = claimsIdentity.Claims
+                        .FirstOrDefault(x => x.Type == ClaimTypes.Name);
+
+                    if (userIdClaim != null)
+                    {
+                        userIdValue = userIdClaim.Value;
+                    }
+                }
+                risk.CreatedBy = userIdValue;
                 db.Risks.Add(risk);
                 db.SaveChanges();
                 return RedirectToAction("List");
@@ -165,7 +180,23 @@ namespace ContosoUniversity.Controllers
             if (ModelState.IsValid)
             {
                 risk.Created = DateTime.Now;
-                risk.CreatedBy = Environment.UserName;
+                var userIdValue = Environment.UserName;
+
+
+                var claimsIdentity = User.Identity as ClaimsIdentity;
+                if (claimsIdentity != null)
+                {
+                    // the principal identity is a claims identity.
+                    // now we need to find the NameIdentifier claim
+                    var userIdClaim = claimsIdentity.Claims
+                        .FirstOrDefault(x => x.Type == ClaimTypes.Name);
+
+                    if (userIdClaim != null)
+                    {
+                        userIdValue = userIdClaim.Value;
+                    }
+                }
+                risk.CreatedBy = userIdValue;
                 db.Entry(risk).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("List");

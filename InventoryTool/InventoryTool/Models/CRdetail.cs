@@ -12,6 +12,7 @@ namespace InventoryTool.Models
         public int ID { get; set; }
         public int IDCR { get; set; }
         [Display(Name = "Quantity")]
+        [Range(0, int.MaxValue, ErrorMessage = "Please enter positive integer number")]
         public int Quantity { get; set; }
         [Display(Name = "ATA code")]
         public int Atacode { get; set; }
@@ -26,7 +27,6 @@ namespace InventoryTool.Models
         [DisplayFormat(DataFormatString = "{0:#,###0.00}")]
         public decimal Authorized { get; set; }
         [Display(Name = "Create Date")]
-        [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime CreateDate { get; set; }
         [Display(Name = "Created By")]

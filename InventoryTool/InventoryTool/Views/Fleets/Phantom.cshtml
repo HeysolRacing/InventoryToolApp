@@ -10,10 +10,10 @@
 <p>
     @Html.ActionLink("Phantom Home", "Index","Phantom")
 </p>
-@using (Html.BeginForm("Index", "Fleets", FormMethod.Get))
+@using (Html.BeginForm("Phantom", "Fleets", FormMethod.Get))
 {
     <p>
-        Find by : @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+        Find by Vin Number/Fleet Number/Unit Number: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
         <input type="submit" value="Search" class="btn btn-info" />
     </p>
 }
@@ -28,14 +28,14 @@
                 Corp Code
             </th>
             <th>
-                @Html.ActionLink("Vin Number", "Index", new { sortOrder = ViewBag.VINSortParm, currentFilter = ViewBag.CurrentFilter })
+                @Html.ActionLink("Vin Number", "Phantom", new { sortOrder = ViewBag.VINSortParm, currentFilter = ViewBag.CurrentFilter })
 
             </th>
             <th>
-                @Html.ActionLink("Fleet Number", "Index", new { sortOrder = ViewBag.FleetSortParm, currentFilter = ViewBag.CurrentFilter })
+                @Html.ActionLink("Fleet Number", "Phantom", new { sortOrder = ViewBag.FleetSortParm, currentFilter = ViewBag.CurrentFilter })
             </th>
             <th>
-                @Html.ActionLink("Unit Number", "Index", new { sortOrder = ViewBag.UnitSortParm, currentFilter = ViewBag.CurrentFilter })
+                @Html.ActionLink("Unit Number", "Phantom", new { sortOrder = ViewBag.UnitSortParm, currentFilter = ViewBag.CurrentFilter })
             </th>
            
             <th>
@@ -298,6 +298,6 @@
 <br />
 Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 
-@Html.PagedListPager(Model, page => Url.Action("Index",
+@Html.PagedListPager(Model, page => Url.Action("Phantom",
         new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
 

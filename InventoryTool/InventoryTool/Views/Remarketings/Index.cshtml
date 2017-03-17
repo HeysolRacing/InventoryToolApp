@@ -111,13 +111,12 @@
                         @Html.ActionLink("ON-ROAD", "OffEdit", new { id = item.ID })
                         break;
                     case "INACTIVE":
-                        @Html.ActionLink("FOR SALE", "SaleEdit", new { id = item.ID })
+                        @Html.ActionLink("OFF-ROAD", "SaleEdit", new { id = item.ID })
                         break;
                     default:
-                        <span>SOLD</span>
+                        <span>Sold</span>
                         break;
                 }
-
             }          
         </td>
         <td>

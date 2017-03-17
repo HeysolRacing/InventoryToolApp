@@ -36,6 +36,7 @@ namespace InventoryTool.Controllers
             ViewBag.CurrentFilter = searchString;
 
             var suppliers = from s in db.Suppliers
+                            where s.Status.Contains("A")
                             select s;
             if (!String.IsNullOrEmpty(searchString))
             {
@@ -64,6 +65,7 @@ namespace InventoryTool.Controllers
             return View(suppliers.ToPagedList(pageNumber, pageSize));
 
         }
+        
         // GET: Ssuppliers
         public ActionResult List(string sortOrder, string currentFilter, string searchString, int? page, int? id, int? screen)
         {
@@ -113,7 +115,6 @@ namespace InventoryTool.Controllers
             return View(suppliers.ToPagedList(pageNumber, pageSize));
 
         }
-
 
         public ActionResult Select(int? id, int cr, int screen)
         {
@@ -169,7 +170,7 @@ namespace InventoryTool.Controllers
             {
                 db.Suppliers.Add(ssupplier);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("List");
             }
 
             return View(ssupplier);
@@ -201,9 +202,38 @@ namespace InventoryTool.Controllers
             {
                 db.Entry(ssupplier).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("List");
             }
             return View(ssupplier);
+        }
+
+        // GET: Ssuppliers/Edit/5
+        public ActionResult Cancel(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Ssupplier ssupplier = db.Suppliers.Find(id);
+            if (ssupplier == null)
+            {
+                return HttpNotFound();
+            }
+            return View(ssupplier);
+        }
+
+        // POST: Ssuppliers/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Cancel(int id)
+        {
+            Ssupplier ssupplier = db.Suppliers.Find(id);
+            ssupplier.Status = "Blocked";
+            db.Entry(ssupplier).State = EntityState.Modified;
+            db.SaveChanges();
+            return RedirectToAction("List");
         }
 
         // GET: Ssuppliers/Delete/5

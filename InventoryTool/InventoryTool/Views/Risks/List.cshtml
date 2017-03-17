@@ -13,7 +13,7 @@
     @Html.ActionLink("New Credit Line", "Create")<br />
     @Html.ActionLink("New Request", "Check")
 </p>
-@using (Html.BeginForm("Risk list", "Risks", FormMethod.Get))
+@using (Html.BeginForm("List", "Risks", FormMethod.Get))
 {
     <p>
         Find by: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)

@@ -68,7 +68,7 @@ namespace InventoryTool.Controllers
                         string outputValue =item.Total.ToString("0000000.00");
                         string odometer = item.Odometer.ToString("0000000000");
                         string formatdate = date.Year.ToString() + date.Month.ToString("00") + date.Day.ToString("00");
-                        string record = padwa + "|" + vin + "|" + outputValue + "|" + formatdate + "|" + odometer;
+                        string record = wa + "|" + vin + "|" + outputValue + "|" + formatdate + "|" + odometer;
                         sw.WriteLine(record);
                     }
                    

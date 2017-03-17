@@ -211,8 +211,7 @@ namespace InventoryTool.Controllers
             return View(crdetail.ToList());
         }
 
-        // GET: CRs
-        
+        // GET: CRs 
         public ActionResult General(string sortOrder, string currentFilter, string searchString, DateTime? from, DateTime? to, int? page)
         {
             ViewBag.CurrentSort = sortOrder;
@@ -240,7 +239,7 @@ namespace InventoryTool.Controllers
             var crs = from a in db.CRs
                       join c in db.CRdetails on a.crID equals c.IDCR
                       where a.Status != "none"
-                      select new { a.crID, a.WAnumber, a.VINnumber,a.Servicedate,a.Odometer,a.Status,a.Supplier,a.Suppliername
+                      select new { a.crID, a.WAnumber, a.FleetNumber, a.UnitNumber, a.VINnumber,a.Servicedate,a.Odometer,a.Status,a.Supplier,a.Suppliername
                       ,a.Clientname,a.Subtotal,a.IVA, a.Total, c.ID, c.IDCR, c.Quantity,c.Atacode,c.Description
                       ,c.Requested,c.Authorized,c.CreateDate,c.CreatedBy, a.OkedBy
                       ,a.Invoicenumber, a.Invoicedate,a.Amountpaid,a.Paymentdate,a.MaintenanceComments,a.ApComments};
@@ -327,6 +326,8 @@ namespace InventoryTool.Controllers
                 General ag = new General();
                 ag.crID = item.crID;
                 ag.WAnumber = item.WAnumber;
+                ag.FleetNumber = item.FleetNumber;
+                ag.UnitNumber = item.UnitNumber;
                 ag.VINnumber = item.VINnumber;
                 ag.Servicedate = item.Servicedate;
                 ag.Odometer = item.Odometer;
@@ -398,9 +399,10 @@ namespace InventoryTool.Controllers
                       select s;
             crs = crs.Where(s => s.VINnumber.ToString().Contains(cR.VINnumber.ToString()) && s.Odometer > 0);
             crs = crs.OrderByDescending(s => s.crID);
-            var crshistoric = crs.First();
-            if (crshistoric == null)
-            { crshistoric = new CR(); }
+            var crshistoric = new CR();
+            if (crs.Count() >0)
+            { crshistoric = crs.First(); }
+           
             ViewData["CRhistoric"] = crshistoric;
 
 
@@ -553,9 +555,10 @@ namespace InventoryTool.Controllers
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "PhantomEdit")]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(int id, string comments)
         {
             CR cR = db.CRs.Find(id);
+            cR.MaintenanceComments = comments;
             cR.Status = "Canceled";
             db.SaveChanges();
             return RedirectToAction("Index");

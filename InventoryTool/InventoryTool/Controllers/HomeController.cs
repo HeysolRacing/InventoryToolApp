@@ -8,6 +8,7 @@ namespace InventoryTool.Controllers
 {
     public class HomeController : Controller
     {
+       // [Authorize(Roles = "ApplicationUser")]
         public ActionResult Index()
         {
             return View();

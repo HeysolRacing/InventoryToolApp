@@ -12,6 +12,7 @@ using System.Web.UI.WebControls;
 using System.IO;
 using System.Web.UI;
 using InventoryTool.Models;
+using System.Security.Claims;
 
 namespace ContosoUniversity.Controllers
 {
@@ -108,8 +109,23 @@ namespace ContosoUniversity.Controllers
         {
             if (ModelState.IsValid)
             {
-                
-                transactionLog.CreatedBy = Environment.UserName;
+                var userIdValue = Environment.UserName;
+
+
+                var claimsIdentity = User.Identity as ClaimsIdentity;
+                if (claimsIdentity != null)
+                {
+                    // the principal identity is a claims identity.
+                    // now we need to find the NameIdentifier claim
+                    var userIdClaim = claimsIdentity.Claims
+                        .FirstOrDefault(x => x.Type == ClaimTypes.Name);
+
+                    if (userIdClaim != null)
+                    {
+                        userIdValue = userIdClaim.Value;
+                    }
+                }
+                transactionLog.CreatedBy = userIdValue;
                 transactionLog.Created = DateTime.Now;
                 var risk = from s in db.Risks
                             select s;
@@ -124,26 +140,26 @@ namespace ContosoUniversity.Controllers
                 string parent = risk.ToList()[0].ParentName;
                 risks = risks.Where(s => s.ParentName.Contains(parent));
 
-                decimal CreditLine = 0.0m;
-                decimal OutstandingBalance = 0.0m;
-                decimal WorkProgress= 0.0m;
-                decimal InFlight= 0.0m;
-                decimal sum = 0.0m;
+                decimal CreditLine = risk.ToList()[0].CreditLine;
+                decimal OutstandingBalance = risk.ToList()[0].OutstandingBalance;
+                decimal WorkProgress = risk.ToList()[0].WorkProgress;
+                decimal InFlight = risk.ToList()[0].InFlight;
+                decimal sum = risk.ToList()[0].Sum;
 
-                foreach (var item in risks)
-                {
-                    CreditLine = CreditLine + item.CreditLine;
-                    OutstandingBalance = OutstandingBalance + item.OutstandingBalance;
-                    WorkProgress = WorkProgress + item.WorkProgress;
-                    InFlight = InFlight + item.InFlight;
-                    sum = sum + item.Sum;
-                }
-               transactionLog.CreditLineInitial = CreditLine;
-                transactionLog.OutstandingBalance = OutstandingBalance;
-                transactionLog.WorkProgress = WorkProgress;
-                transactionLog.InFlight = InFlight;
-                transactionLog.Sum = sum;
-                if(transactionLog.QuotationAmount < (CreditLine-(OutstandingBalance + InFlight + WorkProgress)) && DateTime.Now < risk.ToList()[0].ExpirationDate)
+                // foreach (var item in risks)
+                // {
+                //     CreditLine = CreditLine + item.CreditLine;
+                //     OutstandingBalance = OutstandingBalance + item.OutstandingBalance;
+                //     WorkProgress = WorkProgress + item.WorkProgress;
+                //     InFlight = InFlight + item.InFlight;
+                //     sum = sum + item.Sum;
+                // }
+                //transactionLog.CreditLineInitial = CreditLine;
+                // transactionLog.OutstandingBalance = OutstandingBalance;
+                // transactionLog.WorkProgress = WorkProgress;
+                // transactionLog.InFlight = InFlight;
+                // transactionLog.Sum = sum;
+                if (transactionLog.QuotationAmount < (CreditLine-(OutstandingBalance + InFlight + WorkProgress)) && DateTime.Now < risk.ToList()[0].ExpirationDate)
                 {
                     transactionLog.RequestStatus = "approved";
                     foreach (Risk item in risks)

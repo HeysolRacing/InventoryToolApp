@@ -9,13 +9,13 @@
 <br />
 <h2>Suppliers Catalog</h2>
 <br />
-@*<p>
+<p>
         @Html.ActionLink("Create New", "Create")
-    </p>*@
+    </p>
 @using (Html.BeginForm("Index", "Ssuppliers", FormMethod.Get))
 {
     <p>
-        Find by: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+        Find by Supplier Name/ZIP Code/Main phone: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
         <input type="submit" value="Search" class="btn btn-info" />
     </p>
 }
@@ -24,7 +24,7 @@
     <tr>
         <th></th>
         <th>
-            @Html.ActionLink("Supplier Name", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
+            @Html.ActionLink("Supplier Name", "List", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>Legal Name</th>
         <th>
@@ -37,10 +37,10 @@
             State
         </th>
         <th>
-            @Html.ActionLink("ZIP Code", "Index", new { sortOrder = ViewBag.ObligorSortParm, currentFilter = ViewBag.CurrentFilter })
+            @Html.ActionLink("ZIP Code", "List", new { sortOrder = ViewBag.ObligorSortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
-            @Html.ActionLink("Main phone", "Index", new { sortOrder = ViewBag.DateSortParm, currentFilter = ViewBag.CurrentFilter })
+            @Html.ActionLink("Main phone", "List", new { sortOrder = ViewBag.DateSortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
             Fax
@@ -82,7 +82,7 @@
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.SupplierID }) |
                 @Html.ActionLink("Details", "Details", new { id = item.SupplierID }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.SupplierID })
+                @Html.ActionLink("Block", "Cancel", new { id = item.SupplierID })
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.SupplierName)

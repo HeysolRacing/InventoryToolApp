@@ -244,6 +244,18 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201703101745215_column.cs" />
+    <Compile Include="Migrations\201703101745215_column.Designer.cs">
+      <DependentUpon>201703101745215_column.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703102248102_solddate.cs" />
+    <Compile Include="Migrations\201703102248102_solddate.Designer.cs">
+      <DependentUpon>201703102248102_solddate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703132211463_fix.cs" />
+    <Compile Include="Migrations\201703132211463_fix.Designer.cs">
+      <DependentUpon>201703132211463_fix.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\Acode.cs" />
     <Compile Include="Models\CR.cs" />
     <Compile Include="Models\CRdetail.cs" />
@@ -385,6 +397,8 @@
     <Content Include="Views\FeeCodes\Details.cshtml" />
     <Content Include="Views\FeeCodes\Edit.cshtml" />
     <Content Include="Views\FeeCodes\Index.cshtml" />
+    <Content Include="Views\ReadExcel\Index.cshtml" />
+    <Content Include="Views\ReadExcel\Import.cshtml" />
     <Content Include="Views\CRs\Create.cshtml" />
     <Content Include="Views\CRs\Delete.cshtml" />
     <Content Include="Views\CRs\Details.cshtml" />
@@ -448,10 +462,10 @@
     <Content Include="Views\Fleets\Edit.cshtml" />
     <Content Include="Views\Fleets\Index.cshtml" />
     <Content Include="Views\Fleets\Phantom.cshtml" />
+    <Content Include="Views\Ssuppliers\Cancel.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Migrations\" />
     <Folder Include="UploadedFiles\" />
   </ItemGroup>
   <ItemGroup>
@@ -464,6 +478,17 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201703101745215_column.resx">
+      <DependentUpon>201703101745215_column.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703102248102_solddate.resx">
+      <DependentUpon>201703102248102_solddate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703132211463_fix.resx">
+      <DependentUpon>201703132211463_fix.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -1,7 +1,7 @@
 ﻿@model InventoryTool.ViewModels.newCR
 @using InventoryTool.Models
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Edit"; 
 }
 <br />
 <h2>Edit C&R</h2>
@@ -31,83 +31,85 @@
         @Html.HiddenFor(model => model.cr.CreatedBy)
         @Html.HiddenFor(model => model.cr.Invoicedate)
         @Html.HiddenFor(model => model.cr.Paymentdate)
+        @Html.HiddenFor(model => model.cr.FleetNumber)
+        @Html.HiddenFor(model => model.cr.UnitNumber)
 
-        <div class="form-group">
-            <div class="col-md-12">
-                <input type="submit" value="Save changes" class="btn btn-warning" />
-                <span> | @Html.ActionLink("Approve", "Approve", new { id = Model.cr.crID })</span>
-                <span> | @Html.ActionLink("Back to List", "Index")</span>
+            <div class="form-group">
+                <div class="col-md-12">
+                    <input type="submit" value="Save changes" class="btn btn-warning" />
+                    <span> | @Html.ActionLink("Approve", "Approve", new { id = Model.cr.crID })</span>
+                    <span> | @Html.ActionLink("Back to List", "Index")</span>
+                </div>
             </div>
-        </div>
-        <hr />
-        <div class="form-group col-md-6">
-            @Html.LabelFor(model => model.cr.WAnumber, htmlAttributes: new { @class = "control-label col-md-4" })
-            <div class="col-md-6">
-                @Html.DisplayFor(model => model.cr.WAnumber, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.HiddenFor(model => model.cr.WAnumber)
+            <hr />
+            <div class="form-group col-md-6">
+                @Html.LabelFor(model => model.cr.WAnumber, htmlAttributes: new { @class = "control-label col-md-4" })
+                <div class="col-md-6">
+                    @Html.DisplayFor(model => model.cr.WAnumber, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.HiddenFor(model => model.cr.WAnumber)
+                </div>
             </div>
-        </div>
 
-        <div class="form-group col-md-6">
-            @Html.LabelFor(model => model.cr.VINnumber, htmlAttributes: new { @class = "control-label col-md-4" })
-            <div class="col-md-6">
-                @Html.DisplayFor(model => model.cr.VINnumber, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.HiddenFor(model => model.cr.VINnumber)
+            <div class="form-group col-md-6">
+                @Html.LabelFor(model => model.cr.VINnumber, htmlAttributes: new { @class = "control-label col-md-4" })
+                <div class="col-md-6">
+                    @Html.DisplayFor(model => model.cr.VINnumber, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.HiddenFor(model => model.cr.VINnumber)
+                </div>
             </div>
-        </div>
-        <div class="form-group col-md-6">
-            @Html.LabelFor(model => model.cr.Clientname, htmlAttributes: new { @class = "control-label col-md-4" })
-            <div class="col-md-6">
-                @Html.DisplayFor(model => model.cr.Clientname, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.HiddenFor(model => model.cr.Clientname)
+            <div class="form-group col-md-6">
+                @Html.LabelFor(model => model.cr.Clientname, htmlAttributes: new { @class = "control-label col-md-4" })
+                <div class="col-md-6">
+                    @Html.DisplayFor(model => model.cr.Clientname, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.HiddenFor(model => model.cr.Clientname)
+                </div>
             </div>
-        </div>
-        <div class="form-group col-md-6">
-            @Html.LabelFor(model => model.cr.Servicedate, htmlAttributes: new { @class = "control-label col-md-4" })
-            <div class="col-md-6">
-                @Html.DisplayFor(model => model.cr.Servicedate, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.HiddenFor(model => model.cr.Servicedate)
+            <div class="form-group col-md-6">
+                @Html.LabelFor(model => model.cr.Servicedate, htmlAttributes: new { @class = "control-label col-md-4" })
+                <div class="col-md-6">
+                    @Html.DisplayFor(model => model.cr.Servicedate, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.HiddenFor(model => model.cr.Servicedate)
+                </div>
             </div>
-        </div>
 
-        <div class="form-group col-md-6">
-            @Html.LabelFor(model => model.cr.Odometer, htmlAttributes: new { @class = "control-label col-md-4" })
-            <div class="col-md-6">
-                @Html.EditorFor(model => model.cr.Odometer, new { htmlAttributes = new { @class = "form-control" } })
+            <div class="form-group col-md-6">
+                @Html.LabelFor(model => model.cr.Odometer, htmlAttributes: new { @class = "control-label col-md-4" })
+                <div class="col-md-6">
+                    @Html.EditorFor(model => model.cr.Odometer, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
             </div>
-        </div>
 
-        <div class="form-group col-md-6">
-            @Html.LabelFor(model => model.cr.Status, htmlAttributes: new { @class = "control-label col-md-4" })
-            <div class="col-md-6">
-                @Html.DisplayFor(model => model.cr.Status, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.HiddenFor(model => model.cr.Status)
+            <div class="form-group col-md-6">
+                @Html.LabelFor(model => model.cr.Status, htmlAttributes: new { @class = "control-label col-md-4" })
+                <div class="col-md-6">
+                    @Html.DisplayFor(model => model.cr.Status, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.HiddenFor(model => model.cr.Status)
+                </div>
             </div>
-        </div> 
-        <div class="form-group col-md-6">
-            
-            @Html.LabelFor(model => model.cr.Supplier, htmlAttributes: new { @class = "control-label col-md-4" })
-            
-            <div class="col-md-6">
-                @Html.ActionLink("Supplier", "Supplier", new { @class = "control-label col-md-4", id = Model.cr.crID, screen = 2 })
-                @Html.EditorFor(model => model.cr.Supplier, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(m => m.cr.Odometer, "", new { @class = "text-danger" })
-                @Html.ValidationMessageFor(m => m.cr.Supplier, "", new { @class = "text-danger" })
-                @{Ssupplier supplier= (Ssupplier)ViewData["supplier"]; }
-                <p><span>Supplier name:</span>@supplier.SupplierName</p>
-                <span>Telephone/fax/email:</span>@supplier.Telephone
+            <div class="form-group col-md-6">
+
+                @Html.LabelFor(model => model.cr.Supplier, htmlAttributes: new { @class = "control-label col-md-4" })
+
+                <div class="col-md-6">
+                    @Html.ActionLink("Supplier", "Supplier", new { @class = "control-label col-md-4", id = Model.cr.crID, screen = 2 })
+                    @Html.DisplayFor(model => model.cr.Supplier, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(m => m.cr.Odometer, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(m => m.cr.Supplier)
+                    @{Ssupplier supplier = (Ssupplier)ViewData["supplier"]; }
+                    <p><span>Supplier name:</span>@supplier.SupplierName</p>
+                    <span>Telephone/fax/email:</span>@supplier.Telephone
+                </div>
+
+
             </div>
-            
-           
-        </div> 
-        <div class="form-group col-md-6">
-            @Html.LabelFor(model => model.cr.MaintenanceComments, htmlAttributes: new { @class = "control-label col-md-4" })
-            <div class="col-md-6">
-                @Html.EditorFor(model => model.cr.MaintenanceComments, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.cr.MaintenanceComments, "", new { @class = "text-danger" })
+            <div class="form-group col-md-6">
+                @Html.LabelFor(model => model.cr.MaintenanceComments, htmlAttributes: new { @class = "control-label col-md-4" })
+                <div class="col-md-6">
+                    @Html.EditorFor(model => model.cr.MaintenanceComments, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.cr.MaintenanceComments, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>    
-    </div>
+</div>
 }
 </div>
 

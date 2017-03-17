@@ -109,7 +109,8 @@
 
     @using (Html.BeginForm()) {
         @Html.AntiForgeryToken()
-
+        <span><b>Comments:</b> &nbsp;</span><input type="text" name="comments" value="@Model.MaintenanceComments">
+        <br /><br />
         <div class="form-actions no-color">
             <input type="submit" value="Cancel" class="btn btn-danger" /> |
             @Html.ActionLink("Back to List", "Index")

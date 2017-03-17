@@ -14,17 +14,17 @@ namespace InventoryTool.Models
 
         [Display(Name = "Fleet Number")]
         [Required(ErrorMessage = "You must enter {0}")]
-        [StringLength(30, ErrorMessage = "The field {0} must be between {2} and {1} characters", MinimumLength = 2)]
+        [StringLength(30, ErrorMessage = "The field {0} must be between {2} and {1} characters", MinimumLength = 5)]
         public string FleetNumber { get; set; }
 
         [Display(Name = "Unit Number")]
         [Required(ErrorMessage = "You must enter {0}")]
-        [StringLength(30, ErrorMessage = "The field {0} must be between {2} and {1} characters", MinimumLength = 2)]
+        [StringLength(30, ErrorMessage = "The field {0} must be between {2} and {1} characters", MinimumLength = 7)]
         public string UnitNumber { get; set; }
 
         [Display(Name = "Vin Number")]
         [Required(ErrorMessage = "You must enter {0}")]
-        [StringLength(30, ErrorMessage = "The field {0} must be between {2} and {1} characters", MinimumLength = 2)]
+        [StringLength(30, ErrorMessage = "The field {0} must be between {2} and {1} characters", MinimumLength = 10)]
         public string VinNumber { get; set; }
 
         [Display(Name = "Contract Type")]
@@ -37,7 +37,7 @@ namespace InventoryTool.Models
         public string Make { get; set; }
 
         [Required(ErrorMessage = "You must enter {0}")]
-        [StringLength(20, ErrorMessage = "The field {0} must be between {2} and {1} characters", MinimumLength = 2)]
+        [StringLength(20, ErrorMessage = "The field {0} must be between {2} and {1} characters", MinimumLength = 5)]
         public string ModelCar { get; set; }
 
         public int ModelYear { get; set; }

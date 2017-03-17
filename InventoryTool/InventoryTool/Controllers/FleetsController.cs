@@ -9,6 +9,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI;
 using InventoryTool.Models;
 using PagedList;
+using System.Security.Claims;
 
 namespace InventoryTool.Controllers
 {
@@ -59,7 +60,7 @@ namespace InventoryTool.Controllers
             return View(fleets.ToPagedList(pageNumber, pageSize));
         }
 
-        //[Authorize(Roles = "InventoryView")]
+        [Authorize(Roles = "PhantomView")]
         public ViewResult Phantom(string sortOrder, string currentFilter, string searchString, int? page)
         {
             ViewBag.CurrentSort = sortOrder;
@@ -79,11 +80,11 @@ namespace InventoryTool.Controllers
 
             if (!String.IsNullOrEmpty(searchString))
             { fleets = fleets.Where(s => s.VinNumber.ToString().Contains(searchString) || s.FleetNumber.ToString().Contains(searchString) || s.UnitNumber.ToString().Contains(searchString)
-            &&( (s.ContractType.Contains("N5"))));
+            &&((s.Offroad_date == null && s.ContractType.Contains("N5"))));
             }
             else
             {
-                fleets = fleets.Where(s =>(s.ContractType.ToString().Contains("N5")));
+                fleets = fleets.Where(s => s.Offroad_date == null && s.ContractType.ToString().Contains("N5"));
             }
 
             switch (sortOrder)
@@ -107,14 +108,34 @@ namespace InventoryTool.Controllers
             return View(fleets.ToPagedList(pageNumber, pageSize));
         }
 
+        [Authorize(Roles = "PhantomCreate")]
         public ActionResult Select(int? id)
         {
             Fleet fleet = db.Fleets.Find(id);
             CR cr = new CR();
             cr.VINnumber = fleet.VinNumber;
+            cr.FleetNumber = fleet.FleetNumber;
+            cr.UnitNumber = fleet.UnitNumber;
             cr.Status = "none";
             cr.Clientname = fleet.Level_2;
-            cr.CreatedBy = Environment.UserName;
+            var userIdValue = Environment.UserName;
+
+
+            var claimsIdentity = User.Identity as ClaimsIdentity;
+            if (claimsIdentity != null)
+            {
+                // the principal identity is a claims identity.
+                // now we need to find the NameIdentifier claim
+                var userIdClaim = claimsIdentity.Claims
+                    .FirstOrDefault(x => x.Type == ClaimTypes.Name);
+
+                if (userIdClaim != null)
+                {
+                    userIdValue = userIdClaim.Value;
+                }
+            }
+
+            cr.CreatedBy = userIdValue;
             cr.Servicedate = DateTime.Now;
             cr.Invoicedate = DateTime.Now;
             cr.Paymentdate = DateTime.Now;
@@ -183,7 +204,23 @@ namespace InventoryTool.Controllers
             if (ModelState.IsValid)
             {
                 fleet.Created = DateTime.Now;
-                fleet.CreatedBy = Environment.UserName;
+                var userIdValue = Environment.UserName;
+
+
+                var claimsIdentity = User.Identity as ClaimsIdentity;
+                if (claimsIdentity != null)
+                {
+                    // the principal identity is a claims identity.
+                    // now we need to find the NameIdentifier claim
+                    var userIdClaim = claimsIdentity.Claims
+                        .FirstOrDefault(x => x.Type == ClaimTypes.Name);
+
+                    if (userIdClaim != null)
+                    {
+                        userIdValue = userIdClaim.Value;
+                    }
+                }
+                fleet.CreatedBy = userIdValue;
                 db.Fleets.Add(fleet);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -199,7 +236,23 @@ namespace InventoryTool.Controllers
             if (ModelState.IsValid)
             {
                 fleet.Created = DateTime.Now;
-                fleet.CreatedBy = Environment.UserName;
+                var userIdValue = Environment.UserName;
+
+
+                var claimsIdentity = User.Identity as ClaimsIdentity;
+                if (claimsIdentity != null)
+                {
+                    // the principal identity is a claims identity.
+                    // now we need to find the NameIdentifier claim
+                    var userIdClaim = claimsIdentity.Claims
+                        .FirstOrDefault(x => x.Type == ClaimTypes.Name);
+
+                    if (userIdClaim != null)
+                    {
+                        userIdValue = userIdClaim.Value;
+                    }
+                }
+                fleet.CreatedBy = userIdValue;
                 db.Entry(fleet).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
