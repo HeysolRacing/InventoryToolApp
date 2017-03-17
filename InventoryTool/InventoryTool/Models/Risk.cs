@@ -10,12 +10,16 @@ namespace ContosoUniversity.Models
     {
         public int ID { get; set; }
 
+        public int? IdEconomicGroup { get; set; }
+
         [StringLength(50)]
         [Display(Name = "Economic Group")]
         public string EconomicGroup
         {
             get; set;
         }
+
+        public int? IdParentName { get; set; }
 
         [StringLength(50)]
         [Display(Name = "Parent Name")]

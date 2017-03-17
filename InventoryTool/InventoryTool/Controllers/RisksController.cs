@@ -26,6 +26,7 @@ namespace ContosoUniversity.Controllers
         {
             return View(db.Risks.ToList());
         }
+
         [Authorize(Roles ="RiskView")]
         public ViewResult List(string sortOrder, string currentFilter, string searchString, int? page)
         {
@@ -73,7 +74,6 @@ namespace ContosoUniversity.Controllers
             int pageNumber = (page ?? 1);
             return View(risks.ToPagedList(pageNumber, pageSize));
         }
-
 
         // GET: Risks/Details/5
         [Authorize(Roles ="RiskView")]
@@ -146,7 +146,6 @@ namespace ContosoUniversity.Controllers
 
             return View(risk);
         }
-
 
         // GET: Risks/Check
         public ActionResult Check()

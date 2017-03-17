@@ -137,8 +137,8 @@ namespace ContosoUniversity.Controllers
                 }
                 var risks = from s in db.Risks
                             select s;
-                string parent = risk.ToList()[0].ParentName;
-                risks = risks.Where(s => s.ParentName.Contains(parent));
+                string parent = risk.ToList()[0].IdParentName.ToString();
+                risks = risks.Where(s => s.ParentName.Equals(parent));
 
                 decimal CreditLine = risk.ToList()[0].CreditLine;
                 decimal OutstandingBalance = risk.ToList()[0].OutstandingBalance;
@@ -159,6 +159,7 @@ namespace ContosoUniversity.Controllers
                 // transactionLog.WorkProgress = WorkProgress;
                 // transactionLog.InFlight = InFlight;
                 // transactionLog.Sum = sum;
+
                 if (transactionLog.QuotationAmount < (CreditLine-(OutstandingBalance + InFlight + WorkProgress)) && DateTime.Now < risk.ToList()[0].ExpirationDate)
                 {
                     transactionLog.RequestStatus = "approved";
