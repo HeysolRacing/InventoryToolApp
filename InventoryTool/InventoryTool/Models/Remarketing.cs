@@ -40,6 +40,7 @@ namespace InventoryTool.Models
         public int? Term { get; set; }
 
         [Display(Name = "Off-road Date")]
+        [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public Nullable<DateTime> OffroadDate { get; set; }
 
@@ -68,6 +69,7 @@ namespace InventoryTool.Models
         public decimal? SaleValue { get; set; }
 
         [Display(Name = "Sold Date")]
+        [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public Nullable<DateTime> SoldDate { get; set; }
 
