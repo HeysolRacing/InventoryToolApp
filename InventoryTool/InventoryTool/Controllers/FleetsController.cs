@@ -18,24 +18,31 @@ namespace InventoryTool.Controllers
         private InventoryToolContext db = new InventoryToolContext();
 
         [Authorize(Roles = "InventoryView")]
-        public ViewResult Index(string sortOrder, string currentFilter, string searchString, int? page)
+        public ViewResult Index(string sortOrder, string currentFilter, string searchString, int? page, string currentLogNo, string searchLogNo)
         {
             ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "LogNumber" : "";
             ViewBag.DateSortParm = sortOrder == "UnitNumber" ? "date_desc" : "Date";
 
-            if (searchString != null)
+            if ((searchString != null) || (searchLogNo != null))
                 page = 1;
             else
+            {
                 searchString = currentFilter;
+                searchLogNo = currentLogNo;
+            }
 
             ViewBag.CurrentFilter = searchString;
+            ViewBag.CurrentLogNo = searchLogNo;
 
             var fleets = from s in db.Fleets.Include(d => d.Driven)
                          select s;
 
             if (!String.IsNullOrEmpty(searchString))
-                fleets = fleets.Where(s => s.LogNumber.ToString().Contains(searchString) || s.FleetNumber.ToString().Contains(searchString));
+                fleets = fleets.Where(s => s.FleetNumber.ToString().Contains(searchString));
+
+            if (!String.IsNullOrEmpty(searchLogNo))
+                fleets = fleets.Where(s => s.LogNumber.ToString().Contains(searchLogNo));
             //else
             //    fleets = fleets.Take(200);
 

@@ -22,8 +22,10 @@ namespace InventoryTool.Controllers
 
         // GET: FeeCodes
         [Authorize(Roles = "FeeCodesView")]
-        public async Task<ActionResult> Index(string sortOrder, string currentFilter, string searchString, int? page, string InitialDate, string InitialFilter,
-                                                string FinalDate, string FinalFilter)
+        public async Task<ActionResult> Index(string sortOrder, string currentFilter, string searchString, int? page, 
+                                              string currentUnit, string searchUnit, string currentLlogNo, string searchLogNo,
+                                              string currentFee, string searchFee,
+                                              string InitialDate, string InitialFilter, string FinalDate, string FinalFilter)
         {
             int inicio = 0, final = 0, pos1 = 0, pos2 = 0;
             string trans;
@@ -31,27 +33,27 @@ namespace InventoryTool.Controllers
             ViewBag.CurrentSort = sortOrder;
             
 
-            ViewBag.UnitSortParm = String.IsNullOrEmpty(sortOrder) ? "UNIT" : "";
-            ViewBag.FeeSortParm = String.IsNullOrEmpty(sortOrder) ? "FEE" : "";
+            ViewBag.UnitSortParm = String.IsNullOrEmpty(sortOrder) ? "Unit" : "";
+            ViewBag.FeeSortParm = String.IsNullOrEmpty(sortOrder) ? "Fee" : "";
             ViewBag.DateSortParm = String.IsNullOrEmpty(sortOrder) ? "MMYY" : "";
+            ViewBag.LogNoSortParm = String.IsNullOrEmpty(sortOrder) ? "LogNo" : "";
 
 
-            if (searchString != null)
+            if ((searchString != null) || (searchUnit != null) || (searchLogNo != null) || (searchFee != null))
                 page = 1;
             else
+            {
                 searchString = currentFilter;
-
-            //if (InitialDate != null)
-            //    page = 1;
-            //else
-            //    InitialDate = InitialFilter;
-
-            //if (FinalDate != null)
-            //    page = 1;
-            //else
-            //    FinalDate = FinalFilter;
+                searchUnit = currentUnit;
+                searchLogNo = currentLlogNo;
+                searchFee = currentFee;
+            }
 
             ViewBag.CurrentFilter = searchString;
+            ViewBag.currentFilter = searchString;
+            ViewBag.currentUnit = searchUnit;
+            ViewBag.currentLlogNo = searchLogNo;
+            ViewBag.currentFee = searchFee;
             ViewBag.InitialFilter = InitialDate;
             ViewBag.FinalFilter = FinalDate;
 
@@ -102,21 +104,45 @@ namespace InventoryTool.Controllers
                      where s.MMYY >= inicio && s.MMYY <= final
                      select s;
 
-            if (!String.IsNullOrEmpty(searchString))
-                fleets = fleets.Where(s => s.Fee.ToString().Equals(searchString) || s.Fleet.ToString().Equals(searchString) || s.Unit.ToString().Equals(searchString) || s.LogNo.ToString().Equals(searchString));
-            else
-                fleets = fleets.Take(100000000);
+                //if (!String.IsNullOrEmpty(searchString))
+                //    fleets = fleets.Where(s => s.Fee.ToString().Equals(searchString) || s.Fleet.ToString().Equals(searchString) || s.Unit.ToString().Equals(searchString) || s.LogNo.ToString().Equals(searchString));
+                //else
+                //    fleets = fleets.Take(100000000);
 
-            switch (sortOrder)
+                if (!String.IsNullOrEmpty(searchString))
+                    fleets = fleets.Where(s => s.Fleet.ToString().Equals(searchString));
+                else
+                    fleets = fleets.Take(100000000);
+
+                if (!String.IsNullOrEmpty(searchUnit))
+                    fleets = fleets.Where(s => s.Unit.ToString().Equals(searchUnit));
+                else
+                    fleets = fleets.Take(100000000);
+
+                if (!String.IsNullOrEmpty(searchLogNo))
+                    fleets = fleets.Where(s => s.LogNo.ToString().Equals(searchLogNo));
+                else
+                    fleets = fleets.Take(100000000);
+
+                if (!String.IsNullOrEmpty(searchFee))
+                    fleets = fleets.Where(s => s.Fee.ToString().Equals(searchFee));
+                else
+                    fleets = fleets.Take(100000000);
+
+
+                switch (sortOrder)
             {
-                case "FEE":
+                case "Fee":
                     fleets = fleets.OrderByDescending(s => s.Fee);
                     break;
-                case "UNIT":
+                case "Unit":
                     fleets = fleets.OrderBy(s => s.Unit);
                     break;
                 case "MMYY":
                     fleets = fleets.OrderByDescending(s => s.MMYY);
+                    break;
+                case "LogNo":
+                    fleets = fleets.OrderByDescending(s => s.LogNo);
                     break;
                 default:
                     fleets = fleets.OrderBy(s => s.Fleet);
