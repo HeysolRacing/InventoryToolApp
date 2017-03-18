@@ -138,7 +138,7 @@ namespace ContosoUniversity.Controllers
                 var risks = from s in db.Risks
                             select s;
                 string parent = risk.ToList()[0].IdParentName.ToString();
-                risks = risks.Where(s => s.ParentName.Equals(parent));
+                risks = risks.Where(s => s.IdParentName.ToString().Equals(parent));
 
                 decimal CreditLine = risk.ToList()[0].CreditLine;
                 decimal OutstandingBalance = risk.ToList()[0].OutstandingBalance;
@@ -146,19 +146,11 @@ namespace ContosoUniversity.Controllers
                 decimal InFlight = risk.ToList()[0].InFlight;
                 decimal sum = risk.ToList()[0].Sum;
 
-                // foreach (var item in risks)
-                // {
-                //     CreditLine = CreditLine + item.CreditLine;
-                //     OutstandingBalance = OutstandingBalance + item.OutstandingBalance;
-                //     WorkProgress = WorkProgress + item.WorkProgress;
-                //     InFlight = InFlight + item.InFlight;
-                //     sum = sum + item.Sum;
-                // }
-                //transactionLog.CreditLineInitial = CreditLine;
-                // transactionLog.OutstandingBalance = OutstandingBalance;
-                // transactionLog.WorkProgress = WorkProgress;
-                // transactionLog.InFlight = InFlight;
-                // transactionLog.Sum = sum;
+                transactionLog.CreditLineInitial = CreditLine;
+                transactionLog.OutstandingBalance = OutstandingBalance;
+                transactionLog.WorkProgress = WorkProgress;
+                transactionLog.InFlight = InFlight;
+                transactionLog.Sum = sum;
 
                 if (transactionLog.QuotationAmount < (CreditLine-(OutstandingBalance + InFlight + WorkProgress)) && DateTime.Now < risk.ToList()[0].ExpirationDate)
                 {
