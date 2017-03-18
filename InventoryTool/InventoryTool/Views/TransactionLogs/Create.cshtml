@@ -15,10 +15,14 @@
         var password = $("#QuotationAmount").val();
         var confirmPassword = $("#QuotationAmountConfirm").val();
 
-        if (password != confirmPassword)
+        if (password != confirmPassword) {
             $("#divCheckPasswordMatch").html("Amounts do not match!");
-        else
+            $("#btnRequest").prop('disabled', true);
+        }
+        else {
             $("#divCheckPasswordMatch").html("Amounts match.");
+            $("#btnRequest").prop('disabled', false);
+        }
     }
 </script>}
 
@@ -92,7 +96,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Request" class="btn btn-info" onclick="return confirm('Are you sure you whant to save this values?');return false;"/>
+                <input type="submit" value="Request" class="btn btn-info" id="btnRequest" onclick="return confirm('Are you sure you whant to save this values?');return false;"/>
             </div>
         </div>
     </div>
