@@ -11,7 +11,9 @@
 @using (Html.BeginForm("Index", "Remarketings", FormMethod.Get))
 {
     <p>
-        Find by : @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+        Find by Status: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string) 
+        Or Fleet: @Html.TextBox("fleetString", ViewBag.fleetFilter as string) 
+        Or Log number: @Html.TextBox("logString", ViewBag.logFilter as string) 
         <input type="submit" value="Search" class="btn btn-info" />
     </p>
 }

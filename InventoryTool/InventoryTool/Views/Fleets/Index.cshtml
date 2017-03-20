@@ -13,7 +13,8 @@
 @using (Html.BeginForm("Index", "Fleets", FormMethod.Get))
 {
     <p>
-        Find by Fleet Or LogNumber: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+        Find by LogNumber: @Html.TextBox("logString", ViewBag.logString as string)
+        Or Fleet: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
         <input type="submit" value="Search" class="btn btn-info" />
     </p>
 }

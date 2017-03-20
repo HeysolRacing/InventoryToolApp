@@ -16,7 +16,7 @@ namespace InventoryTool.Controllers
         private InventoryToolContext db = new InventoryToolContext();
 
         // GET: Remarketings
-        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
+        public ActionResult Index(string sortOrder, string currentFilter, string searchString, string fleetString, string logString, int? page)
         {
             ViewBag.CurrentSort = sortOrder;
             ViewBag.FleetSortParm = String.IsNullOrEmpty(sortOrder) ? "Fleet Number" : "";
@@ -29,12 +29,18 @@ namespace InventoryTool.Controllers
                 searchString = currentFilter;
 
             ViewBag.CurrentFilter = searchString;
+            ViewBag.fleetFilter = fleetString;
+            ViewBag.logFilter = logString;
 
             var Remarketings = from s in db.Remarketings
                                select s;
 
             if (!String.IsNullOrEmpty(searchString))
-                Remarketings = Remarketings.Where(s => s.LogNumber.ToString().Contains(searchString) || s.FleetNumber.ToString().Contains(searchString) || s.Status.ToString().Contains(searchString));
+                Remarketings = Remarketings.Where(s => s.Status.ToString().Contains(searchString));
+            if (!String.IsNullOrEmpty(fleetString))
+                Remarketings = Remarketings.Where(s => s.FleetNumber.ToString().Contains(fleetString));
+            if (!String.IsNullOrEmpty(logString))
+                Remarketings = Remarketings.Where(s => s.LogNumber.ToString().Contains(logString));
 
             switch (sortOrder)
             {
