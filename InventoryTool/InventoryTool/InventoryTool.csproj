@@ -257,6 +257,7 @@
       <DependentUpon>201703132211463_fix.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\Acode.cs" />
+    <Compile Include="Models\Closed.cs" />
     <Compile Include="Models\CR.cs" />
     <Compile Include="Models\CRdetail.cs" />
     <Compile Include="Models\Driven.cs" />
@@ -463,6 +464,7 @@
     <Content Include="Views\Fleets\Index.cshtml" />
     <Content Include="Views\Fleets\Phantom.cshtml" />
     <Content Include="Views\Ssuppliers\Cancel.cshtml" />
+    <Content Include="Views\CRs\ClosedReport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -56,7 +56,7 @@ namespace InventoryTool.Models
         public string MaintenanceComments { get; set; }
         [Display(Name = "AP Comments")]
         public string ApComments { get; set; }
-
+        public string ClosedReport { get; set; }
 
     }
 }

@@ -366,6 +366,47 @@ namespace InventoryTool.Controllers
 
         }
 
+        // GET: CRs 
+        public ActionResult ClosedReport()
+        {
+
+            var crs = from a in db.CRs
+                      where a.ClosedReport == "False" 
+                      select a;
+            crs = crs.Where(s => s.Status.Equals("Closed"));
+
+         List <Closed> closed = new List<Models.Closed>();
+
+            foreach (var item in crs)
+            {
+                Closed ag = new Closed();
+                ag.SupplierCode = item.Supplier;
+                if (item.Invoicenumber.Length > 2)
+                {
+                    ag.Serial = item.Invoicenumber.Substring(0, 2);
+                    ag.Invoice = item.Invoicenumber.Substring(2);
+                }
+                ag.InvoiceDate = item.Invoicedate;
+                ag.DueDate = item.Invoicedate;
+                ag.Total = item.Total;
+                ag.Currency = 1;
+                ag.ExchangeRate = 1;
+                ag.FleetUnit = item.FleetNumber + "_" + item.UnitNumber;
+                ag.Description = "Maintenance";
+                ag.CRnumber = item.WAnumber;
+                ag.Docto = "99";
+                ag.Related = "99";
+                ag.SerialDocRelated = ag.Invoice;
+                ag.DocRelated = ag.Invoice;
+
+                closed.Add(ag);
+            }
+
+            return View(closed.ToList());
+
+        }
+
+
         // GET: CRs/Create
         [Authorize(Roles = "PhantomCreate")]
         public ActionResult Create(int? id)
@@ -438,6 +479,7 @@ namespace InventoryTool.Controllers
                     subtotal = subtotal + item.Authorized;
                 }
                 cR.Status = "Pending Aproval";
+                cR.ClosedReport = "False";
                 cR.Subtotal = subtotal;
                 cR.IVA = subtotal * 0.16m;
                 cR.Total = subtotal * 1.16m;
@@ -584,7 +626,6 @@ namespace InventoryTool.Controllers
             else { return RedirectToAction("Create", "CRs", new { id = cr}); }
         }
 
-
         // GET: CRs/Approve/5
         [Authorize(Roles = "PhantomEdit")]
         public ActionResult Approve(int? id)
@@ -696,6 +737,67 @@ namespace InventoryTool.Controllers
             Response.End();
 
             return RedirectToAction("General");
+        }
+
+        //POST: CRs/ExportData
+        [HttpPost]
+        //[ValidateAntiForgeryToken]
+        public ActionResult ExportClosed()
+        {
+            GridView gv = new GridView();
+
+            var crs = from a in db.CRs
+                      where a.ClosedReport == "False"
+                      select a;
+            crs = crs.Where(s => s.Status.Equals("Closed"));
+
+            List<Closed> closed = new List<Models.Closed>();
+
+            foreach (var item in crs)
+            {
+                Closed ag = new Closed();
+                ag.SupplierCode = item.Supplier;
+                if (item.Invoicenumber.Length > 2)
+                {
+                    ag.Serial = item.Invoicenumber.Substring(0, 2);
+                    ag.Invoice = item.Invoicenumber.Substring(2);
+                }
+                ag.InvoiceDate = item.Invoicedate;
+                ag.DueDate = item.Invoicedate;
+                ag.Total = item.Total;
+                ag.Currency = 1;
+                ag.ExchangeRate = 1;
+                ag.FleetUnit = item.FleetNumber + "_" + item.UnitNumber;
+                ag.Description = "Maintenance";
+                ag.CRnumber = item.WAnumber;
+                ag.Docto = "99";
+                ag.Related = "99";
+                ag.SerialDocRelated = ag.Invoice;
+                ag.DocRelated = ag.Invoice;
+                closed.Add(ag);
+
+                item.ClosedReport = "True";
+                db.Entry(item).State = EntityState.Modified;
+            }
+
+            gv.DataSource = closed;
+            gv.DataBind();
+            Response.ClearContent();
+            Response.Buffer = true;
+            Response.AddHeader("content-disposition", "attachment; filename=CRsClosedList.xls");
+            Response.ContentType = "application/ms-excel";
+            Response.Charset = "";
+            StringWriter sw = new StringWriter();
+            HtmlTextWriter htw = new HtmlTextWriter(sw);
+            gv.RenderControl(htw);
+            Response.Output.Write(sw.ToString());
+            Response.Flush();
+            Response.End();
+
+           
+            db.SaveChanges();
+
+            return RedirectToAction("Closed");
         }
 
         protected override void Dispose(bool disposing)
