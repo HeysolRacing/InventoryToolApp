@@ -20,6 +20,7 @@
 <br />
 <table class="table">
     <tr>
+        <th></th>
         <th>@Html.ActionLink("Status", "Index", new { sortOrder = ViewBag.StatusSortParm, currentFilter = ViewBag.CurrentFilter })</th>
         <th>
             @Html.ActionLink("Fleet Number", "Index", new { sortOrder = ViewBag.FleetSortParm, currentFilter = ViewBag.CurrentFilter })
@@ -105,6 +106,19 @@
 
 @foreach (var item in Model) {
     <tr>
+        <td>
+            @{
+                switch (item.Status)
+                {
+                    case "ACTIVE":
+                        @Html.ActionLink("Quote", "QuoteEdit", new { id = item.ID })
+                        break;
+                    default:
+                        <span></span>
+                        break;
+                }
+            }
+        </td>
         <td>
             @{
                 switch (item.Status)

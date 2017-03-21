@@ -465,6 +465,7 @@
     <Content Include="Views\Fleets\Phantom.cshtml" />
     <Content Include="Views\Ssuppliers\Cancel.cshtml" />
     <Content Include="Views\CRs\ClosedReport.cshtml" />
+    <Content Include="Views\Remarketings\QuoteEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

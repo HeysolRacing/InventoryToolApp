@@ -148,7 +148,7 @@ namespace InventoryTool.Controllers
             return View(remarketing);
         }
 
-        // POST: Remarketings/Edit/5
+        // POST: Remarketings/OffEdit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -157,13 +157,47 @@ namespace InventoryTool.Controllers
         {
             if (ModelState.IsValid)
             {
-
+                //remarketing.Status = "Quote";
                 db.Entry(remarketing).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View(remarketing);
         }
+
+
+        // GET: Remarketings/QuoteEdit/5
+        public ActionResult QuoteEdit(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Remarketing remarketing = db.Remarketings.Find(id);
+            if (remarketing == null)
+            {
+                return HttpNotFound();
+            }
+            return View(remarketing);
+        }
+
+        // POST: Remarketings/QuoteEdit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult QuoteEdit([Bind(Include = "ID,FleetNumber,UnitNumber,LogNumber,Roe,SpotRate,ScontrNumber,OnroadDate,EndDate,Term,OffroadDate,CurrentPeriod,Amortization,Interest,Rent,RemainingMonths,Rate,Penalty,SaleValue,BookValue,GainLoss,ProfitShareAmount,ProfitSharePercentage,ComplementaryRent,CreditNote,PLGainLoss,Status,SoldDate,OutletCode,Outletname")] Remarketing remarketing)
+        {
+            if (ModelState.IsValid)
+            {
+                remarketing.Status = "Quote";
+                db.Entry(remarketing).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("QuoteEdit");
+            }
+            return View(remarketing);
+        }
+
 
         // GET: Remarketings/OffEdit/5
         public ActionResult SaleEdit(int? id)
