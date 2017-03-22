@@ -80,7 +80,7 @@ namespace InventoryTool.Controllers
 
             var fleets = from s in db.Fleets
                          select s;
-            fleets = fleets.Where(s => s.Offroad_date == null && s.ContractType.ToString().Contains("N5"));
+            fleets = fleets.Where(s => s.Offroad_date == null && ( s.ScontrNumber.ToString().Contains("5555") || s.ScontrNumber.ToString().Contains("5556") || s.ScontrNumber.ToString().Contains("C") || s.ScontrNumber.ToString().Contains("5551") || s.ScontrNumber.ToString().Contains("D") || s.ScontrNumber.ToString().Contains("c") || s.ScontrNumber.ToString().Contains("d")));
 
             if (!String.IsNullOrEmpty(searchString))
                 fleets = fleets.Where(s => s.VinNumber.ToString().Contains(searchString));

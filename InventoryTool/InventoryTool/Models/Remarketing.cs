@@ -23,7 +23,7 @@ namespace InventoryTool.Models
         public decimal Roe { get; set; }
 
         [Display(Name = "Spot Rate")]
-        public decimal SpotRate { get; set; }
+        public decimal? SpotRate { get; set; }
 
         [Display(Name = "Subcontract Number")]
         public string ScontrNumber { get; set; }
@@ -95,6 +95,8 @@ namespace InventoryTool.Models
         public decimal? PLGainLoss { get; set; }
 
         public string Status { get; set; }
+
+        public string Quote { get; set; }
 
         [Display(Name = "Outlet Code")]
         public string OutletCode { get; set; }

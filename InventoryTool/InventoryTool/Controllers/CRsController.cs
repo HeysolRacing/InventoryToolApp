@@ -42,15 +42,17 @@ namespace InventoryTool.Controllers
 
             var crs = from s in db.CRs
                             select s;
+            crs = crs.Where(s => !s.Status.Equals("none"));
+            crs = crs.Where(s => !s.Status.Equals("Canceled"));
+           
             if (!String.IsNullOrEmpty(searchString))
             {
                 crs = crs.Where(s => s.WAnumber.ToString().Contains(searchString)
                                        || s.VINnumber.ToString().Contains(searchString)
                                        || s.Clientname.ToString().Contains(searchString)
-                                       || s.Status.ToString().Contains(searchString)
-                                       && (s.Status.Equals("Pending Aproval") || s.Status.Equals("Approved")));
+                                       || s.Status.ToString().Contains(searchString));
             }
-            else { crs = crs.Where(s => s.Status.Equals("Pending Aproval") || s.Status.Equals("Approved")); }
+            
             switch (sortOrder)
             {
                 case "WA number":
@@ -98,14 +100,15 @@ namespace InventoryTool.Controllers
 
             var crs = from s in db.CRs
                       select s;
+            crs = crs.Where(s => s.Status.Equals("Approved"));
             if (!String.IsNullOrEmpty(searchString))
             {
-                crs = crs.Where(s => s.Status.Equals("Approved") && (s.WAnumber.ToString().Contains(searchString)
+                crs = crs.Where(s => s.WAnumber.ToString().Contains(searchString)
                                        || s.VINnumber.ToString().Contains(searchString)
                                        || s.Clientname.ToString().Contains(searchString)
-                                       ));
+                                       );
             }
-            else { crs = crs.Where(s => s.Status.Equals("Approved")); }
+
             switch (sortOrder)
             {
                 case "WA number":

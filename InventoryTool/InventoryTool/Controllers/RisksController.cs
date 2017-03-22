@@ -66,7 +66,7 @@ namespace ContosoUniversity.Controllers
                     risks = risks.OrderBy(s => s.Obligor);
                     break;
                 default:  // ID ascending 
-                    risks = risks.OrderBy(s => s.ID);
+                    risks = risks.OrderBy(s => s.EconomicGroup);
                     break;
             }
 

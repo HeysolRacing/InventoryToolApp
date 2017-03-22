@@ -62,7 +62,8 @@
             </dt>
 
             <dd>
-                @Html.DisplayFor(model => model.Supplier)
+                @Html.DisplayFor(model => model.Suppliername)
+                @Html.HiddenFor(model => model.Suppliername)
                 @Html.HiddenFor(model => model.Supplier)
             </dd>
 

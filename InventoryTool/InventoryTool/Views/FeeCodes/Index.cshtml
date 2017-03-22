@@ -5,10 +5,10 @@
 <link rel="stylesheet" href="/resources/demos/style.css">
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "FeeCodes";
 }
 
-<h2>Index</h2>
+<h2>FeeCodes</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create") 
@@ -18,7 +18,20 @@
     <table>
         <tr>
             <td>
-                Find by Fleet / Unit / LogNumber / Fee: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+                Find by Fleet: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+            </td>
+            <td width="15px"></td>
+            <td>
+                Find by Unit: @Html.TextBox("SearchUnit", ViewBag.CurrentUnit as string)
+            </td>
+            <td width="15px"></td>
+            <td>
+                Find by LogNumber: @Html.TextBox("SearchLogNo", ViewBag.CurrentLogNo as string)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Find by Fee: @Html.TextBox("SearchFee", ViewBag.CurrentFee as string)
             </td>
             <td width="15px"></td>
             <td>
@@ -56,10 +69,12 @@
             Fleet
         </th>
         <th>
-            @Html.ActionLink("UNIT", "Index", new { sortOrder = ViewBag.UnitSortParm, currentFilter = ViewBag.CurrentFilter })
+            @Html.ActionLink("Unit", "Index", new { sortOrder = ViewBag.UnitSortParm, currentFilter = ViewBag.CurrentFilter,
+                            currentUnit = ViewBag.CurrentUnit, currentLogNo = ViewBag.CurrentLogNo, currentFee = ViewBag.CurrentFee })
         </th>
         <th>
-            LogNo
+            @Html.ActionLink("LogNo", "Index", new { sortOrder = ViewBag.UnitSortParm,  currentFilter = ViewBag.CurrentFilter,
+                            currentUnit = ViewBag.CurrentUnit, currentLogNo = ViewBag.CurrentLogNo, currentFee = ViewBag.CurrentFee })
         </th>
         <th>
             CapCost
@@ -83,13 +98,15 @@
            InsPremium
         </th>
         <th>
-            @Html.ActionLink("FEE", "Index", new { sortOrder = ViewBag.FeeSortParm, currentFilter = ViewBag.CurrentFilter })            
+            @Html.ActionLink("Fee", "Index", new { sortOrder = ViewBag.FeeSortParm,  currentFilter = ViewBag.CurrentFilter,
+                            currentUnit = ViewBag.CurrentUnit, currentLogNo = ViewBag.CurrentLogNo, currentFee = ViewBag.CurrentFee })          
         </th>
         <th>
             Desc
         </th>
         <th>
-            @Html.ActionLink("MM/YY", "Index", new { sortOrder = ViewBag.DateSortParm, currentFilter = ViewBag.CurrentFilter })
+            @Html.ActionLink("MM/YY", "Index", new { sortOrder = ViewBag.DateSortParm,  currentFilter = ViewBag.CurrentFilter,
+                            currentUnit = ViewBag.CurrentUnit, currentLogNo = ViewBag.CurrentLogNo, currentFee = ViewBag.CurrentFee })
         </th>
         <th>
             Start
@@ -121,7 +138,8 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
+@foreach (var item in Model)
+{
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.Fleet)
@@ -206,7 +224,9 @@
 Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 
 @Html.PagedListPager(Model, page => Url.Action("Index",
-        new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter, InitialFilter = ViewBag.InitialFilter, FinalFilter = ViewBag.FinalFilter }))
+        new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter, currentUnit = ViewBag.CurrentUnit,
+            currentLogNo = ViewBag.CurrentLogNo,currentFee = ViewBag.CurrentFee,
+            InitialFilter = ViewBag.InitialFilter, FinalFilter = ViewBag.FinalFilter }))
 
 
       
