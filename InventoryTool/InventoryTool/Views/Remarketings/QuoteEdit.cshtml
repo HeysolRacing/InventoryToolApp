@@ -13,7 +13,7 @@
         @Html.AntiForgeryToken()
 
         <div class="form-group">
-            @Html.LabelFor(model => model.OffroadDate, htmlAttributes: new { @class = "control-label col-md-1" }) :
+            @Html.LabelFor(model => model.OffroadDate, htmlAttributes: new { @class = "control-label col-md-1" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.OffroadDate, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.OffroadDate, "", new { @class = "text-danger" })

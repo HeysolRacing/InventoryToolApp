@@ -409,7 +409,6 @@ namespace InventoryTool.Controllers
 
         }
 
-
         // GET: CRs/Create
         [Authorize(Roles = "PhantomCreate")]
         public ActionResult Create(int? id)
