@@ -11,13 +11,16 @@
 @using (Html.BeginForm("Index", "Remarketings", FormMethod.Get))
 {
     <p>
-        Find by : @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+        Find by Status: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string) 
+        Or Fleet: @Html.TextBox("fleetString", ViewBag.fleetFilter as string) 
+        Or Log number: @Html.TextBox("logString", ViewBag.logFilter as string) 
         <input type="submit" value="Search" class="btn btn-info" />
     </p>
 }
 <br />
 <table class="table">
     <tr>
+        <th></th>
         <th>@Html.ActionLink("Status", "Index", new { sortOrder = ViewBag.StatusSortParm, currentFilter = ViewBag.CurrentFilter })</th>
         <th>
             @Html.ActionLink("Fleet Number", "Index", new { sortOrder = ViewBag.FleetSortParm, currentFilter = ViewBag.CurrentFilter })
@@ -103,6 +106,19 @@
 
 @foreach (var item in Model) {
     <tr>
+        <td>
+            @{
+                switch (item.Status)
+                {
+                    case "ACTIVE":
+                        @Html.ActionLink("Quote", "QuoteEdit", new { id = item.ID })
+                        break;
+                    default:
+                        <span></span>
+                        break;
+                }
+            }
+        </td>
         <td>
             @{
                 switch (item.Status)

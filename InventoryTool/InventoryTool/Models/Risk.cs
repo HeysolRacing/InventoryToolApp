@@ -10,12 +10,16 @@ namespace ContosoUniversity.Models
     {
         public int ID { get; set; }
 
+        public int? IdEconomicGroup { get; set; }
+
         [StringLength(50)]
         [Display(Name = "Economic Group")]
         public string EconomicGroup
         {
             get; set;
         }
+
+        public int? IdParentName { get; set; }
 
         [StringLength(50)]
         [Display(Name = "Parent Name")]
@@ -57,6 +61,7 @@ namespace ContosoUniversity.Models
             get; set;
         }
 
+        [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         [Display(Name = "Expiration Date")]
         public DateTime ExpirationDate { get; set; }

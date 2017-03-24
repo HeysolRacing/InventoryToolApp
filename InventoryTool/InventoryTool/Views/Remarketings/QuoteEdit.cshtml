@@ -4,10 +4,10 @@
     ViewBag.Title = "Remarketing";
 }
 <br /><br />
-<h2>Set Off Road Date</h2>
+<h2>Quoting</h2>
 
 <div>
-<br />
+    <br />
     @using (Html.BeginForm())
     {
         @Html.AntiForgeryToken()
@@ -17,40 +17,48 @@
             <div class="col-md-10">
                 @Html.EditorFor(model => model.OffroadDate, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.OffroadDate, "", new { @class = "text-danger" })
-            </div>
-            <br />
+            </div>         
         </div>
+        <br />     
+        <div class="form-group">
+            @Html.LabelFor(model => model.SaleValue, htmlAttributes: new { @class = "control-label col-md-1" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.SaleValue, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.SaleValue, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <br />        <br />
         <div class="form-actions no-color">
-            <br />
-            <input type="submit" value="Save" class="btn btn-primary" /> |
+           
+            <input type="submit" value="Quote" class="btn btn-info" /> |
             @Html.ActionLink("Back to List", "Index")
         </div>
-            @Html.HiddenFor(model => model.FleetNumber)
-            @Html.HiddenFor(model => model.UnitNumber)
-            @Html.HiddenFor(model => model.LogNumber)
-            @Html.HiddenFor(model => model.Roe)
-            @Html.HiddenFor(model => model.SpotRate)
-            @Html.HiddenFor(model => model.ScontrNumber)
-            @Html.HiddenFor(model => model.OnroadDate)
-            @Html.HiddenFor(model => model.EndDate)
-            @Html.HiddenFor(model => model.Term)
-            @Html.HiddenFor(model => model.CurrentPeriod)
-            @Html.HiddenFor(model => model.Amortization)
-            @Html.HiddenFor(model => model.Interest)
-            @Html.HiddenFor(model => model.Rent)
-            @Html.HiddenFor(model => model.RemainingMonths)
-            @Html.HiddenFor(model => model.Rate)
-            @Html.HiddenFor(model => model.Penalty)
-            @Html.HiddenFor(model => model.SaleValue)
-            @Html.HiddenFor(model => model.BookValue)
-            @Html.HiddenFor(model => model.GainLoss)
-            @Html.HiddenFor(model => model.ProfitShareAmount)
-            @Html.HiddenFor(model => model.ProfitSharePercentage)
-            @Html.HiddenFor(model => model.ComplementaryRent)
-            @Html.HiddenFor(model => model.CreditNote)
-            @Html.HiddenFor(model => model.PLGainLoss)
-            @Html.HiddenFor(model => model.Status)
-            @Html.HiddenFor(model => model.Quote)
+        @Html.HiddenFor(model => model.FleetNumber)
+        @Html.HiddenFor(model => model.UnitNumber)
+        @Html.HiddenFor(model => model.LogNumber)
+        @Html.HiddenFor(model => model.Roe)
+        @Html.HiddenFor(model => model.SpotRate)
+        @Html.HiddenFor(model => model.ScontrNumber)
+        @Html.HiddenFor(model => model.OnroadDate)
+        @Html.HiddenFor(model => model.EndDate)
+        @Html.HiddenFor(model => model.Term)
+        @Html.HiddenFor(model => model.CurrentPeriod)
+        @Html.HiddenFor(model => model.Amortization)
+        @Html.HiddenFor(model => model.Interest)
+        @Html.HiddenFor(model => model.Rent)
+        @Html.HiddenFor(model => model.RemainingMonths)
+        @Html.HiddenFor(model => model.Rate)
+        @Html.HiddenFor(model => model.Penalty)
+       // @Html.HiddenFor(model => model.SaleValue)
+        @Html.HiddenFor(model => model.BookValue)
+        @Html.HiddenFor(model => model.GainLoss)
+        @Html.HiddenFor(model => model.ProfitShareAmount)
+        @Html.HiddenFor(model => model.ProfitSharePercentage)
+        @Html.HiddenFor(model => model.ComplementaryRent)
+        @Html.HiddenFor(model => model.CreditNote)
+        @Html.HiddenFor(model => model.PLGainLoss)
+        @Html.HiddenFor(model => model.Status)
+        @Html.HiddenFor(model => model.Quote)
     }
     <hr />
     <h4 style="color:royalblue"> Details: </h4>
@@ -257,5 +265,7 @@
 
     </dl>
 
-    
+
 </div>
+
+

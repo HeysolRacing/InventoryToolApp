@@ -13,7 +13,9 @@
 @using (Html.BeginForm("Phantom", "Fleets", FormMethod.Get))
 {
     <p>
-        Find by Vin Number/Fleet Number/Unit Number: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+        Find by Vin Number: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+        Or Fleet Number: @Html.TextBox("fleetString", ViewBag.Fleet as string) 
+        Or Unit Number: @Html.TextBox("unitString", ViewBag.Unit as string)
         <input type="submit" value="Search" class="btn btn-info" />
     </p>
 }

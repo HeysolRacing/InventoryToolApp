@@ -26,6 +26,7 @@ namespace ContosoUniversity.Controllers
         {
             return View(db.Risks.ToList());
         }
+
         [Authorize(Roles ="RiskView")]
         public ViewResult List(string sortOrder, string currentFilter, string searchString, int? page)
         {
@@ -65,7 +66,7 @@ namespace ContosoUniversity.Controllers
                     risks = risks.OrderBy(s => s.Obligor);
                     break;
                 default:  // ID ascending 
-                    risks = risks.OrderBy(s => s.ID);
+                    risks = risks.OrderBy(s => s.EconomicGroup);
                     break;
             }
 
@@ -73,7 +74,6 @@ namespace ContosoUniversity.Controllers
             int pageNumber = (page ?? 1);
             return View(risks.ToPagedList(pageNumber, pageSize));
         }
-
 
         // GET: Risks/Details/5
         [Authorize(Roles ="RiskView")]
@@ -119,7 +119,7 @@ namespace ContosoUniversity.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,EconomicGroup,ParentName,FleetNumber,CreditLine,Currency,ExchangeRate,Obligor,ExpirationDate,OutstandingBalance,WorkProgress,InFlight,Sum")] Risk risk)
+        public ActionResult Create([Bind(Include = "ID,EconomicGroup,ParentName,FleetNumber,CreditLine,Currency,ExchangeRate,Obligor,ExpirationDate,OutstandingBalance,WorkProgress,InFlight,Sum,IdEconomicGroup,IdParentName")] Risk risk)
         {
             if (ModelState.IsValid)
             {
@@ -146,7 +146,6 @@ namespace ContosoUniversity.Controllers
 
             return View(risk);
         }
-
 
         // GET: Risks/Check
         public ActionResult Check()
@@ -175,7 +174,7 @@ namespace ContosoUniversity.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,EconomicGroup,ParentName,FleetNumber,CreditLine,Currency,ExchangeRate,Obligor,ExpirationDate,OutstandingBalance,WorkProgress,InFlight,Sum")] Risk risk)
+        public ActionResult Edit([Bind(Include = "ID,EconomicGroup,ParentName,FleetNumber,CreditLine,Currency,ExchangeRate,Obligor,ExpirationDate,OutstandingBalance,WorkProgress,InFlight,Sum,IdEconomicGroup,IdParentName")] Risk risk)
         {
             if (ModelState.IsValid)
             {

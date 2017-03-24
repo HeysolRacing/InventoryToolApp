@@ -1,0 +1,125 @@
+﻿@model IEnumerable<InventoryTool.Models.Closed>
+
+@{
+    ViewBag.Title = "C&R Closed Report";
+}
+<br />
+<h2>C&Rs Closed Report</h2>
+<br />
+<p>
+    @Html.ActionLink("Phantom Home", "Index", "Phantom")
+</p>
+<br />
+
+@using (Html.BeginForm("ExportClosed", "CRs", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <table class="table">
+        <tr>
+            <th>
+            Supplier Code
+            </th>
+            <th>Serial</th>
+            <th>Invoice</th>
+            <th>
+            Invoice Date
+            </th>
+            <th>Due Date</th>
+            <th>
+              Total
+            </th>
+            <th>
+                Currency
+            </th>
+            <th>
+                Exchange Rate
+            </th>
+            <th>
+                Fleet_Unit
+            </th>
+            <th>
+                Description
+            </th>
+            <th>
+                C&R Number
+            </th>
+            <th>
+                Docto Concept
+            </th>
+            <th>
+                Related Concept
+            </th>
+            <th>
+                Serial Doc Related
+            </th>
+            <th>
+                Doc Related
+            </th>
+           
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SupplierCode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Serial)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Invoice)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.InvoiceDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DueDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Total)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Currency)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ExchangeRate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FleetUnit)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CRnumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Docto)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Related)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SerialDocRelated)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DocRelated)
+                </td>
+              
+            </tr>
+                        }
+        <tr>
+            <td>
+                <input type="submit" name="Export" id="Export" value="Export" class="btn btn-success" />
+            </td>
+        </tr>
+    </table>
+                        }
+<br />
+
+
+
+
+
+
+
