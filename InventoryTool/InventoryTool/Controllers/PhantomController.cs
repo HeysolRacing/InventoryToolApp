@@ -4,6 +4,7 @@ using System.Web.Mvc;
 using System.Data;
 using System.Linq;
 using System;
+using System.Text.RegularExpressions;
 
 namespace InventoryTool.Controllers
 {
@@ -51,25 +52,31 @@ namespace InventoryTool.Controllers
             //"C:\\estilos\\B2B.txt";
 
             var crs = from s in db.CRs
-                      select s;
-                crs = crs.Where(s => s.Status.Equals("Pending Aproval") || s.Status.Equals("Approved"));
+                      join f in db.Suppliers on s.Supplier equals f.SupplierID
+                      select  new {s.VINnumber, s.WAnumber, s.Servicedate, s.Total, s.Status, f.StoreNumber};
+                crs = crs.Where(s => s.Status.Equals("Pending Aproval") || s.Status.Equals("Approved")).Distinct();
 
             if (!System.IO.File.Exists(path))
             {
                 // Create a file to write to.
                 using (StreamWriter sw = System.IO.File.CreateText(path))
                 {
-                    foreach(CR item in crs)
+                    foreach(var item in crs)
                     {
                         string vin = item.VINnumber;
-                        string wa = item.WAnumber;
+                        string wa = item.WAnumber.ToUpper();
                         string padwa = wa.Insert(0, "".PadLeft(2, ' '));
                         DateTime date = item.Servicedate;
                         string outputValue =item.Total.ToString("0000000.00");
-                        string odometer = item.Odometer.ToString("0000000000");
+                        if(item.StoreNumber != null)
+                        {
+                        string store = Regex.Match(item.StoreNumber, @"\d+").Value; 
+                        int storenumber = int.Parse(store);
+                        string storenumberfix = storenumber.ToString("0000000000");
                         string formatdate = date.Year.ToString() + date.Month.ToString("00") + date.Day.ToString("00");
-                        string record = wa + "|" + vin + "|" + outputValue + "|" + formatdate + "|" + odometer;
+                        string record = wa + "|" + vin + "|" + outputValue + "|" + formatdate + "|" + storenumberfix;
                         sw.WriteLine(record);
+                        }
                     }
                    
                     //sw.WriteLine("And");

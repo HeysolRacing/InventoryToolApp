@@ -18,31 +18,26 @@ namespace InventoryTool.Controllers
         private InventoryToolContext db = new InventoryToolContext();
 
         [Authorize(Roles = "InventoryView")]
-        public ViewResult Index(string sortOrder, string currentFilter, string searchString, int? page, string currentLogNo, string searchLogNo)
+        public ViewResult Index(string sortOrder, string currentFilter, string searchString, string logString, int? page)
         {
             ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "LogNumber" : "";
             ViewBag.DateSortParm = sortOrder == "UnitNumber" ? "date_desc" : "Date";
 
-            if ((searchString != null) || (searchLogNo != null))
+            if (searchString != null && logString != null)
                 page = 1;
             else
-            {
                 searchString = currentFilter;
-                searchLogNo = currentLogNo;
-            }
-
             ViewBag.CurrentFilter = searchString;
-            ViewBag.CurrentLogNo = searchLogNo;
+            ViewBag.logString = logString;
 
             var fleets = from s in db.Fleets.Include(d => d.Driven)
                          select s;
 
-            if (!String.IsNullOrEmpty(searchString))
+            if (!String.IsNullOrEmpty(searchString) )
                 fleets = fleets.Where(s => s.FleetNumber.ToString().Contains(searchString));
-
-            if (!String.IsNullOrEmpty(searchLogNo))
-                fleets = fleets.Where(s => s.LogNumber.ToString().Contains(searchLogNo));
+            if (!String.IsNullOrEmpty(logString))
+                fleets = fleets.Where(s => s.LogNumber.ToString().Contains(logString) );
             //else
             //    fleets = fleets.Take(200);
 
@@ -68,31 +63,33 @@ namespace InventoryTool.Controllers
         }
 
         [Authorize(Roles = "PhantomView")]
-        public ViewResult Phantom(string sortOrder, string currentFilter, string searchString, int? page)
+        public ViewResult Phantom(string sortOrder, string currentFilter, string searchString, string fleetString, string unitString, int? page)
         {
             ViewBag.CurrentSort = sortOrder;
             ViewBag.VINSortParm = String.IsNullOrEmpty(sortOrder) ? "Vin Number" : "";
             ViewBag.FleetSortParm = String.IsNullOrEmpty(sortOrder) ? "Fleet Number" : "";
             ViewBag.UnitSortParm = String.IsNullOrEmpty(sortOrder) ? "Unit Number" : "";
 
-            if (searchString != null)
+            if (searchString != null && fleetString != null && unitString != null)
                 page = 1;
             else
                 searchString = currentFilter;
-
             ViewBag.CurrentFilter = searchString;
+            ViewBag.Fleet = fleetString;
+            ViewBag.Unit = unitString;
 
             var fleets = from s in db.Fleets
                          select s;
+            fleets = fleets.Where(s => s.Offroad_date == null && ( s.ScontrNumber.ToString().Contains("5555") || s.ScontrNumber.ToString().Contains("5556") || s.ScontrNumber.ToString().Contains("C") || s.ScontrNumber.ToString().Contains("5551") || s.ScontrNumber.ToString().Contains("D") || s.ScontrNumber.ToString().Contains("c") || s.ScontrNumber.ToString().Contains("d")));
 
             if (!String.IsNullOrEmpty(searchString))
-            { fleets = fleets.Where(s => s.VinNumber.ToString().Contains(searchString) || s.FleetNumber.ToString().Contains(searchString) || s.UnitNumber.ToString().Contains(searchString)
-            &&((s.Offroad_date == null && s.ContractType.Contains("N5"))));
-            }
-            else
-            {
-                fleets = fleets.Where(s => s.Offroad_date == null && s.ContractType.ToString().Contains("N5"));
-            }
+                fleets = fleets.Where(s => s.VinNumber.ToString().Contains(searchString));
+            if (!String.IsNullOrEmpty(fleetString))
+                fleets = fleets.Where(s => s.FleetNumber.ToString().Contains(fleetString));
+            if (!String.IsNullOrEmpty(unitString))
+                fleets = fleets.Where(s => s.UnitNumber.ToString().Contains(unitString));
+           
+
 
             switch (sortOrder)
             {

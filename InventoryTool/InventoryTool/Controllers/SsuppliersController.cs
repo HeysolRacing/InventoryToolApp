@@ -67,6 +67,7 @@ namespace InventoryTool.Controllers
         }
         
         // GET: Ssuppliers
+        [Authorize(Roles ="SupplierView")]
         public ActionResult List(string sortOrder, string currentFilter, string searchString, int? page, int? id, int? screen)
         {
             ViewBag.CurrentSort = sortOrder;
@@ -139,6 +140,7 @@ namespace InventoryTool.Controllers
         }
 
         // GET: Ssuppliers/Details/5
+        [Authorize(Roles = "SupplierView")]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -154,6 +156,7 @@ namespace InventoryTool.Controllers
         }
 
         // GET: Ssuppliers/Create
+        [Authorize(Roles = "SupplierCreate")]
         public ActionResult Create()
         {
             return View();
@@ -164,6 +167,7 @@ namespace InventoryTool.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "SupplierCreate")]
         public ActionResult Create([Bind(Include = "SupplierID,SupplierName,LegalName,Street,City,State,Country_cd,ZIPCode,StoreNumber,NatlAccountCode,BillMethod,DiscParts,DiscLabor,PaymentTerms,disc_cap_amt,supplier_typ_cd,Telephone,Fax,WebLink,email,ContactName,Status,Type,TaxID")] Ssupplier ssupplier)
         {
             if (ModelState.IsValid)
@@ -177,6 +181,7 @@ namespace InventoryTool.Controllers
         }
 
         // GET: Ssuppliers/Edit/5
+        [Authorize(Roles = "SupplierEdit")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -196,6 +201,7 @@ namespace InventoryTool.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "SupplierEdit")]
         public ActionResult Edit([Bind(Include = "SupplierID,SupplierName,LegalName,Street,City,State,Country_cd,ZIPCode,StoreNumber,NatlAccountCode,BillMethod,DiscParts,DiscLabor,PaymentTerms,disc_cap_amt,supplier_typ_cd,Telephone,Fax,WebLink,email,ContactName,Status,Type,TaxID")] Ssupplier ssupplier)
         {
             if (ModelState.IsValid)
@@ -208,6 +214,7 @@ namespace InventoryTool.Controllers
         }
 
         // GET: Ssuppliers/Edit/5
+        [Authorize(Roles = "SupplierEdit")]
         public ActionResult Cancel(int? id)
         {
             if (id == null)
@@ -227,6 +234,7 @@ namespace InventoryTool.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "SupplierEdit")]
         public ActionResult Cancel(int id)
         {
             Ssupplier ssupplier = db.Suppliers.Find(id);
