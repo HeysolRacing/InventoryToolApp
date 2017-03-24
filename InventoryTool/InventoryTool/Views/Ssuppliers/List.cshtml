@@ -12,7 +12,7 @@
 <p>
         @Html.ActionLink("Create New", "Create")
     </p>
-@using (Html.BeginForm("Index", "Ssuppliers", FormMethod.Get))
+@using (Html.BeginForm("List", "Ssuppliers", FormMethod.Get))
 {
     <p>
         Find by Supplier Name/ZIP Code/Main phone: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
