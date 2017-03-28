@@ -53,7 +53,7 @@ namespace InventoryTool.Controllers
 
             var crs = from s in db.CRs
                       join f in db.Suppliers on s.Supplier equals f.SupplierID
-                      select  new {s.VINnumber, s.WAnumber, s.Servicedate, s.Total, s.Status, f.StoreNumber};
+                      select  new {s.VINnumber, s.WAnumber, s.Servicedate, s.Subtotal, s.Status, f.StoreNumber}; //Cambie Total por SubTotal
                 crs = crs.Where(s => s.Status.Equals("Pending Aproval") || s.Status.Equals("Approved")).Distinct();
 
             if (!System.IO.File.Exists(path))
@@ -68,15 +68,16 @@ namespace InventoryTool.Controllers
                         string xwa = "X"+ wa.Substring(2) + "0";
                         string padwa = wa.Insert(0, "".PadLeft(2, ' '));
                         DateTime date = item.Servicedate;
-                        string outputValue =item.Total.ToString("0000000.00");
-                        if(item.StoreNumber != null)
+                        string outputValue =item.Subtotal.ToString("0000000.00"); //Cambie Total por SubTotal
+
+                        if (item.StoreNumber != null)
                         {
-                        string store = Regex.Match(item.StoreNumber, @"\d+").Value; 
-                        int storenumber = int.Parse(store);
-                        string storenumberfix = storenumber.ToString("0000000000");
-                        string formatdate = date.Year.ToString() + date.Month.ToString("00") + date.Day.ToString("00");
-                        string record = xwa + "|" + vin + "|" + outputValue + "|" + formatdate + "|" + storenumberfix;
-                        sw.WriteLine(record);
+                            string store = Regex.Match(item.StoreNumber, @"\d+").Value; 
+                            int storenumber = int.Parse(store);
+                            string storenumberfix = storenumber.ToString("0000000000");
+                            string formatdate = date.Year.ToString() + date.Month.ToString("00") + date.Day.ToString("00");
+                            string record = xwa + "|" + vin + "|" + outputValue + "|" + formatdate + "|" + storenumberfix;
+                            sw.WriteLine(record);
                         }
                     }
                    
