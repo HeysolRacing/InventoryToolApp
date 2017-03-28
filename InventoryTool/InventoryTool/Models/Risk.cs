@@ -54,7 +54,7 @@ namespace ContosoUniversity.Models
             get; set;
         }
 
-        [StringLength(50)]
+        //[StringLength(255)]
         [Display(Name = "Obligor")]
         public string Obligor
         {

@@ -52,7 +52,7 @@ namespace InventoryTool.Controllers
         {
             CRdetail detail = newcr.crdetail;
             var atacode = from s in db.Atacodes
-                          where s.code.ToString().Contains(detail.Atacode.ToString())
+                          where s.code.ToString().Equals(detail.Atacode.ToString())
                           select s;
             detail.CreateDate = DateTime.Now;
             var userIdValue = Environment.UserName;
