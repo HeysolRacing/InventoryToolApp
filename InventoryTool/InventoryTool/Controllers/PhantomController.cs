@@ -65,6 +65,7 @@ namespace InventoryTool.Controllers
                     {
                         string vin = item.VINnumber;
                         string wa = item.WAnumber.ToUpper();
+                        string xwa = "X"+ wa.Substring(2) + "0";
                         string padwa = wa.Insert(0, "".PadLeft(2, ' '));
                         DateTime date = item.Servicedate;
                         string outputValue =item.Total.ToString("0000000.00");
@@ -74,7 +75,7 @@ namespace InventoryTool.Controllers
                         int storenumber = int.Parse(store);
                         string storenumberfix = storenumber.ToString("0000000000");
                         string formatdate = date.Year.ToString() + date.Month.ToString("00") + date.Day.ToString("00");
-                        string record = wa + "|" + vin + "|" + outputValue + "|" + formatdate + "|" + storenumberfix;
+                        string record = xwa + "|" + vin + "|" + outputValue + "|" + formatdate + "|" + storenumberfix;
                         sw.WriteLine(record);
                         }
                     }

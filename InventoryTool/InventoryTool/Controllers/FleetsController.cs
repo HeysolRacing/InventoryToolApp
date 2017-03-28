@@ -78,9 +78,13 @@ namespace InventoryTool.Controllers
             ViewBag.Fleet = fleetString;
             ViewBag.Unit = unitString;
 
+            DateTime now = DateTime.Now;
+            var startDate = new DateTime(now.Year, now.Month, 1);
+            var endDate = startDate.AddMonths(1).AddDays(-1);
+
             var fleets = from s in db.Fleets
                          select s;
-            fleets = fleets.Where(s => s.Offroad_date == null && ( s.ScontrNumber.ToString().Contains("5555") || s.ScontrNumber.ToString().Contains("5556") || s.ScontrNumber.ToString().Contains("C") || s.ScontrNumber.ToString().Contains("5551") || s.ScontrNumber.ToString().Contains("D") || s.ScontrNumber.ToString().Contains("c") || s.ScontrNumber.ToString().Contains("d")));
+            fleets = fleets.Where(s => (s.Offroad_date == null || s.Offroad_date <= endDate) && ( s.ScontrNumber.ToString().Contains("5555") || s.ScontrNumber.ToString().Contains("5556") || s.ScontrNumber.ToString().Contains("C") || s.ScontrNumber.ToString().Contains("5551") || s.ScontrNumber.ToString().Contains("D") || s.ScontrNumber.ToString().Contains("c") || s.ScontrNumber.ToString().Contains("d")));
 
             if (!String.IsNullOrEmpty(searchString))
                 fleets = fleets.Where(s => s.VinNumber.ToString().Contains(searchString));
@@ -89,8 +93,6 @@ namespace InventoryTool.Controllers
             if (!String.IsNullOrEmpty(unitString))
                 fleets = fleets.Where(s => s.UnitNumber.ToString().Contains(unitString));
            
-
-
             switch (sortOrder)
             {
                 case "Vin Number":

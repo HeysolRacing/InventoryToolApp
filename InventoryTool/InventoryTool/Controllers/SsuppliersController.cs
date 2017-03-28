@@ -8,9 +8,6 @@ using System.Web;
 using System.Web.Mvc;
 using InventoryTool.Models;
 using PagedList;
-using System.Web.UI.WebControls;
-using System.IO;
-using System.Web.UI;
 
 namespace InventoryTool.Controllers
 {
@@ -271,27 +268,6 @@ namespace InventoryTool.Controllers
             db.Suppliers.Remove(ssupplier);
             db.SaveChanges();
             return RedirectToAction("Index");
-        }
-
-        [HttpPost]
-        public ActionResult ExportData()
-        {
-            GridView gv = new GridView();
-            gv.DataSource = db.Suppliers.ToList();
-            gv.DataBind();
-            Response.ClearContent();
-            Response.Buffer = true;
-            Response.AddHeader("content-disposition", "attachment; filename=AllSuppliers.xls");
-            Response.ContentType = "application/ms-excel";
-            Response.Charset = "";
-            StringWriter sw = new StringWriter();
-            HtmlTextWriter htw = new HtmlTextWriter(sw);
-            gv.RenderControl(htw);
-            Response.Output.Write(sw.ToString());
-            Response.Flush();
-            Response.End();
-
-            return RedirectToAction("List");
         }
 
         protected override void Dispose(bool disposing)

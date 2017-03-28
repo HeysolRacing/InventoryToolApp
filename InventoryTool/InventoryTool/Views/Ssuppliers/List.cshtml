@@ -12,7 +12,7 @@
 <p>
         @Html.ActionLink("Create New", "Create")
     </p>
-@using (Html.BeginForm("Index", "Ssuppliers", FormMethod.Get))
+@using (Html.BeginForm("List", "Ssuppliers", FormMethod.Get))
 {
     <p>
         Find by Supplier Name/ZIP Code/Main phone: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
@@ -20,8 +20,6 @@
     </p>
 }
 <br />
-@using (Html.BeginForm("ExportData", "Ssuppliers", FormMethod.Post, new { enctype = "multipart/form-data" }))
-{
 <table class="table">
     <tr>
         <th></th>
@@ -139,13 +137,8 @@
             </td>
         </tr>
     }
-    <tr>
-        <td>
-            <input type="submit" name="Export" id="Export" value="Export" class="btn btn-success" />
-        </td>
-    </tr>
+
 </table>
-}
 <br />
 Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 

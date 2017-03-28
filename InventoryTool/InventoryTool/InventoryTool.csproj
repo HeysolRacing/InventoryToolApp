@@ -244,6 +244,18 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201703101745215_column.cs" />
+    <Compile Include="Migrations\201703101745215_column.Designer.cs">
+      <DependentUpon>201703101745215_column.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703102248102_solddate.cs" />
+    <Compile Include="Migrations\201703102248102_solddate.Designer.cs">
+      <DependentUpon>201703102248102_solddate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703132211463_fix.cs" />
+    <Compile Include="Migrations\201703132211463_fix.Designer.cs">
+      <DependentUpon>201703132211463_fix.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\Acode.cs" />
     <Compile Include="Models\Closed.cs" />
     <Compile Include="Models\CR.cs" />
@@ -457,7 +469,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Migrations\" />
     <Folder Include="UploadedFiles\" />
   </ItemGroup>
   <ItemGroup>
@@ -470,6 +481,17 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201703101745215_column.resx">
+      <DependentUpon>201703101745215_column.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703102248102_solddate.resx">
+      <DependentUpon>201703102248102_solddate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703132211463_fix.resx">
+      <DependentUpon>201703132211463_fix.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
