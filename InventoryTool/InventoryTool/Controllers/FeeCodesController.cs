@@ -40,7 +40,10 @@ namespace InventoryTool.Controllers
 
 
             if ((searchString != null) || (searchUnit != null) || (searchLogNo != null) || (searchFee != null))
+            {
                 page = 1;
+                this.HttpContext.Session["Display"] = "";
+            }
             else
             {
                 searchString = currentFilter;
@@ -49,7 +52,6 @@ namespace InventoryTool.Controllers
                 searchFee = currentFee;
             }
 
-            ViewBag.CurrentFilter = searchString;
             ViewBag.currentFilter = searchString;
             ViewBag.currentUnit = searchUnit;
             ViewBag.currentLlogNo = searchLogNo;
@@ -57,8 +59,14 @@ namespace InventoryTool.Controllers
             ViewBag.InitialFilter = InitialDate;
             ViewBag.FinalFilter = FinalDate;
 
-            //Busqueda por fechas
+            Session["Fleet"] = string.IsNullOrEmpty(searchString) ? "" : searchString;
+            Session["Unit"] = string.IsNullOrEmpty(searchUnit) ? "" : searchUnit;
+            Session["LogNo"] = string.IsNullOrEmpty(searchLogNo) ? "" : searchLogNo;
+            Session["Fee"] = string.IsNullOrEmpty(searchFee) ? "" : searchFee;
+            Session["InitialDate"] = string.IsNullOrEmpty(InitialDate) ? "" : InitialDate;
+            Session["FinalDate"] = string.IsNullOrEmpty(FinalDate) ? "" : FinalDate;
 
+            //Busqueda por fechas
 
             if (String.IsNullOrEmpty(InitialDate))
                 inicio = 19000101;
@@ -350,21 +358,92 @@ namespace InventoryTool.Controllers
         [HttpPost]
         public ActionResult ExportData()
         {
-            GridView gv = new GridView();
-            gv.DataSource = db.FeeCodes.ToList();
-            gv.DataBind();
-            Response.ClearContent();
-            Response.Buffer = true;
-            Response.AddHeader("content-disposition", "attachment; filename=FeeCodesAll.xls");
-            Response.ContentType = "application/ms-excel";
-            Response.Charset = "";
-            StringWriter sw = new StringWriter();
-            HtmlTextWriter htw = new HtmlTextWriter(sw);
-            gv.RenderControl(htw);
-            Response.Output.Write(sw.ToString());
-            Response.Flush();
-            Response.End();
+            try
+            {
+                string searchString = (!string.IsNullOrEmpty(Session["Fleet"].ToString())) ? Session["Fleet"].ToString() : string.Empty;
+                string searchUnit = (!string.IsNullOrEmpty(Session["Unit"].ToString())) ? Session["Unit"].ToString() : string.Empty;
+                string searchLogNo = (!string.IsNullOrEmpty(Session["LogNo"].ToString())) ? Session["LogNo"].ToString() : string.Empty;
+                string searchFee = (!string.IsNullOrEmpty(Session["Fee"].ToString())) ? Session["Fee"].ToString() : string.Empty;
+                string InitialDate = (!string.IsNullOrEmpty(Session["InitialDate"].ToString())) ? Session["InitialDate"].ToString() : string.Empty;
+                string FinalDate = (!string.IsNullOrEmpty(Session["FinalDate"].ToString())) ? Session["FinalDate"].ToString() : string.Empty;
+                string sqltxt = string.Empty, trans = string.Empty;
+                int pos1 = 0, pos2 = 0;
 
+                if ((!searchString.Equals("")) || (!searchUnit.Equals("")) || (!searchLogNo.Equals("")) || (!searchFee.Equals("")) ||
+                    (!InitialDate.Equals("")) || (!FinalDate.Equals("")))
+                {
+                    GridView gv = new GridView();
+                    var fleets = from s in db.FeeCodes
+                                 select s;
+
+                    if (!String.IsNullOrEmpty(searchString))
+                        fleets = fleets.Where(s => s.Fleet.ToString().Equals(searchString));
+
+                    if (!String.IsNullOrEmpty(searchUnit))
+                        fleets = fleets.Where(s => s.Unit.ToString().Equals(searchUnit));
+
+                    if (!String.IsNullOrEmpty(searchLogNo))
+                        fleets = fleets.Where(s => s.LogNo.ToString().Equals(searchLogNo));
+
+                    if (!String.IsNullOrEmpty(searchFee))
+                        fleets = fleets.Where(s => s.Fee.ToString().Equals(searchFee));
+
+                    if (!string.IsNullOrEmpty(InitialDate))
+                    {
+                        pos1 = InitialDate.IndexOf('/');
+                        pos2 = InitialDate.LastIndexOf('/');
+                        trans = InitialDate.Substring(pos2 + 1);
+                        if (pos1 == 1)
+                            trans += "0" + InitialDate.Substring(0, 1);
+                        else
+                            trans += InitialDate.Substring(0, 2);
+
+                        if (pos2 - pos1 <= 2)
+                            trans += "0" + InitialDate.Substring(pos1 + 1, 1);
+                        else
+                            trans += InitialDate.Substring(pos1 + 1, 2);
+
+                        fleets = fleets.Where(s => s.MMYY >= Convert.ToInt32(trans));
+                    }
+
+                    if (!string.IsNullOrEmpty(FinalDate))
+                    {
+                        pos1 = FinalDate.IndexOf('/');
+                        pos2 = FinalDate.LastIndexOf('/');
+                        trans = FinalDate.Substring(pos2 + 1);
+                        if (pos1 == 1)
+                            trans += "0" + FinalDate.Substring(0, 1);
+                        else
+                            trans += FinalDate.Substring(0, 2);
+
+                        if (pos2 - pos1 <= 2)
+                            trans += "0" + FinalDate.Substring(pos1 + 1, 1);
+                        else
+                            trans += FinalDate.Substring(pos1 + 1, 2);
+
+                        fleets = fleets.Where(s => s.MMYY <= Convert.ToInt32(trans));
+                    }
+
+                    gv.DataSource = fleets.ToList();
+                    gv.DataBind();
+                    Response.Buffer = true;
+                    Response.AddHeader("content-disposition", "attachment; filename=FeeCodesAll.xls");
+                    Response.ContentType = "application/ms-excel";
+                    Response.Charset = "";
+                    StringWriter sw = new StringWriter();
+                    HtmlTextWriter htw = new HtmlTextWriter(sw);
+                    gv.RenderControl(htw);
+                    Response.Output.Write(sw.ToString());
+                    Response.Flush();
+                    Response.End();
+                }
+                else
+                    this.HttpContext.Session["Display"] = "You must set filters";
+            }
+            catch (Exception ex)
+            {
+                this.HttpContext.Session["Display"] = "Error: " + ex.Message + " Try again with more filters";
+            }
             return RedirectToAction("Index");
         }
     }

@@ -102,7 +102,7 @@ namespace InventoryTool.Models
         [StringLength(5, ErrorMessage = "The field {0} must be between {2} and {1} characters", MinimumLength = 2)]
         public string ScontrNumber { get; set; }
 
-        public decimal Amort { get; set; }
+        public decimal? Amort { get; set; }
 
         [Required(AllowEmptyStrings = true)]
         [DisplayFormat(ConvertEmptyStringToNull = false)]

@@ -44,7 +44,8 @@ namespace InventoryTool.Controllers
                             select s;
             crs = crs.Where(s => !s.Status.Equals("none"));
             crs = crs.Where(s => !s.Status.Equals("Canceled"));
-           
+            crs = crs.Where(s => !s.Status.Equals("Closed"));
+
             if (!String.IsNullOrEmpty(searchString))
             {
                 crs = crs.Where(s => s.WAnumber.ToString().Contains(searchString)
@@ -696,6 +697,8 @@ namespace InventoryTool.Controllers
                           a.crID,
                           a.WAnumber,
                           a.VINnumber,
+                          a.FleetNumber,
+                          a.UnitNumber,
                           a.Servicedate,
                           a.Odometer,
                           a.Status,

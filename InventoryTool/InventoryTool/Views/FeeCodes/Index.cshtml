@@ -58,7 +58,9 @@
     </table>
 }
 
-@Session["Display"] 
+<h4 style="color:red">
+    @Session["Display"]
+</h4>
 
 @using (Html.BeginForm("ExportData", "FeeCodes", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
@@ -69,12 +71,24 @@
             Fleet
         </th>
         <th>
-            @Html.ActionLink("Unit", "Index", new { sortOrder = ViewBag.UnitSortParm, currentFilter = ViewBag.CurrentFilter,
-                            currentUnit = ViewBag.CurrentUnit, currentLogNo = ViewBag.CurrentLogNo, currentFee = ViewBag.CurrentFee })
+            @Html.ActionLink("Unit", "Index", new
+       {
+           sortOrder = ViewBag.UnitSortParm,
+           currentFilter = ViewBag.CurrentFilter,
+           currentUnit = ViewBag.CurrentUnit,
+           currentLogNo = ViewBag.CurrentLogNo,
+           currentFee = ViewBag.CurrentFee
+       })
         </th>
         <th>
-            @Html.ActionLink("LogNo", "Index", new { sortOrder = ViewBag.UnitSortParm,  currentFilter = ViewBag.CurrentFilter,
-                            currentUnit = ViewBag.CurrentUnit, currentLogNo = ViewBag.CurrentLogNo, currentFee = ViewBag.CurrentFee })
+            @Html.ActionLink("LogNo", "Index", new
+       {
+           sortOrder = ViewBag.UnitSortParm,
+           currentFilter = ViewBag.CurrentFilter,
+           currentUnit = ViewBag.CurrentUnit,
+           currentLogNo = ViewBag.CurrentLogNo,
+           currentFee = ViewBag.CurrentFee
+       })
         </th>
         <th>
             CapCost
@@ -98,15 +112,27 @@
            InsPremium
         </th>
         <th>
-            @Html.ActionLink("Fee", "Index", new { sortOrder = ViewBag.FeeSortParm,  currentFilter = ViewBag.CurrentFilter,
-                            currentUnit = ViewBag.CurrentUnit, currentLogNo = ViewBag.CurrentLogNo, currentFee = ViewBag.CurrentFee })          
+            @Html.ActionLink("Fee", "Index", new
+       {
+           sortOrder = ViewBag.FeeSortParm,
+           currentFilter = ViewBag.CurrentFilter,
+           currentUnit = ViewBag.CurrentUnit,
+           currentLogNo = ViewBag.CurrentLogNo,
+           currentFee = ViewBag.CurrentFee
+       })          
         </th>
         <th>
             Desc
         </th>
         <th>
-            @Html.ActionLink("MM/YY", "Index", new { sortOrder = ViewBag.DateSortParm,  currentFilter = ViewBag.CurrentFilter,
-                            currentUnit = ViewBag.CurrentUnit, currentLogNo = ViewBag.CurrentLogNo, currentFee = ViewBag.CurrentFee })
+            @Html.ActionLink("MM/YY", "Index", new
+       {
+           sortOrder = ViewBag.DateSortParm,
+           currentFilter = ViewBag.CurrentFilter,
+           currentUnit = ViewBag.CurrentUnit,
+           currentLogNo = ViewBag.CurrentLogNo,
+           currentFee = ViewBag.CurrentFee
+       })
         </th>
         <th>
             Start
@@ -212,11 +238,11 @@
         </td>
     </tr>
 }
-    @*<tr>
+    <tr>
         <td>
             <input type="submit" name="Export" id="Export" value="Export" class="btn btn-success" />
         </td>
-    </tr>*@
+    </tr>
 </table>
 }
 <br />

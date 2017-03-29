@@ -131,7 +131,7 @@ namespace ContosoUniversity.Controllers
                 transactionLog.Created = DateTime.Now;
                 var risk = from s in db.Risks
                             select s;
-                    risk = risk.Where(s =>  s.FleetNumber.ToString().Contains(transactionLog.FleetNumber.ToString()));
+                    risk = risk.Where(s =>  s.FleetNumber.ToString().Equals(transactionLog.FleetNumber.ToString()));
 
                 if (!risk.Any())
                 {

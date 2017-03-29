@@ -277,6 +277,7 @@ namespace InventoryTool.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "InventoryExport")]
         public ActionResult ExportData()
         {
             GridView gv = new GridView();
