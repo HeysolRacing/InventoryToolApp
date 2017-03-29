@@ -8,6 +8,9 @@ using System.Web;
 using System.Web.Mvc;
 using InventoryTool.Models;
 using PagedList;
+using System.Web.UI.WebControls;
+using System.IO;
+using System.Web.UI;
 
 namespace InventoryTool.Controllers
 {
@@ -16,7 +19,8 @@ namespace InventoryTool.Controllers
         private InventoryToolContext db = new InventoryToolContext();
 
         // GET: Ssuppliers
-        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page, int? id, int? screen)
+        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page, int? id, int? screen,
+                                  string currentZIPCode, string searchZIPCode, string searchMainPhone, string currentMainPhone)
         {
             ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "Supplier Name" : "";
@@ -24,26 +28,41 @@ namespace InventoryTool.Controllers
             ViewBag.ObligorSortParm = String.IsNullOrEmpty(sortOrder) ? "ZIP Code" : "";
             ViewBag.cr = id;
             ViewBag.screen = screen;
-            if (searchString != null)
+
+            if ((searchString != null) || (searchZIPCode != null) || (searchMainPhone != null))
             {
                 page = 1;
             }
             else
             {
                 searchString = currentFilter;
+                searchZIPCode = currentZIPCode;
+                searchMainPhone = currentMainPhone;
             }
 
             ViewBag.CurrentFilter = searchString;
+            ViewBag.CurrentZIPCode = searchZIPCode;
+            ViewBag.CurrentMainPhone = searchMainPhone;
 
             var suppliers = from s in db.Suppliers
                             where s.Status.Contains("A")
                             select s;
+
             if (!String.IsNullOrEmpty(searchString))
             {
-                suppliers = suppliers.Where(s => s.SupplierName.ToString().Contains(searchString)
-                                       || s.Telephone.ToString().Contains(searchString)
-                                       || s.ZIPCode.ToString().Contains(searchString));
+                suppliers = suppliers.Where(s => s.SupplierName.ToString().Contains(searchString));
             }
+
+            if (!String.IsNullOrEmpty(searchZIPCode))
+            {
+                suppliers = suppliers.Where(s => s.ZIPCode.ToString().Equals(searchZIPCode));
+            }
+
+            if (!String.IsNullOrEmpty(searchMainPhone))
+            {
+                suppliers = suppliers.Where(s => s.Telephone.ToString().Equals(searchMainPhone));
+            }
+
             switch (sortOrder)
             {
                 case "Supplier Name":
@@ -65,10 +84,11 @@ namespace InventoryTool.Controllers
             return View(suppliers.ToPagedList(pageNumber, pageSize));
 
         }
-        
+
         // GET: Ssuppliers
-        [Authorize(Roles ="SupplierView")]
-        public ActionResult List(string sortOrder, string currentFilter, string searchString, int? page, int? id, int? screen)
+        [Authorize(Roles = "SupplierView")]
+        public ActionResult List(string sortOrder, string currentFilter, string searchString, int? page, int? id, int? screen,
+                                  string currentZIPCode, string searchZIPCode, string searchMainPhone, string currentMainPhone)
         {
             ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "Supplier Name" : "";
@@ -76,25 +96,41 @@ namespace InventoryTool.Controllers
             ViewBag.ObligorSortParm = String.IsNullOrEmpty(sortOrder) ? "ZIP Code" : "";
             ViewBag.cr = id;
             ViewBag.screen = screen;
-            if (searchString != null)
+
+            if ((searchString != null) || (searchZIPCode != null) || (searchMainPhone != null))
             {
                 page = 1;
             }
             else
             {
                 searchString = currentFilter;
+                searchZIPCode = currentZIPCode;
+                searchMainPhone = currentMainPhone;
             }
 
             ViewBag.CurrentFilter = searchString;
+            ViewBag.CurrentZIPCode = searchZIPCode;
+            ViewBag.CurrentMainPhone = searchMainPhone;
 
             var suppliers = from s in db.Suppliers
+                            where s.Status.Contains("A")
                             select s;
+
             if (!String.IsNullOrEmpty(searchString))
             {
-                suppliers = suppliers.Where(s => s.SupplierName.ToString().Contains(searchString)
-                                       || s.Telephone.ToString().Contains(searchString)
-                                       || s.ZIPCode.ToString().Contains(searchString));
+                suppliers = suppliers.Where(s => s.SupplierName.ToString().Contains(searchString));
             }
+
+            if (!String.IsNullOrEmpty(searchZIPCode))
+            {
+                suppliers = suppliers.Where(s => s.ZIPCode.ToString().Equals(searchZIPCode));
+            }
+
+            if (!String.IsNullOrEmpty(searchMainPhone))
+            {
+                suppliers = suppliers.Where(s => s.Telephone.ToString().Equals(searchMainPhone));
+            }
+
             switch (sortOrder)
             {
                 case "Supplier Name":
@@ -267,6 +303,48 @@ namespace InventoryTool.Controllers
             Ssupplier ssupplier = db.Suppliers.Find(id);
             db.Suppliers.Remove(ssupplier);
             db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public ActionResult ExportData()
+        {
+            GridView gv = new GridView();
+            gv.DataSource = db.Suppliers.ToList();
+            gv.DataBind();
+            Response.ClearContent();
+            Response.Buffer = true;
+            Response.AddHeader("content-disposition", "attachment; filename=AllSuppliers.xls");
+            Response.ContentType = "application/ms-excel";
+            Response.Charset = "";
+            StringWriter sw = new StringWriter();
+            HtmlTextWriter htw = new HtmlTextWriter(sw);
+            gv.RenderControl(htw);
+            Response.Output.Write(sw.ToString());
+            Response.Flush();
+            Response.End();
+
+            return RedirectToAction("List");
+        }
+
+        [HttpPost]
+        public ActionResult ExportData2()
+        {
+            GridView gv = new GridView();
+            gv.DataSource = db.Suppliers.ToList();
+            gv.DataBind();
+            Response.ClearContent();
+            Response.Buffer = true;
+            Response.AddHeader("content-disposition", "attachment; filename=AllSuppliers.xls");
+            Response.ContentType = "application/ms-excel";
+            Response.Charset = "";
+            StringWriter sw = new StringWriter();
+            HtmlTextWriter htw = new HtmlTextWriter(sw);
+            gv.RenderControl(htw);
+            Response.Output.Write(sw.ToString());
+            Response.Flush();
+            Response.End();
+
             return RedirectToAction("Index");
         }
 
