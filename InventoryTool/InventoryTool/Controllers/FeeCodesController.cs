@@ -40,7 +40,10 @@ namespace InventoryTool.Controllers
 
 
             if ((searchString != null) || (searchUnit != null) || (searchLogNo != null) || (searchFee != null))
+            {
                 page = 1;
+                this.HttpContext.Session["Display"] = "";
+            }
             else
             {
                 searchString = currentFilter;
@@ -64,7 +67,6 @@ namespace InventoryTool.Controllers
             Session["FinalDate"] = string.IsNullOrEmpty(FinalDate) ? "" : FinalDate;
 
             //Busqueda por fechas
-
 
             if (String.IsNullOrEmpty(InitialDate))
                 inicio = 19000101;

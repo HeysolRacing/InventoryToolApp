@@ -58,7 +58,9 @@
     </table>
 }
 
-@Session["Display"] 
+<h4 style="color:red">
+    @Session["Display"]
+</h4>
 
 @using (Html.BeginForm("ExportData", "FeeCodes", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
