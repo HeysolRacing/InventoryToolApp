@@ -62,7 +62,9 @@
     @Session["Display"]
 </h4>
 
-@using (Html.BeginForm("ExportData", "FeeCodes", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("ExportData", "FeeCodes", new { searchString = ViewBag.CurrentFilter, searchUnit = ViewBag.CurrentUnit, searchLogNo = ViewBag.CurrentLogNo, searchFee = ViewBag.CurrentFee,
+                                                       InitialDate = ViewBag.InitialFilter, FinalDate = ViewBag.FinalFilter },
+                        FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
 <table class="table">
     <tr><td width="5px"></td></tr>
@@ -77,8 +79,10 @@
            currentFilter = ViewBag.CurrentFilter,
            currentUnit = ViewBag.CurrentUnit,
            currentLogNo = ViewBag.CurrentLogNo,
-           currentFee = ViewBag.CurrentFee
-       })
+           currentFee = ViewBag.CurrentFee,
+           InitialDate = ViewBag.InitialFilter,
+           FinalDate = ViewBag.FinalFilter
+            })
         </th>
         <th>
             @Html.ActionLink("LogNo", "Index", new
@@ -87,7 +91,9 @@
            currentFilter = ViewBag.CurrentFilter,
            currentUnit = ViewBag.CurrentUnit,
            currentLogNo = ViewBag.CurrentLogNo,
-           currentFee = ViewBag.CurrentFee
+           currentFee = ViewBag.CurrentFee,
+           InitialDate = ViewBag.InitialFilter,
+           FinalDate = ViewBag.FinalFilter
        })
         </th>
         <th>
@@ -118,7 +124,9 @@
            currentFilter = ViewBag.CurrentFilter,
            currentUnit = ViewBag.CurrentUnit,
            currentLogNo = ViewBag.CurrentLogNo,
-           currentFee = ViewBag.CurrentFee
+           currentFee = ViewBag.CurrentFee,
+           InitialDate = ViewBag.InitialFilter,
+           FinalDate = ViewBag.FinalFilter
        })          
         </th>
         <th>
@@ -131,7 +139,9 @@
            currentFilter = ViewBag.CurrentFilter,
            currentUnit = ViewBag.CurrentUnit,
            currentLogNo = ViewBag.CurrentLogNo,
-           currentFee = ViewBag.CurrentFee
+           currentFee = ViewBag.CurrentFee,
+           InitialDate = ViewBag.InitialFilter,
+           FinalDate = ViewBag.FinalFilter
        })
         </th>
         <th>
@@ -253,6 +263,4 @@ Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.Page
         new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter, currentUnit = ViewBag.CurrentUnit,
             currentLogNo = ViewBag.CurrentLogNo,currentFee = ViewBag.CurrentFee,
             InitialFilter = ViewBag.InitialFilter, FinalFilter = ViewBag.FinalFilter }))
-
-
       

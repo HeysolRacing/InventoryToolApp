@@ -19,6 +19,7 @@ namespace InventoryTool.Controllers
     public class FeeCodesController : Controller
     {
         private InventoryToolContext db = new InventoryToolContext();
+        public string trans, trans2;
 
         // GET: FeeCodes
         [Authorize(Roles = "FeeCodesView")]
@@ -27,140 +28,163 @@ namespace InventoryTool.Controllers
                                               string currentFee, string searchFee,
                                               string InitialDate, string InitialFilter, string FinalDate, string FinalFilter)
         {
-            int inicio = 0, final = 0, pos1 = 0, pos2 = 0;
-            string trans;
-
-            ViewBag.CurrentSort = sortOrder;
-            
-
-            ViewBag.UnitSortParm = String.IsNullOrEmpty(sortOrder) ? "Unit" : "";
-            ViewBag.FeeSortParm = String.IsNullOrEmpty(sortOrder) ? "Fee" : "";
-            ViewBag.DateSortParm = String.IsNullOrEmpty(sortOrder) ? "MMYY" : "";
-            ViewBag.LogNoSortParm = String.IsNullOrEmpty(sortOrder) ? "LogNo" : "";
-
-
-            if ((searchString != null) || (searchUnit != null) || (searchLogNo != null) || (searchFee != null))
+            try
             {
-                page = 1;
-                this.HttpContext.Session["Display"] = "";
+                int inicio = 0, final = 0, pos1 = 0, pos2 = 0;
+                bool band = true;
+
+                if ((!String.IsNullOrEmpty(InitialDate)) || (!String.IsNullOrEmpty(FinalDate)))
+                {
+                    if (String.IsNullOrEmpty(InitialDate))
+                    {
+                        this.HttpContext.Session["Display"] = "The Initial Date cannot be empty, please set a correct date";
+                        band = false;
+                    }
+                  
+
+                    if (String.IsNullOrEmpty(FinalDate))
+                    { 
+                        this.HttpContext.Session["Display"] = "The Final Date cannot be empty, please set a correct date";
+                        band = false;
+                    }
+
+                    if (band)
+                    {
+                        if (Convert.ToDateTime(FinalDate) < Convert.ToDateTime(InitialDate))
+                        {
+                            this.HttpContext.Session["Display"] = "The Initial Date cannot be major than Final Date, please set a correct date";
+                            band = false;
+                        }
+                        else if (Convert.ToDateTime(FinalDate) > Convert.ToDateTime(InitialDate).AddDays(7))
+                        {
+                            this.HttpContext.Session["Display"] = "The Final Date cannot be more than 7 days major than Initial Date, please set a correct date (" + Convert.ToDateTime(InitialDate).AddDays(7) + ")";
+                            band = false;
+                        }
+                    }
+                }
+
+                if (((!String.IsNullOrEmpty(searchString)) || (!String.IsNullOrEmpty(searchUnit)) || (!String.IsNullOrEmpty(searchLogNo)) || (!String.IsNullOrEmpty(searchFee)) ||
+                    (!String.IsNullOrEmpty(InitialDate)) || (!String.IsNullOrEmpty(FinalDate))) && band)
+                {
+                    ViewBag.CurrentSort = sortOrder;
+
+                    ViewBag.UnitSortParm = String.IsNullOrEmpty(sortOrder) ? "Unit" : "";
+                    ViewBag.FeeSortParm = String.IsNullOrEmpty(sortOrder) ? "Fee" : "";
+                    ViewBag.DateSortParm = String.IsNullOrEmpty(sortOrder) ? "MMYY" : "";
+                    ViewBag.LogNoSortParm = String.IsNullOrEmpty(sortOrder) ? "LogNo" : "";
+
+
+                    if ((searchString != null) || (searchUnit != null) || (searchLogNo != null) || (searchFee != null))
+                    {
+                        page = 1;
+                        this.HttpContext.Session["Display"] = "";
+                    }
+                    else
+                    {
+                        searchString = currentFilter;
+                        searchUnit = currentUnit;
+                        searchLogNo = currentLlogNo;
+                        searchFee = currentFee;
+                    }
+
+                    ViewBag.currentFilter = searchString;
+                    ViewBag.currentUnit = searchUnit;
+                    ViewBag.currentLlogNo = searchLogNo;
+                    ViewBag.currentFee = searchFee;
+                    ViewBag.InitialFilter = InitialDate;
+                    ViewBag.FinalFilter = FinalDate;
+
+                    var fleets = from s in db.FeeCodes
+                                 select s;
+
+                    //Busqueda por fechas
+                    if ((!String.IsNullOrEmpty(InitialDate)) && (String.IsNullOrEmpty(FinalDate)))
+                    {
+                        //fecha inicial
+                        pos1 = InitialDate.IndexOf('/');
+                        pos2 = InitialDate.LastIndexOf('/');
+                        trans = InitialDate.Substring(pos2 + 1);
+                        if (pos1 == 1)
+                            trans += "0" + InitialDate.Substring(0, 1);
+                        else
+                            trans += InitialDate.Substring(0, 2);
+
+                        if (pos2 - pos1 <= 2)
+                            trans += "0" + InitialDate.Substring(pos1 + 1, 1);
+                        else
+                            trans += InitialDate.Substring(pos1 + 1, 2);
+                        inicio = Convert.ToInt32(trans);
+
+                        //Fecha final
+                        pos1 = FinalDate.IndexOf('/');
+                        pos2 = FinalDate.LastIndexOf('/');
+                        trans = FinalDate.Substring(pos2 + 1);
+                        if (pos1 == 1)
+                            trans += "0" + FinalDate.Substring(0, 1);
+                        else
+                            trans += FinalDate.Substring(0, 2);
+
+                        if (pos2 - pos1 <= 2)
+                            trans += "0" + FinalDate.Substring(pos1 + 1, 1);
+                        else
+                            trans += FinalDate.Substring(pos1 + 1, 2);
+                        final = Convert.ToInt32(trans);
+
+                        fleets = fleets.Where(s => (s.MMYY >= inicio) && (s.MMYY <= final));
+                    }
+
+                    if (!String.IsNullOrEmpty(searchString))
+                        fleets = fleets.Where(s => s.Fleet.ToString().Equals(searchString));
+
+                    if (!String.IsNullOrEmpty(searchUnit))
+                        fleets = fleets.Where(s => s.Unit.ToString().Equals(searchUnit));
+
+                    if (!String.IsNullOrEmpty(searchLogNo))
+                        fleets = fleets.Where(s => s.LogNo.ToString().Equals(searchLogNo));
+
+                    if (!String.IsNullOrEmpty(searchFee))
+                        fleets = fleets.Where(s => s.Fee.ToString().Equals(searchFee));
+
+                    switch (sortOrder)
+                    {
+                        case "Fee":
+                            fleets = fleets.OrderByDescending(s => s.Fee);
+                            break;
+                        case "Unit":
+                            fleets = fleets.OrderBy(s => s.Unit);
+                            break;
+                        case "MMYY":
+                            fleets = fleets.OrderByDescending(s => s.MMYY);
+                            break;
+                        case "LogNo":
+                            fleets = fleets.OrderByDescending(s => s.LogNo);
+                            break;
+                        default:
+                            fleets = fleets.OrderBy(s => s.Fleet);
+                            break;
+                    }
+
+                    int pageSize = 100000;
+                    int pageNumber = (page ?? 1);
+                    return View(fleets.ToPagedList(pageNumber, pageSize));
+                }
+                else
+                {
+                    if (band)
+                        this.HttpContext.Session["Display"] = "You must set filters";
+                    var fleets = from s in db.FeeCodes
+                                 where s.LogNo.Equals(0)
+                                 select s;
+                    int pageSize = 100000;
+                    int pageNumber = (page ?? 1);
+                    return View(fleets.ToPagedList(pageNumber, pageSize));
+                }
             }
-            else
+            catch (Exception ex)
             {
-                searchString = currentFilter;
-                searchUnit = currentUnit;
-                searchLogNo = currentLlogNo;
-                searchFee = currentFee;
+                this.HttpContext.Session["Display"] = "Error: " + ex.Message + " Try again with more filters"; 
+                return RedirectToAction("Index");
             }
-
-            ViewBag.currentFilter = searchString;
-            ViewBag.currentUnit = searchUnit;
-            ViewBag.currentLlogNo = searchLogNo;
-            ViewBag.currentFee = searchFee;
-            ViewBag.InitialFilter = InitialDate;
-            ViewBag.FinalFilter = FinalDate;
-
-            Session["Fleet"] = string.IsNullOrEmpty(searchString) ? "" : searchString;
-            Session["Unit"] = string.IsNullOrEmpty(searchUnit) ? "" : searchUnit;
-            Session["LogNo"] = string.IsNullOrEmpty(searchLogNo) ? "" : searchLogNo;
-            Session["Fee"] = string.IsNullOrEmpty(searchFee) ? "" : searchFee;
-            Session["InitialDate"] = string.IsNullOrEmpty(InitialDate) ? "" : InitialDate;
-            Session["FinalDate"] = string.IsNullOrEmpty(FinalDate) ? "" : FinalDate;
-
-            //Busqueda por fechas
-
-            if (String.IsNullOrEmpty(InitialDate))
-                inicio = 19000101;
-            else              // 3/6/2017 
-            {
-                pos1 = InitialDate.IndexOf('/');
-                pos2 = InitialDate.LastIndexOf('/');
-                trans = InitialDate.Substring(pos2 + 1);
-                if (pos1 == 1)
-                    trans += "0" + InitialDate.Substring(0, 1);
-                else
-                    trans += InitialDate.Substring(0, 2);
-
-                if (pos2 - pos1 <= 2)
-                    trans += "0" + InitialDate.Substring(pos1 + 1, 1);
-                else
-                    trans += InitialDate.Substring(pos1 + 1, 2);
-                inicio = Convert.ToInt32(trans);
-
-            }
-
-            if (String.IsNullOrEmpty(FinalDate))
-                final = Convert.ToInt32(DateTime.Now.Year.ToString() + DateTime.Now.Month.ToString("00") + DateTime.Now.Day.ToString("00"));
-            else
-            {
-                pos1 = FinalDate.IndexOf('/');
-                pos2 = FinalDate.LastIndexOf('/');
-                trans = FinalDate.Substring(pos2 + 1);
-                if (pos1 == 1)
-                    trans += "0" + FinalDate.Substring(0, 1);
-                else
-                    trans += FinalDate.Substring(0, 2);
-
-                if (pos2 - pos1 <= 2)
-                    trans += "0" + FinalDate.Substring(pos1 + 1, 1);
-                else
-                    trans += FinalDate.Substring(pos1 + 1, 2);
-                final = Convert.ToInt32(trans);
-            }
-                
-
-            var fleets = from s in db.FeeCodes
-                     where s.MMYY >= inicio && s.MMYY <= final
-                     select s;
-
-                //if (!String.IsNullOrEmpty(searchString))
-                //    fleets = fleets.Where(s => s.Fee.ToString().Equals(searchString) || s.Fleet.ToString().Equals(searchString) || s.Unit.ToString().Equals(searchString) || s.LogNo.ToString().Equals(searchString));
-                //else
-                //    fleets = fleets.Take(100000000);
-
-                if (!String.IsNullOrEmpty(searchString))
-                    fleets = fleets.Where(s => s.Fleet.ToString().Equals(searchString));
-                else
-                    fleets = fleets.Take(100000000);
-
-                if (!String.IsNullOrEmpty(searchUnit))
-                    fleets = fleets.Where(s => s.Unit.ToString().Equals(searchUnit));
-                else
-                    fleets = fleets.Take(100000000);
-
-                if (!String.IsNullOrEmpty(searchLogNo))
-                    fleets = fleets.Where(s => s.LogNo.ToString().Equals(searchLogNo));
-                else
-                    fleets = fleets.Take(100000000);
-
-                if (!String.IsNullOrEmpty(searchFee))
-                    fleets = fleets.Where(s => s.Fee.ToString().Equals(searchFee));
-                else
-                    fleets = fleets.Take(100000000);
-
-
-                switch (sortOrder)
-            {
-                case "Fee":
-                    fleets = fleets.OrderByDescending(s => s.Fee);
-                    break;
-                case "Unit":
-                    fleets = fleets.OrderBy(s => s.Unit);
-                    break;
-                case "MMYY":
-                    fleets = fleets.OrderByDescending(s => s.MMYY);
-                    break;
-                case "LogNo":
-                    fleets = fleets.OrderByDescending(s => s.LogNo);
-                    break;
-                default:
-                    fleets = fleets.OrderBy(s => s.Fleet);
-                    break;
-            }
-
-            int pageSize = 100;
-            int pageNumber = (page ?? 1);
-
-            return View(fleets.ToPagedList(pageNumber, pageSize));
         }
 
         // GET: FeeCodes/Details/5
@@ -356,39 +380,20 @@ namespace InventoryTool.Controllers
         }
 
         [HttpPost]
-        public ActionResult ExportData()
+        public ActionResult ExportData(string searchString, string searchUnit, string searchLogNo, string searchFee, string InitialDate, string FinalDate)
         {
             try
             {
-                string searchString = (!string.IsNullOrEmpty(Session["Fleet"].ToString())) ? Session["Fleet"].ToString() : string.Empty;
-                string searchUnit = (!string.IsNullOrEmpty(Session["Unit"].ToString())) ? Session["Unit"].ToString() : string.Empty;
-                string searchLogNo = (!string.IsNullOrEmpty(Session["LogNo"].ToString())) ? Session["LogNo"].ToString() : string.Empty;
-                string searchFee = (!string.IsNullOrEmpty(Session["Fee"].ToString())) ? Session["Fee"].ToString() : string.Empty;
-                string InitialDate = (!string.IsNullOrEmpty(Session["InitialDate"].ToString())) ? Session["InitialDate"].ToString() : string.Empty;
-                string FinalDate = (!string.IsNullOrEmpty(Session["FinalDate"].ToString())) ? Session["FinalDate"].ToString() : string.Empty;
                 string sqltxt = string.Empty, trans = string.Empty;
-                int pos1 = 0, pos2 = 0;
+                int inicio = 0, final = 0, pos1 = 0, pos2 = 0;
 
-                if ((!searchString.Equals("")) || (!searchUnit.Equals("")) || (!searchLogNo.Equals("")) || (!searchFee.Equals("")) ||
-                    (!InitialDate.Equals("")) || (!FinalDate.Equals("")))
+                if ((!String.IsNullOrEmpty(searchString)) || (!String.IsNullOrEmpty(searchUnit)) || (!String.IsNullOrEmpty(searchLogNo)) || (!String.IsNullOrEmpty(searchFee)) ||
+                    (!String.IsNullOrEmpty(InitialDate)) || (!!String.IsNullOrEmpty(FinalDate)))
                 {
                     GridView gv = new GridView();
-                    var fleets = from s in db.FeeCodes
-                                 select s;
-
-                    if (!String.IsNullOrEmpty(searchString))
-                        fleets = fleets.Where(s => s.Fleet.ToString().Equals(searchString));
-
-                    if (!String.IsNullOrEmpty(searchUnit))
-                        fleets = fleets.Where(s => s.Unit.ToString().Equals(searchUnit));
-
-                    if (!String.IsNullOrEmpty(searchLogNo))
-                        fleets = fleets.Where(s => s.LogNo.ToString().Equals(searchLogNo));
-
-                    if (!String.IsNullOrEmpty(searchFee))
-                        fleets = fleets.Where(s => s.Fee.ToString().Equals(searchFee));
-
-                    if (!string.IsNullOrEmpty(InitialDate))
+                    if (String.IsNullOrEmpty(InitialDate))
+                        inicio = 19000101;
+                    else              // 3/6/2017 
                     {
                         pos1 = InitialDate.IndexOf('/');
                         pos2 = InitialDate.LastIndexOf('/');
@@ -402,11 +407,13 @@ namespace InventoryTool.Controllers
                             trans += "0" + InitialDate.Substring(pos1 + 1, 1);
                         else
                             trans += InitialDate.Substring(pos1 + 1, 2);
+                        inicio = Convert.ToInt32(trans);
 
-                        fleets = fleets.Where(s => s.MMYY >= Convert.ToInt32(trans));
                     }
 
-                    if (!string.IsNullOrEmpty(FinalDate))
+                    if (String.IsNullOrEmpty(FinalDate))
+                        final = Convert.ToInt32(DateTime.Now.Year.ToString() + DateTime.Now.Month.ToString("00") + DateTime.Now.Day.ToString("00"));
+                    else
                     {
                         pos1 = FinalDate.IndexOf('/');
                         pos2 = FinalDate.LastIndexOf('/');
@@ -420,9 +427,25 @@ namespace InventoryTool.Controllers
                             trans += "0" + FinalDate.Substring(pos1 + 1, 1);
                         else
                             trans += FinalDate.Substring(pos1 + 1, 2);
-
-                        fleets = fleets.Where(s => s.MMYY <= Convert.ToInt32(trans));
+                        final = Convert.ToInt32(trans);
                     }
+
+
+                    var fleets = from s in db.FeeCodes
+                                 where s.MMYY >= inicio && s.MMYY <= final
+                                 select s;
+
+                    if (!String.IsNullOrEmpty(searchString))
+                        fleets = fleets.Where(s => s.Fleet.ToString().Equals(searchString));
+
+                    if (!String.IsNullOrEmpty(searchUnit))
+                        fleets = fleets.Where(s => s.Unit.ToString().Equals(searchUnit));
+
+                    if (!String.IsNullOrEmpty(searchLogNo))
+                        fleets = fleets.Where(s => s.LogNo.ToString().Equals(searchLogNo));
+
+                    if (!String.IsNullOrEmpty(searchFee))
+                        fleets = fleets.Where(s => s.Fee.ToString().Equals(searchFee));
 
                     gv.DataSource = fleets.ToList();
                     gv.DataBind();
