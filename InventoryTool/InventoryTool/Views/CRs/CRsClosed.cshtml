@@ -1,0 +1,163 @@
+﻿@model IEnumerable<InventoryTool.Models.CRsClosed>
+
+@{
+    ViewBag.Title = "C&R Closed Report";
+}
+<br />
+<h2>C&Rs Closed Report</h2>
+<br />
+<p>
+    @Html.ActionLink("Phantom Home", "Index", "Phantom")
+</p>
+<br />
+
+@using (Html.BeginForm("ExportClosedCRs", "CRs", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <table class="table">
+        <tr>
+            <th>
+                Invoice Number
+            </th>
+            <th>Supplier Number</th>
+            <th>Invoice Date</th>
+            <th>
+                Not Aplicable
+            </th>
+            <th>Currency Number</th>
+            <th>
+                Exchange Rate
+            </th>
+            <th>
+                Concept
+            </th>
+            <th>
+                Not Aplicable
+            </th>
+            <th>
+                Not Aplicable
+            </th>
+            <th>
+                Deliver Date (Receipt B2B)
+            </th>
+            <th>
+                Expiration Date (Receipt B2B)
+            </th>
+            <th>
+                Amount (without tax)
+            </th>
+            <th>
+                Not Aplicable
+            </th>
+            <th>
+                Not Aplicable
+            </th>
+            <th>
+                Not Aplicable
+            </th>
+            <th>
+                Not Aplicable
+            </th>
+            <th>Tax Scheme Code</th>
+            <th>Item Code</th>
+            <th>Not Aplicable</th>
+            <th>I.E.P.S.</th>
+            <th>Tax 2</th>
+            <th>Tax 3</th>
+            <th>I.V.A.</th>
+            <th>CR number</th>
+
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Invoicenumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Supplier)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Invoicedate)
+                </td>
+                <td>
+                    0
+                </td>                         
+                <td>
+                  1
+                </td>
+                <td>
+                  1
+                </td>
+                <td>
+                    Maintenance
+                </td>
+                <td>
+                  
+                </td>
+                <td>
+                   
+                </td>
+                <td>
+                    
+                </td>
+                <td>
+                 
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Subtotal)
+                </td>
+                <td>
+                    0
+                </td>
+                <td>
+                   0 
+                </td>
+                <td>
+                   0
+                </td>
+                <td>
+                   0
+                </td>
+                <td>
+                   1
+                </td>
+                <td>
+                   7
+                </td>
+                <td>
+                  1
+                </td>
+                <td>
+                    0
+                </td>
+                <td>
+                   0
+                </td>
+                <td>
+                 0
+                </td>
+                <td>
+                 16
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CRNumber)
+                </td>
+            </tr>
+        }
+        <tr>
+            <td>
+                <input type="submit" name="Export" id="Export" value="Export" class="btn btn-success" />
+            </td>
+        </tr>
+    </table>
+}
+<br />
+
+
+
+
+
+
+
+

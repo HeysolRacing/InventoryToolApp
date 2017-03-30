@@ -260,6 +260,7 @@
     <Compile Include="Models\Closed.cs" />
     <Compile Include="Models\CR.cs" />
     <Compile Include="Models\CRdetail.cs" />
+    <Compile Include="Models\CRsClosed.cs" />
     <Compile Include="Models\Driven.cs" />
     <Compile Include="Models\ExchangeRate.cs" />
     <Compile Include="Models\General.cs" />
@@ -466,6 +467,7 @@
     <Content Include="Views\Ssuppliers\Cancel.cshtml" />
     <Content Include="Views\CRs\ClosedReport.cshtml" />
     <Content Include="Views\Remarketings\QuoteEdit.cshtml" />
+    <Content Include="Views\CRs\CRsClosed.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
