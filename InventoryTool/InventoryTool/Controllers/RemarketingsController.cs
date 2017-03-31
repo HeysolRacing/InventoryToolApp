@@ -8,6 +8,9 @@ using System.Web;
 using System.Web.Mvc;
 using InventoryTool.Models;
 using PagedList;
+using System.Web.UI.WebControls;
+using System.IO;
+using System.Web.UI;
 
 namespace InventoryTool.Controllers
 {
@@ -165,7 +168,6 @@ namespace InventoryTool.Controllers
             return View(remarketing);
         }
 
-
         // GET: Remarketings/QuoteEdit/5
         public ActionResult QuoteEdit(int? id)
         {
@@ -196,7 +198,6 @@ namespace InventoryTool.Controllers
             }
             return View(remarketing);
         }
-
 
         // GET: Remarketings/OffEdit/5
         public ActionResult SaleEdit(int? id)
@@ -250,6 +251,30 @@ namespace InventoryTool.Controllers
                 return HttpNotFound();
             }
             return View(remarketing);
+        }
+
+        //POST: Remarketings/ExportData
+        [HttpPost]
+        //[ValidateAntiForgeryToken]
+        public ActionResult ExportData()
+        {
+            GridView gv = new GridView();
+            var crs = from a in db.Remarketings
+                      select a;
+            gv.DataSource = crs.ToList();
+            gv.DataBind();
+            Response.ClearContent();
+            Response.Buffer = true;
+            Response.AddHeader("content-disposition", "attachment; filename=CrsList.xls");
+            Response.ContentType = "application/ms-excel";
+            Response.Charset = "";
+            StringWriter sw = new StringWriter();
+            HtmlTextWriter htw = new HtmlTextWriter(sw);
+            gv.RenderControl(htw);
+            Response.Output.Write(sw.ToString());
+            Response.Flush();
+            Response.End();
+            return RedirectToAction("General");
         }
 
         // POST: Remarketings/Delete/5

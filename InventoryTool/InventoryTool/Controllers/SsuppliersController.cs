@@ -310,11 +310,18 @@ namespace InventoryTool.Controllers
         public ActionResult ExportData()
         {
             GridView gv = new GridView();
-            gv.DataSource = db.Suppliers.ToList();
+            var wmas = from a in db.Suppliers
+                       select new
+                       {
+                           a.SID, a.SupplierName, a.LegalName,a.Street, a.City, a.State, a.ZIPCode, a.Telephone
+                           , a.Fax, a.WebLink, a.email, a.NatlAccountCode, a.Country_cd, a.StoreNumber, a.BillMethod
+                           , a.supplier_typ_cd, a.DiscParts, a.DiscLabor, a.PaymentTerms, a.TaxID, a.disc_cap_amt
+                       };
+            gv.DataSource = wmas.ToList();
             gv.DataBind();
             Response.ClearContent();
             Response.Buffer = true;
-            Response.AddHeader("content-disposition", "attachment; filename=AllSuppliers.xls");
+            Response.AddHeader("content-disposition", "attachment; filename=WMA.xls");
             Response.ContentType = "application/ms-excel";
             Response.Charset = "";
             StringWriter sw = new StringWriter();

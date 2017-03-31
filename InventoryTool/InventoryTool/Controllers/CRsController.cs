@@ -44,7 +44,8 @@ namespace InventoryTool.Controllers
                             select s;
             crs = crs.Where(s => !s.Status.Equals("none"));
             crs = crs.Where(s => !s.Status.Equals("Canceled"));
-           
+            crs = crs.Where(s => !s.Status.Equals("Closed"));
+
             if (!String.IsNullOrEmpty(searchString))
             {
                 crs = crs.Where(s => s.WAnumber.ToString().Contains(searchString)
@@ -369,7 +370,7 @@ namespace InventoryTool.Controllers
 
         }
 
-        // GET: CRs 
+        // GET: CRs/ClosedReport
         public ActionResult ClosedReport()
         {
 
@@ -407,6 +408,65 @@ namespace InventoryTool.Controllers
 
             return View(closed.ToList());
 
+        }
+
+        public ActionResult CRsClosed()
+        {
+            //var crs = from a in db.CRs
+            //          where a.ClosedReport == "False"
+            //          select new
+            //          {
+            //              a.Invoicenumber,
+            //              a.Supplier,
+            //              a.Invoicedate,
+            //              a.Subtotal,
+            //              a.WAnumber,
+            //              a.Status
+            //          };
+            //crs = crs.Where(s => s.Status.Equals("Closed"));
+            var crs = from a in db.CRs
+                      where a.ClosedReport == "False"
+                      select new
+                      {
+                          a.Invoicenumber,
+                          a.Supplier,
+                          a.Invoicedate,
+                          a.Subtotal,
+                          a.WAnumber,
+                          a.Status
+                      };
+            crs = crs.Where(s => s.Status.Equals("Closed"));
+            List<CRsClosed> CRclosed = new List<Models.CRsClosed>();
+            foreach (var item in crs)
+            {
+                CRsClosed ag = new CRsClosed();
+                ag.Invoicenumber = item.Invoicenumber;
+                ag.Supplier = item.Supplier;
+                ag.Invoicedate = item.Invoicedate;
+                ag.NotAplicable = 0;
+                ag.CurrencyNumber = 1;
+                ag.ExchangeRate = 1;
+                ag.Concept = "Maintenance";
+                ag.NotAplicable2 = "";
+                ag.NotAplicable3 = "";
+                ag.DeliverDate = "";
+                ag.ExpirationDate = "";
+                ag.Subtotal = item.Subtotal;
+                ag.NotAplicable4 = 0;
+                ag.NotAplicable5 = 0;
+                ag.NotAplicable6 = 0;
+                ag.NotAplicable7 = 0;
+                ag.TaxScheme = 1;
+                ag.ItemCode = 7;
+                ag.NotAplicable8 = 0;
+                ag.IEPS = 0;
+                ag.Tax2 = 0;
+                ag.Tax3 = 0;
+                ag.IVA = 16;
+                ag.CRNumber = item.WAnumber;
+                CRclosed.Add(ag);
+            }
+            return View(CRclosed);
         }
 
         // GET: CRs/Create
@@ -696,6 +756,8 @@ namespace InventoryTool.Controllers
                           a.crID,
                           a.WAnumber,
                           a.VINnumber,
+                          a.FleetNumber,
+                          a.UnitNumber,
                           a.Servicedate,
                           a.Odometer,
                           a.Status,
@@ -739,6 +801,70 @@ namespace InventoryTool.Controllers
             Response.End();
 
             return RedirectToAction("General");
+        }
+
+        public ActionResult ExportClosedCRs()
+        {
+            GridView gv = new GridView();
+            var crs = from a in db.CRs
+                      where a.ClosedReport == "False"
+                      select new
+                      {
+                          a.Invoicenumber,
+                          a.Supplier,
+                          a.Invoicedate,
+                          a.Subtotal,
+                          a.WAnumber,
+                          a.Status
+                      };
+            crs = crs.Where(s => s.Status.Equals("Closed"));
+            List<CRsClosed> CRclosed = new List<Models.CRsClosed>();
+            foreach (var item in crs)
+            {
+                CRsClosed ag = new CRsClosed();
+                ag.Invoicenumber = item.Invoicenumber;
+                ag.Supplier = item.Supplier;
+                ag.Invoicedate = item.Invoicedate;
+                ag.NotAplicable = 0;
+                ag.CurrencyNumber = 1;
+                ag.ExchangeRate = 1;
+                ag.Concept = "Maintenance";
+                ag.NotAplicable2 = "";
+                ag.NotAplicable3 = "";
+                ag.DeliverDate = "";
+                ag.ExpirationDate = "";
+                ag.Subtotal = item.Subtotal;
+                ag.NotAplicable4 = 0;
+                ag.NotAplicable5 = 0;
+                ag.NotAplicable6 = 0;
+                ag.NotAplicable7 = 0;
+                ag.TaxScheme = 1;
+                ag.ItemCode = 7;
+                ag.NotAplicable8 = 0;
+                ag.IEPS = 0;
+                ag.Tax2 = 0;
+                ag.Tax3 = 0;
+                ag.IVA = 16;
+                ag.CRNumber = item.WAnumber;
+                CRclosed.Add(ag);
+            }
+            gv.DataSource = CRclosed;
+            gv.DataBind();
+            Response.ClearContent();
+            Response.Buffer = true;
+            Response.AddHeader("content-disposition", "attachment; filename=CRsClosedList.xls");
+            Response.ContentType = "application/ms-excel";
+            Response.Charset = "";
+            StringWriter sw = new StringWriter();
+            HtmlTextWriter htw = new HtmlTextWriter(sw);
+            gv.RenderControl(htw);
+            Response.Output.Write(sw.ToString());
+            Response.Flush();
+            Response.End();
+
+            db.SaveChanges();
+
+            return RedirectToAction("CRsClosed");
         }
 
         //POST: CRs/ExportData
