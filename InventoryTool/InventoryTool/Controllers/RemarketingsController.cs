@@ -19,7 +19,7 @@ namespace InventoryTool.Controllers
         private InventoryToolContext db = new InventoryToolContext();
 
         // GET: Remarketings
-        public ActionResult Index(string sortOrder, string currentFilter, string searchString, string fleetString, string logString, int? page)
+        public ActionResult Index(string sortOrder, string currentFilter, string searchString, string fleetString, string unitString, string logString,  int? page)
         {
             ViewBag.CurrentSort = sortOrder;
             ViewBag.FleetSortParm = String.IsNullOrEmpty(sortOrder) ? "Fleet Number" : "";
@@ -34,6 +34,7 @@ namespace InventoryTool.Controllers
             ViewBag.CurrentFilter = searchString;
             ViewBag.fleetFilter = fleetString;
             ViewBag.logFilter = logString;
+            ViewBag.UnitSortParm = unitString;
 
             var Remarketings = from s in db.Remarketings
                                select s;
@@ -44,6 +45,8 @@ namespace InventoryTool.Controllers
                 Remarketings = Remarketings.Where(s => s.FleetNumber.ToString().Contains(fleetString));
             if (!String.IsNullOrEmpty(logString))
                 Remarketings = Remarketings.Where(s => s.LogNumber.ToString().Contains(logString));
+            if (!String.IsNullOrEmpty(unitString))
+                Remarketings = Remarketings.Where(s => s.UnitNumber.ToString().Contains(unitString));
 
             switch (sortOrder)
             {
@@ -194,6 +197,14 @@ namespace InventoryTool.Controllers
             {              
                 db.Entry(remarketing).State = EntityState.Modified;
                 db.SaveChanges();
+                if (!String.IsNullOrEmpty(remarketing.CurrentPeriod.ToString()) && String.IsNullOrEmpty(remarketing.Amortization.ToString()))
+                {
+                    this.HttpContext.Session["DisplayAmort"] = "The Amount of Amortization in current period doesn't exist";
+                }
+                if (!String.IsNullOrEmpty(remarketing.CurrentPeriod.ToString()) && String.IsNullOrEmpty(remarketing.Interest.ToString()))
+                {
+                    this.HttpContext.Session["Display"] = "The Amount of Interest in current period doesn't exist";
+                }
                 return RedirectToAction("QuoteEdit");
             }
             return View(remarketing);
