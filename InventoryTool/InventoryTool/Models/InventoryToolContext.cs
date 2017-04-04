@@ -14,6 +14,8 @@ namespace InventoryTool.Models
 
         public System.Data.Entity.DbSet<InventoryTool.Models.CR> CRs { get; set; }
 
+       
+
         public System.Data.Entity.DbSet<InventoryTool.Models.CRdetail> CRdetails { get; set; }
 
         public System.Data.Entity.DbSet<InventoryTool.Models.Ssupplier> Suppliers { get; set; }
@@ -31,5 +33,7 @@ namespace InventoryTool.Models
         public System.Data.Entity.DbSet<InventoryTool.Models.ExchangeRate> ExchangeRates { get; set; }
 
         public System.Data.Entity.DbSet<InventoryTool.Models.OutletCode> OutletCodes { get; set; }
+
+        public DbSet<CRs_h> CRs_hs { get; set; }
     }
 }

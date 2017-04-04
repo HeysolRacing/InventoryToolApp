@@ -62,7 +62,7 @@
 }
 
 <h4 style="color:red">
-    @Session["Display"]
+    @Session["Display"] &nbsp; &nbsp; @Session["Display2"]
 </h4>
 
 @using (Html.BeginForm("ExportData", "FeeCodes", new { searchString = ViewBag.CurrentFilter, searchUnit = ViewBag.CurrentUnit, searchLogNo = ViewBag.CurrentLogNo, searchFee = ViewBag.CurrentFee,

@@ -78,7 +78,6 @@ namespace InventoryTool.Controllers
             return View(crs.ToPagedList(pageNumber, pageSize));
 
         }
-
         // GET: CRs
         [Authorize(Roles = "APhantomView")]
         public ActionResult APlist(string sortOrder, string currentFilter, string searchString, int? page)
@@ -187,7 +186,6 @@ namespace InventoryTool.Controllers
 
         }
         // GET: CRs/Details/5
-       
         public ActionResult Details(int? id, int? screen)
         {
             ViewBag.screen = screen;
@@ -467,6 +465,50 @@ namespace InventoryTool.Controllers
                 CRclosed.Add(ag);
             }
             return View(CRclosed);
+        }
+
+        public ActionResult ApMaintenance()
+        {
+            var crs = from c in db.CRs
+                      join h in db.CRs_hs on c.crID equals h.crID
+                      select new
+                      {
+                          c.WAnumber,
+                          c.VINnumber,
+                          c.Status,
+                          hStatus = h.Status,
+                          h.Modified,
+                          c.Supplier,
+                          c.Suppliername,
+                          c.Subtotal,
+                          c.IVA,
+                          c.Total,
+                          c.Invoicenumber,
+                          c.Invoicedate,
+                          c.FleetNumber,
+                          c.UnitNumber,
+                      };
+            crs = crs.Where(s => s.Status.Equals("Closed"));
+            crs = crs.Where(s => s.hStatus.Equals("Closed"));
+            crs = crs.Where(s => !s.Suppliername.Equals("Treka"));
+
+            List<APMaintenance> aPMaintenance = new List<Models.APMaintenance>();
+            foreach (var item in crs)
+            {
+                APMaintenance ag = new APMaintenance();
+                ag.CorpCode = 501;
+                ag.FleetNumber = item.FleetNumber;
+                ag.UnitNumber = item.UnitNumber;
+                ag.ProcessDate = item.Modified;
+                ag.CRNumber = item.WAnumber;
+                ag.PartyName = item.Supplier.ToString() + item.Suppliername;
+                ag.TransactionDate = item.Invoicedate;
+                ag.CurrencyCode = "MXN";
+                ag.TCInvoice = 1;
+                ag.TCPayment = 1;
+                aPMaintenance.Add(ag);
+            }
+            return View(aPMaintenance);
         }
 
         // GET: CRs/Create

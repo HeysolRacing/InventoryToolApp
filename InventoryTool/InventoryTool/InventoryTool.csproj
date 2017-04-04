@@ -256,11 +256,25 @@
     <Compile Include="Migrations\201703132211463_fix.Designer.cs">
       <DependentUpon>201703132211463_fix.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201704042020258_historic.cs" />
+    <Compile Include="Migrations\201704042020258_historic.Designer.cs">
+      <DependentUpon>201704042020258_historic.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201704042021217_Inheritance.cs" />
+    <Compile Include="Migrations\201704042021217_Inheritance.Designer.cs">
+      <DependentUpon>201704042021217_Inheritance.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201704042036399_IgnoreChanges.cs" />
+    <Compile Include="Migrations\201704042036399_IgnoreChanges.Designer.cs">
+      <DependentUpon>201704042036399_IgnoreChanges.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\Acode.cs" />
+    <Compile Include="Models\APMaintenance.cs" />
     <Compile Include="Models\Closed.cs" />
     <Compile Include="Models\CR.cs" />
     <Compile Include="Models\CRdetail.cs" />
     <Compile Include="Models\CRsClosed.cs" />
+    <Compile Include="Models\CRs_h.cs" />
     <Compile Include="Models\Driven.cs" />
     <Compile Include="Models\ExchangeRate.cs" />
     <Compile Include="Models\General.cs" />
@@ -468,6 +482,7 @@
     <Content Include="Views\CRs\ClosedReport.cshtml" />
     <Content Include="Views\Remarketings\QuoteEdit.cshtml" />
     <Content Include="Views\CRs\CRsClosed.cshtml" />
+    <Content Include="Views\CRs\ApMaintenance.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -493,6 +508,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201703132211463_fix.resx">
       <DependentUpon>201703132211463_fix.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704042020258_historic.resx">
+      <DependentUpon>201704042020258_historic.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704042021217_Inheritance.resx">
+      <DependentUpon>201704042021217_Inheritance.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704042036399_IgnoreChanges.resx">
+      <DependentUpon>201704042036399_IgnoreChanges.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
