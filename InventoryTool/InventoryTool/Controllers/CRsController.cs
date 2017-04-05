@@ -1152,7 +1152,7 @@ namespace InventoryTool.Controllers
             gv.DataBind();
             Response.ClearContent();
             Response.Buffer = true;
-            Response.AddHeader("content-disposition", "attachment; filename=APmaintenance.xls");
+            Response.AddHeader("content-disposition", "attachment; filename=ARmaintenance.xls");
             Response.ContentType = "application/ms-excel";
             Response.Charset = "";
             StringWriter sw = new StringWriter();
