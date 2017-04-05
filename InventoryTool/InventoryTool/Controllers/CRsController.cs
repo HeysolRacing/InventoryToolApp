@@ -12,6 +12,7 @@ using PagedList;
 using System.Web.UI.WebControls;
 using System.IO;
 using System.Web.UI;
+using System.Globalization;
 
 namespace InventoryTool.Controllers
 {
@@ -471,10 +472,12 @@ namespace InventoryTool.Controllers
         {
             var crs = from c in db.CRs
                       join h in db.CRs_hs on c.crID equals h.crID
+                      join f in db.Fleets on c.VINnumber equals f.VinNumber
                       select new
                       {
                           c.WAnumber,
                           c.VINnumber,
+                          f.LogNumber,
                           c.Status,
                           hStatus = h.Status,
                           h.Modified,
@@ -492,23 +495,109 @@ namespace InventoryTool.Controllers
             crs = crs.Where(s => s.hStatus.Equals("Closed"));
             crs = crs.Where(s => !s.Suppliername.Equals("Treka"));
 
+            DateTime time = DateTime.Now;
+            DayOfWeek day = CultureInfo.InvariantCulture.Calendar.GetDayOfWeek(time);
+            if (day >= DayOfWeek.Monday && day <= DayOfWeek.Wednesday)
+            {
+                time = time.AddDays(3);
+            }
+            // Return the week of our adjusted day
+            int week = CultureInfo.InvariantCulture.Calendar.GetWeekOfYear(time, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
+
             List<APMaintenance> aPMaintenance = new List<Models.APMaintenance>();
             foreach (var item in crs)
             {
                 APMaintenance ag = new APMaintenance();
+                ag.JournalSource = "payables";
                 ag.CorpCode = 501;
                 ag.FleetNumber = item.FleetNumber;
                 ag.UnitNumber = item.UnitNumber;
-                ag.ProcessDate = item.Modified;
+                ag.ProcessDate = item.Modified.ToString("MMM-yy");
                 ag.CRNumber = item.WAnumber;
                 ag.PartyName = item.Supplier.ToString() + item.Suppliername;
                 ag.TransactionDate = item.Invoicedate;
                 ag.CurrencyCode = "MXN";
                 ag.TCInvoice = 1;
                 ag.TCPayment = 1;
+                ag.ExternalDocLocator = item.Invoicenumber;
+                ag.NET = item.Subtotal;
+                ag.charge = true;
+                ag.InternalDocumentLocator = "Pha" + DateTime.Now.Year.ToString() + week.ToString();
+                ag.DAN = item.LogNumber;
+                ag.EnteredDrSUM = item.Total;
+                ag.EnteredCrSUM = 0;
+                ag.NET = item.Total;
+                ag.AccountedDrSUM = item.Total;
+                ag.AccountedCrSUM = 0;
                 aPMaintenance.Add(ag);
             }
-            return View(aPMaintenance);
+            return View(aPMaintenance.Distinct());
+        }
+
+        public ActionResult ArMaintenance()
+        {
+            var crs = from c in db.CRs
+                      join h in db.CRs_hs on c.crID equals h.crID
+                      join f in db.Fleets on c.VINnumber equals f.VinNumber
+                      select new
+                      {
+                          c.WAnumber,
+                          c.VINnumber,
+                          f.LogNumber,
+                          c.Status,
+                          hStatus = h.Status,
+                          h.Modified,
+                          c.Supplier,
+                          c.Suppliername,
+                          c.Subtotal,
+                          c.IVA,
+                          c.Total,
+                          c.Invoicenumber,
+                          c.Invoicedate,
+                          c.FleetNumber,
+                          c.UnitNumber,
+                      };
+            crs = crs.Where(s => s.Status.Equals("Closed"));
+            crs = crs.Where(s => s.hStatus.Equals("Closed"));
+            crs = crs.Where(s => !s.Suppliername.Equals("Treka"));
+
+            DateTime time = DateTime.Now;
+            DayOfWeek day = CultureInfo.InvariantCulture.Calendar.GetDayOfWeek(time);
+            if (day >= DayOfWeek.Monday && day <= DayOfWeek.Wednesday)
+            {
+                time = time.AddDays(3);
+            }
+            // Return the week of our adjusted day
+            int week = CultureInfo.InvariantCulture.Calendar.GetWeekOfYear(time, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
+
+            List<APMaintenance> aPMaintenance = new List<Models.APMaintenance>();
+            foreach (var item in crs)
+            {
+                APMaintenance ag = new APMaintenance();
+                ag.JournalSource = "recivables";
+                ag.CorpCode = 501;
+                ag.FleetNumber = item.FleetNumber;
+                ag.UnitNumber = item.UnitNumber;
+                ag.ProcessDate = item.Modified.ToString("MMM-yy");
+                ag.CRNumber = item.WAnumber;
+                ag.PartyName = item.Supplier.ToString() + item.Suppliername;
+                ag.TransactionDate = item.Invoicedate;
+                ag.CurrencyCode = "MXN";
+                ag.TCInvoice = 1;
+                ag.TCPayment = 1;
+                ag.ExternalDocLocator = item.Invoicenumber;
+                ag.NET = item.Subtotal;
+                ag.charge = true;
+                ag.InternalDocumentLocator = "Pha" + DateTime.Now.Year.ToString() + week.ToString();
+                ag.DAN = item.LogNumber;
+                ag.EnteredDrSUM = 0;
+                ag.EnteredCrSUM = item.Total;
+                ag.NET = item.Total;
+                ag.AccountedDrSUM = 0;
+                ag.AccountedCrSUM = item.Total;
+                aPMaintenance.Add(ag);
+            }
+            return View(aPMaintenance.Distinct());
         }
 
         // GET: CRs/Create
@@ -907,6 +996,175 @@ namespace InventoryTool.Controllers
             db.SaveChanges();
 
             return RedirectToAction("CRsClosed");
+        }
+
+        public ActionResult ExportApMaintenanceReport()
+        {
+            GridView gv = new GridView();
+            var crs = from c in db.CRs
+                      join h in db.CRs_hs on c.crID equals h.crID
+                      join f in db.Fleets on c.VINnumber equals f.VinNumber
+                      select new
+                      {
+                          c.WAnumber,
+                          c.VINnumber,
+                          f.LogNumber,
+                          c.Status,
+                          hStatus = h.Status,
+                          h.Modified,
+                          c.Supplier,
+                          c.Suppliername,
+                          c.Subtotal,
+                          c.IVA,
+                          c.Total,
+                          c.Invoicenumber,
+                          c.Invoicedate,
+                          c.FleetNumber,
+                          c.UnitNumber,
+                      };
+            crs = crs.Where(s => s.Status.Equals("Closed"));
+            crs = crs.Where(s => s.hStatus.Equals("Closed"));
+            crs = crs.Where(s => !s.Suppliername.Equals("Treka"));
+
+            DateTime time = DateTime.Now;
+            DayOfWeek day = CultureInfo.InvariantCulture.Calendar.GetDayOfWeek(time);
+            if (day >= DayOfWeek.Monday && day <= DayOfWeek.Wednesday)
+            {
+                time = time.AddDays(3);
+            }
+            // Return the week of our adjusted day
+            int week = CultureInfo.InvariantCulture.Calendar.GetWeekOfYear(time, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
+
+            List<APMaintenance> aPMaintenance = new List<Models.APMaintenance>();
+            foreach (var item in crs)
+            {
+                APMaintenance ag = new APMaintenance();
+                ag.JournalSource = "payables";
+                ag.CorpCode = 501;
+                ag.FleetNumber = item.FleetNumber;
+                ag.UnitNumber = item.UnitNumber;
+                ag.ProcessDate = item.Modified.ToString("MMM-yy");
+                ag.CRNumber = item.WAnumber;
+                ag.PartyName = item.Supplier.ToString() + item.Suppliername;
+                ag.TransactionDate = item.Invoicedate;
+                ag.CurrencyCode = "MXN";
+                ag.TCInvoice = 1;
+                ag.TCPayment = 1;
+                ag.ExternalDocLocator = item.Invoicenumber;
+                ag.NET = item.Subtotal;
+                ag.charge = true;
+                ag.InternalDocumentLocator = "Pha" + DateTime.Now.Year.ToString() + week.ToString();
+                ag.DAN = item.LogNumber;
+                ag.EnteredDrSUM = item.Total;
+                ag.EnteredCrSUM = 0;
+                ag.NET = item.Total;
+                ag.AccountedDrSUM = item.Total;
+                ag.AccountedCrSUM = 0;
+               
+                aPMaintenance.Add(ag);
+            }
+
+            gv.DataSource = aPMaintenance.Distinct();
+            gv.DataBind();
+            Response.ClearContent();
+            Response.Buffer = true;
+            Response.AddHeader("content-disposition", "attachment; filename=APmaintenance.xls");
+            Response.ContentType = "application/ms-excel";
+            Response.Charset = "";
+            StringWriter sw = new StringWriter();
+            HtmlTextWriter htw = new HtmlTextWriter(sw);
+            gv.RenderControl(htw);
+            Response.Output.Write(sw.ToString());
+            Response.Flush();
+            Response.End();
+
+            db.SaveChanges();
+
+            return RedirectToAction("ApMaintenance");
+        }
+
+        public ActionResult ExportArMaintenanceReport()
+        {
+            GridView gv = new GridView();
+            var crs = from c in db.CRs
+                      join h in db.CRs_hs on c.crID equals h.crID
+                      join f in db.Fleets on c.VINnumber equals f.VinNumber
+                      select new
+                      {
+                          c.WAnumber,
+                          c.VINnumber,
+                          f.LogNumber,
+                          c.Status,
+                          hStatus = h.Status,
+                          h.Modified,
+                          c.Supplier,
+                          c.Suppliername,
+                          c.Subtotal,
+                          c.IVA,
+                          c.Total,
+                          c.Invoicenumber,
+                          c.Invoicedate,
+                          c.FleetNumber,
+                          c.UnitNumber,
+                      };
+            crs = crs.Where(s => s.Status.Equals("Closed"));
+            crs = crs.Where(s => s.hStatus.Equals("Closed"));
+            crs = crs.Where(s => !s.Suppliername.Equals("Treka"));
+
+            DateTime time = DateTime.Now;
+            DayOfWeek day = CultureInfo.InvariantCulture.Calendar.GetDayOfWeek(time);
+            if (day >= DayOfWeek.Monday && day <= DayOfWeek.Wednesday)
+            {
+                time = time.AddDays(3);
+            }
+            // Return the week of our adjusted day
+            int week = CultureInfo.InvariantCulture.Calendar.GetWeekOfYear(time, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
+
+            List<APMaintenance> aPMaintenance = new List<Models.APMaintenance>();
+            foreach (var item in crs)
+            {
+                APMaintenance ag = new APMaintenance();
+                ag.JournalSource = "payables";
+                ag.CorpCode = 501;
+                ag.FleetNumber = item.FleetNumber;
+                ag.UnitNumber = item.UnitNumber;
+                ag.ProcessDate = item.Modified.ToString("MMM-yy");
+                ag.CRNumber = item.WAnumber;
+                ag.PartyName = item.Supplier.ToString() + item.Suppliername;
+                ag.TransactionDate = item.Invoicedate;
+                ag.CurrencyCode = "MXN";
+                ag.TCInvoice = 1;
+                ag.TCPayment = 1;
+                ag.ExternalDocLocator = item.Invoicenumber;
+                ag.NET = item.Subtotal;
+                ag.charge = true;
+                ag.InternalDocumentLocator = "Pha" + DateTime.Now.Year.ToString() + week.ToString();
+                ag.DAN = item.LogNumber;
+                ag.EnteredDrSUM = 0;
+                ag.EnteredCrSUM = item.Total;
+                ag.NET = item.Total;
+                ag.AccountedDrSUM = 0;
+                ag.AccountedCrSUM = item.Total;
+                aPMaintenance.Add(ag);
+            }
+
+            gv.DataSource = aPMaintenance.Distinct();
+            gv.DataBind();
+            Response.ClearContent();
+            Response.Buffer = true;
+            Response.AddHeader("content-disposition", "attachment; filename=APmaintenance.xls");
+            Response.ContentType = "application/ms-excel";
+            Response.Charset = "";
+            StringWriter sw = new StringWriter();
+            HtmlTextWriter htw = new HtmlTextWriter(sw);
+            gv.RenderControl(htw);
+            Response.Output.Write(sw.ToString());
+            Response.Flush();
+            Response.End();
+
+            db.SaveChanges();
+
+            return RedirectToAction("ApMaintenance");
         }
 
         //POST: CRs/ExportData

@@ -483,6 +483,7 @@
     <Content Include="Views\Remarketings\QuoteEdit.cshtml" />
     <Content Include="Views\CRs\CRsClosed.cshtml" />
     <Content Include="Views\CRs\ApMaintenance.cshtml" />
+    <Content Include="Views\CRs\ArMaintenance.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

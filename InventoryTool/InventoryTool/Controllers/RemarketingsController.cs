@@ -201,10 +201,12 @@ namespace InventoryTool.Controllers
                 {
                     this.HttpContext.Session["DisplayAmort"] = "The Amount of Amortization in current period doesn't exist";
                 }
+                else { this.HttpContext.Session["DisplayAmort"] = ""; }
                 if (!String.IsNullOrEmpty(remarketing.CurrentPeriod.ToString()) && String.IsNullOrEmpty(remarketing.Interest.ToString()))
                 {
                     this.HttpContext.Session["Display"] = "The Amount of Interest in current period doesn't exist";
                 }
+                else { this.HttpContext.Session["Display"] = ""; }
                 return RedirectToAction("QuoteEdit");
             }
             return View(remarketing);

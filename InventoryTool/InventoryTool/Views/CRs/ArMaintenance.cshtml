@@ -1,12 +1,12 @@
 ﻿@model IEnumerable<InventoryTool.Models.APMaintenance>
 @{
-    ViewBag.Title = "ApMaintenance";
+    ViewBag.Title = "ArMaintenance";
 }
 <br />
-<h2>AP-Maintenance Report</h2>
+<h2>AR-Maintenance Report</h2>
 <br />
 
-@using (Html.BeginForm("ExportApMaintenanceReport", "CRs", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("ExportArMaintenanceReport", "CRs", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     <p>
         <input type="submit" name="Export" id="Export" value="Export" class="btn btn-success" />

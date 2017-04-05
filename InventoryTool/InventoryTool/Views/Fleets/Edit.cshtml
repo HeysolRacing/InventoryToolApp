@@ -138,7 +138,7 @@
             </div>
         </div>
 
-        @Html.HiddenFor(model => model.Offroad_date)
+       
         @Html.HiddenFor(model => model.Offroad_process)
         @Html.HiddenFor(model => model.Sold_date)
         @Html.HiddenFor(model => model.Sold_process)
@@ -309,6 +309,8 @@
                     </div>
                 </div>
             }
+            else
+            {  @Html.HiddenFor(model => model.Offroad_date) }
 
         @Html.HiddenFor(model => model.OutletCode)
         @Html.HiddenFor(model => model.OutletName)

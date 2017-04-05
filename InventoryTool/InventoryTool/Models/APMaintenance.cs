@@ -21,7 +21,7 @@ namespace InventoryTool.Models
        public string ChargeCode { get; set; }
        public string ExternalDocLocator { get; set; }
        public string CorpCodeAP { get; set; }
-       public DateTime ProcessDate { get; set; }
+       public string ProcessDate { get; set; }
        public string InternalDocumentLocator { get; set; }
        public string PartyName { get; set; }
        public DateTime TransactionDate { get; set; }
