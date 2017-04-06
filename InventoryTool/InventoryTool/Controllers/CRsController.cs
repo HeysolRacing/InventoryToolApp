@@ -241,8 +241,9 @@ namespace InventoryTool.Controllers
 
             var crs = from a in db.CRs
                       join c in db.CRdetails on a.crID equals c.IDCR
+                      join s in db.Suppliers on a.Supplier equals s.SupplierID
                       where a.Status != "none"
-                      select new { a.crID, a.WAnumber, a.FleetNumber, a.UnitNumber, a.VINnumber,a.Servicedate,a.Odometer,a.Status,a.Supplier,a.Suppliername
+                      select new { a.crID, a.WAnumber, a.FleetNumber, a.UnitNumber, a.VINnumber,a.Servicedate,a.Odometer,a.Status,a.Supplier,a.Suppliername, s.StoreNumber
                       ,a.Clientname,a.Subtotal,a.IVA, a.Total, c.ID, c.IDCR, c.Quantity,c.Atacode,c.Description
                       ,c.Requested,c.Authorized,c.CreateDate,c.CreatedBy, a.OkedBy
                       ,a.Invoicenumber, a.Invoicedate,a.Amountpaid,a.Paymentdate,a.MaintenanceComments,a.ApComments};
@@ -357,7 +358,7 @@ namespace InventoryTool.Controllers
                 ag.Paymentdate = item.Paymentdate;
                 ag.MaintenanceComments = item.MaintenanceComments;
                 ag.ApComments = item.ApComments;
-
+                ag.storenumber = item.StoreNumber;
                 gral.Add(ag);
             }
 
@@ -529,6 +530,7 @@ namespace InventoryTool.Controllers
                 ag.NET = item.Total;
                 ag.AccountedDrSUM = item.Total;
                 ag.AccountedCrSUM = 0;
+                ag.JournalCategory = "Maintenance";
                 aPMaintenance.Add(ag);
             }
             return View(aPMaintenance.Distinct());
@@ -881,6 +883,7 @@ namespace InventoryTool.Controllers
             GridView gv = new GridView();
             var crs = from a in db.CRs
                       join c in db.CRdetails on a.crID equals c.IDCR
+                      join s in db.Suppliers on a.Supplier equals s.SupplierID
                       where a.Status != "none"
                       select new
                       {
@@ -893,7 +896,8 @@ namespace InventoryTool.Controllers
                           a.Odometer,
                           a.Status,
                           a.Supplier,
-                          a.Suppliername
+                          a.Suppliername,
+                          s.StoreNumber
                       ,
                           a.Clientname,
                           a.Subtotal,
@@ -947,6 +951,7 @@ namespace InventoryTool.Controllers
                           a.Subtotal,
                           a.WAnumber,
                           a.Status
+
                       };
             crs = crs.Where(s => s.Status.Equals("Closed"));
             List<CRsClosed> CRclosed = new List<Models.CRsClosed>();
@@ -978,6 +983,7 @@ namespace InventoryTool.Controllers
                 ag.IVA = 16;
                 ag.CRNumber = item.WAnumber;
                 CRclosed.Add(ag);
+                db.Entry(item).State = EntityState.Modified;
             }
             gv.DataSource = CRclosed;
             gv.DataBind();
