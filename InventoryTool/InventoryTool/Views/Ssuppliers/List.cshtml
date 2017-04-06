@@ -16,8 +16,10 @@
     <p>
         Find by Supplier Name: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
         &nbsp;&nbsp;&nbsp;
-        By ZIP Code: @Html.TextBox("SearchZIPCode", ViewBag.CurrentZIPCode as string)
+        Find by Supplier ID: @Html.TextBox("SearchID", ViewBag.CurrentID as string)
         &nbsp;&nbsp;&nbsp;
+        By ZIP Code: @Html.TextBox("SearchZIPCode", ViewBag.CurrentZIPCode as string)
+        <br /><br />
         By Main Phone: @Html.TextBox("SearchMainPhone", ViewBag.CurrenMainPhone as string)
         &nbsp;&nbsp;
         <input type="submit" value="Search" class="btn btn-info" />
@@ -32,6 +34,9 @@
             <th></th>
             <th>
                 @Html.ActionLink("Supplier Name", "List", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter, currentZIPCode = ViewBag.CurrentZIPCode, currentMainPhone = ViewBag.CurrentMainPhone })
+            </th>
+            <th>
+                @Html.ActionLink("Supplier ID", "List", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter, currentZIPCode = ViewBag.CurrentZIPCode, currentMainPhone = ViewBag.CurrentMainPhone, currentID = ViewBag.CurrentID })
             </th>
             <th>Legal Name</th>
             <th>
@@ -60,9 +65,6 @@
             </th>
             <th>
                 Status
-            </th>
-            <th>
-                Store
             </th>
             <th>
                 Bill Method
@@ -95,6 +97,9 @@
                     @Html.DisplayFor(modelItem => item.SupplierName)
                 </td>
                 <td>
+                    @Html.DisplayFor(modelItem => item.StoreNumber)
+                </td>
+                <td>
                     @Html.DisplayFor(modelItem => item.LegalName)
                 </td>
                 <td>
@@ -123,9 +128,6 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Status)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.StoreNumber)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.BillMethod)
