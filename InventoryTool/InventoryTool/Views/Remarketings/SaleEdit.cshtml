@@ -6,6 +6,7 @@
 <br /><br />
 <h2>Set Sale Value [MXN]</h2>
 @{ List<OutletCode> outletcodes = ViewBag.OutletCodes; }
+@{ List<BankAccounts> bankaccounts = ViewBag.BankAccounts; }
 <div>
     <br />
     @using (Html.BeginForm())
@@ -27,6 +28,14 @@
                     @Html.ValidationMessageFor(model => model.SoldDate, "", new { @class = "text-danger" })
                 </div>
             </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.BankAccount, htmlAttributes: new { @class = "control-label col-md-1" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.BankAccount, new SelectList(bankaccounts, "Account", "Currency"))
+                </div>
+            </div>
+
             <div class="form-group">
                 @Html.LabelFor(model => model.OutletCode, htmlAttributes: new { @class = "control-label col-md-1" })
                 <div class="col-md-10">
@@ -34,6 +43,7 @@
                     @*@Html.ValidationMessageFor(model => model.OutletCode, "", new { @class = "text-danger" })*@
                 </div>
             </div>
+
             @*<div class="form-group">
                 @Html.LabelFor(model => model.Outletname, htmlAttributes: new { @class = "control-label col-md-1" })
                 <div class="col-md-10">

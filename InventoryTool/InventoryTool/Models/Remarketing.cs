@@ -104,5 +104,7 @@ namespace InventoryTool.Models
         [Display(Name = "Outlet Name")]
         public string Outletname { get; set; }
 
+        [Display(Name = "Bank Account")]
+        public string BankAccount { get; set; }
     }
 }

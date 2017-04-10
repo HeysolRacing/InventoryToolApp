@@ -16,6 +16,8 @@
         -Unit number: @Html.TextBox("unitString", ViewBag.UnitSortParm as string)
         or Log number: @Html.TextBox("logString", ViewBag.logFilter as string) 
         <input type="submit" value="Search" class="btn btn-info" />
+        <h5>@Html.ActionLink("AP Remarketing Report", "ApRemarketing", "Remarketings")</h5> 
+
     </p>
 }
 <br />
@@ -102,6 +104,9 @@
         </th>
         <th>
         P&L Gain/Loss
+        </th>
+        <th>
+        Banck Account
         </th>
         <th>OutletCode</th>
         <th>OutletName</th>
@@ -215,6 +220,9 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.PLGainLoss)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BankAccount)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.OutletCode)

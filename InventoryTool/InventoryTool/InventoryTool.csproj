@@ -270,6 +270,8 @@
     </Compile>
     <Compile Include="Models\Acode.cs" />
     <Compile Include="Models\APMaintenance.cs" />
+    <Compile Include="Models\ApRemarketing.cs" />
+    <Compile Include="Models\BankAccounts.cs" />
     <Compile Include="Models\Closed.cs" />
     <Compile Include="Models\CR.cs" />
     <Compile Include="Models\CRdetail.cs" />
@@ -484,6 +486,7 @@
     <Content Include="Views\CRs\CRsClosed.cshtml" />
     <Content Include="Views\CRs\ApMaintenance.cshtml" />
     <Content Include="Views\CRs\ArMaintenance.cshtml" />
+    <Content Include="Views\Remarketings\ApRemarketing.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

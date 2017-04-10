@@ -57,6 +57,7 @@
         @Html.HiddenFor(model => model.ComplementaryRent)
         @Html.HiddenFor(model => model.CreditNote)
         @Html.HiddenFor(model => model.PLGainLoss)
+        @Html.HiddenFor(model => model.BankAccount)
         @Html.HiddenFor(model => model.Status)
         @Html.HiddenFor(model => model.Quote)
     }
@@ -227,6 +228,13 @@
 
         <dd>
             @Html.DisplayFor(model => model.GainLoss)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BankAccount)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.BankAccount)
         </dd>
 
         <dt>

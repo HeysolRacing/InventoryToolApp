@@ -34,6 +34,8 @@ namespace InventoryTool.Models
 
         public System.Data.Entity.DbSet<InventoryTool.Models.OutletCode> OutletCodes { get; set; }
 
+        public System.Data.Entity.DbSet<InventoryTool.Models.BankAccounts> BankAccounts { get; set; }
+
         public DbSet<CRs_h> CRs_hs { get; set; }
     }
 }
