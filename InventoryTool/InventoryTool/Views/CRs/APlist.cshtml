@@ -45,6 +45,9 @@
             Supplier
         </th>
         <th>
+            Supplier Legal Name
+        </th>
+        <th>
             @Html.ActionLink("Client name", "APlist", new { sortOrder = ViewBag.DateSortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
@@ -104,9 +107,11 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Status)
             </td>
-
             <td>
                 @Html.DisplayFor(modelItem => item.Suppliername)
+            </td>           
+            <td>
+                @Html.DisplayFor(modelItem => item.LegalName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Clientname)

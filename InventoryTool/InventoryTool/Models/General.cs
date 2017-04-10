@@ -73,5 +73,6 @@ namespace InventoryTool.Models
         [Display(Name = "AP Comments")]
         public string ApComments { get; set; }
         public string storenumber { get; set; }
+        public string LegalName { get; set; }
     }
 }

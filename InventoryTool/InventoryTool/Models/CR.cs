@@ -57,6 +57,6 @@ namespace InventoryTool.Models
         [Display(Name = "AP Comments")]
         public string ApComments { get; set; }
         public string ClosedReport { get; set; }
-
+        public string LegalName { get; set; }
     }
 }

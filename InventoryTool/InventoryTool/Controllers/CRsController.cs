@@ -246,7 +246,7 @@ namespace InventoryTool.Controllers
                       select new { a.crID, a.WAnumber, a.FleetNumber, a.UnitNumber, a.VINnumber,a.Servicedate,a.Odometer,a.Status,a.Supplier,a.Suppliername, s.StoreNumber
                       ,a.Clientname,a.Subtotal,a.IVA, a.Total, c.ID, c.IDCR, c.Quantity,c.Atacode,c.Description
                       ,c.Requested,c.Authorized,c.CreateDate,c.CreatedBy, a.OkedBy
-                      ,a.Invoicenumber, a.Invoicedate,a.Amountpaid,a.Paymentdate,a.MaintenanceComments,a.ApComments};
+                      ,a.Invoicenumber, a.Invoicedate,a.Amountpaid,a.Paymentdate,a.MaintenanceComments,a.ApComments, a.LegalName};
 
             //public int crID { get; set; }
             //public string WAnumber { get; set; }
@@ -359,7 +359,9 @@ namespace InventoryTool.Controllers
                 ag.MaintenanceComments = item.MaintenanceComments;
                 ag.ApComments = item.ApComments;
                 ag.storenumber = item.StoreNumber;
+                ag.LegalName = item.LegalName;
                 gral.Add(ag);
+
             }
 
             //gral = (General)crs.ToList();
@@ -531,6 +533,7 @@ namespace InventoryTool.Controllers
                 ag.AccountedDrSUM = item.Total;
                 ag.AccountedCrSUM = 0;
                 ag.JournalCategory = "Maintenance";
+                ag.Bankaccount = "NA";
                 aPMaintenance.Add(ag);
             }
             return View(aPMaintenance.Distinct());
@@ -897,7 +900,8 @@ namespace InventoryTool.Controllers
                           a.Status,
                           a.Supplier,
                           a.Suppliername,
-                          s.StoreNumber
+                          s.StoreNumber,
+                          a.LegalName
                       ,
                           a.Clientname,
                           a.Subtotal,
@@ -920,6 +924,7 @@ namespace InventoryTool.Controllers
                           a.Paymentdate,
                           a.MaintenanceComments,
                           a.ApComments
+
                       };
             gv.DataSource = crs.ToList();
             gv.DataBind();
@@ -1066,7 +1071,8 @@ namespace InventoryTool.Controllers
                 ag.NET = item.Total;
                 ag.AccountedDrSUM = item.Total;
                 ag.AccountedCrSUM = 0;
-               
+                ag.JournalCategory = "Maintenance";
+                ag.Bankaccount = "NA";
                 aPMaintenance.Add(ag);
             }
 
