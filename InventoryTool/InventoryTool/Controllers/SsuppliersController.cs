@@ -20,7 +20,7 @@ namespace InventoryTool.Controllers
 
         // GET: Ssuppliers
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page, int? id, int? screen,
-                                  string currentZIPCode, string searchZIPCode, string searchMainPhone, string currentMainPhone)
+                                  string currentZIPCode, string searchZIPCode, string searchMainPhone, string currentMainPhone, string SearchID)
         {
             ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "Supplier Name" : "";
@@ -61,6 +61,11 @@ namespace InventoryTool.Controllers
             if (!String.IsNullOrEmpty(searchMainPhone))
             {
                 suppliers = suppliers.Where(s => s.Telephone.ToString().Equals(searchMainPhone));
+            }
+
+            if (!String.IsNullOrEmpty(SearchID))
+            {
+                suppliers = suppliers.Where(s => s.StoreNumber.ToString().Equals(SearchID));
             }
 
             switch (sortOrder)
@@ -88,7 +93,7 @@ namespace InventoryTool.Controllers
         // GET: Ssuppliers
         [Authorize(Roles = "SupplierView")]
         public ActionResult List(string sortOrder, string currentFilter, string searchString, int? page, int? id, int? screen,
-                                  string currentZIPCode, string searchZIPCode, string searchMainPhone, string currentMainPhone)
+                                  string currentZIPCode, string searchZIPCode, string searchMainPhone, string currentMainPhone, string SearchID)
         {
             ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "Supplier Name" : "";
@@ -96,6 +101,7 @@ namespace InventoryTool.Controllers
             ViewBag.ObligorSortParm = String.IsNullOrEmpty(sortOrder) ? "ZIP Code" : "";
             ViewBag.cr = id;
             ViewBag.screen = screen;
+            
 
             if ((searchString != null) || (searchZIPCode != null) || (searchMainPhone != null))
             {
@@ -113,7 +119,7 @@ namespace InventoryTool.Controllers
             ViewBag.CurrentMainPhone = searchMainPhone;
 
             var suppliers = from s in db.Suppliers
-                            where s.Status.Contains("A")
+                            //where s.Status.Contains("A")
                             select s;
 
             if (!String.IsNullOrEmpty(searchString))
@@ -129,6 +135,11 @@ namespace InventoryTool.Controllers
             if (!String.IsNullOrEmpty(searchMainPhone))
             {
                 suppliers = suppliers.Where(s => s.Telephone.ToString().Equals(searchMainPhone));
+            }
+
+            if (!String.IsNullOrEmpty(SearchID))
+            {
+                suppliers = suppliers.Where(s => s.StoreNumber.ToString().Equals(SearchID));
             }
 
             switch (sortOrder)
@@ -208,6 +219,7 @@ namespace InventoryTool.Controllers
         {
             if (ModelState.IsValid)
             {
+                ssupplier.Status = "A";
                 db.Suppliers.Add(ssupplier);
                 db.SaveChanges();
                 return RedirectToAction("List");
@@ -242,6 +254,7 @@ namespace InventoryTool.Controllers
         {
             if (ModelState.IsValid)
             {
+                ssupplier.Status = "A";
                 db.Entry(ssupplier).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("List");

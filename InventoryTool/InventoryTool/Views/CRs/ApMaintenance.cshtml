@@ -1,0 +1,79 @@
+﻿@model IEnumerable<InventoryTool.Models.APMaintenance>
+@{
+    ViewBag.Title = "ApMaintenance";
+}
+<br />
+<h2>AP-Maintenance Report</h2>
+<br />
+
+@using (Html.BeginForm("ExportApMaintenanceReport", "CRs", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <p>
+        <input type="submit" name="Export" id="Export" value="Export" class="btn btn-success" />
+    </p>
+}
+<hr />
+<table>
+    <tr>
+        <th>Journal Category </th>
+        <th>Journal Source </th>
+        <th>Corp Code</th>
+        <th>Cost Centre</th>
+        <th>Account</th>
+        <th>Bank Account</th>
+        <th>Period Name</th>
+        <th>CR Number</th>
+        <th>DAN</th>
+        <th>Fleet Number</th>
+        <th>Unit Number</th>
+        <th>Charge Code</th>
+        <th>External Doc Locator</th>
+        <th>Corp Code AP</th>
+        <th>Process Date</th>
+        <th>Internal Document Locator</th>
+        <th>Party Name</th>
+        <th>Transaction Date</th>
+        <th>Entered Dr SUM</th>
+        <th>EnteredCrSUM</th>
+        <th>NET</th>
+        <th>Accounted Dr SUM</th>
+        <th>Accounted Cr SUM</th>
+        <th>Currency Code</th>
+        <th>Charge</th>
+        <th>TC Invoice</th>
+        <th>TC Payment</th>
+    </tr>
+
+@foreach (var item in Model)
+{
+    <tr>
+        <td>@Html.DisplayFor(model => item.JournalCategory)</td>
+        <td>@Html.DisplayFor(model => item.JournalSource)</td>
+        <td>@Html.DisplayFor(model => item.CorpCode)</td>
+        <td>@Html.DisplayFor(model => item.CostCentre)</td>
+        <td>@Html.DisplayFor(model => item.Account)</td>
+        <td>@Html.DisplayFor(model => item.Bankaccount)</td>
+        <td>@Html.DisplayFor(model => item.PeriodName)</td>
+        <td>@Html.DisplayFor(model => item.CRNumber)</td>
+        <td>@Html.DisplayFor(model => item.DAN)</td>
+        <td>@Html.DisplayFor(model => item.FleetNumber)</td>
+        <td>@Html.DisplayFor(model => item.UnitNumber)</td>
+        <td>@Html.DisplayFor(model => item.ChargeCode)</td>
+        <td>@Html.DisplayFor(model => item.ExternalDocLocator)</td>
+        <td>@Html.DisplayFor(model => item.CorpCodeAP)</td>
+        <td>@Html.DisplayFor(model => item.ProcessDate)</td>
+        <td>@Html.DisplayFor(model => item.InternalDocumentLocator)</td>
+        <td>@Html.DisplayFor(model => item.PartyName)</td>
+        <td>@Html.DisplayFor(model => item.TransactionDate)</td>
+        <td>@Html.DisplayFor(model => item.EnteredDrSUM)</td>
+        <td>@Html.DisplayFor(model => item.EnteredCrSUM)</td>
+        <td>@Html.DisplayFor(model => item.NET)</td>
+        <td>@Html.DisplayFor(model => item.AccountedDrSUM)</td>
+        <td>@Html.DisplayFor(model => item.AccountedCrSUM)</td>
+        <td>@Html.DisplayFor(model => item.CurrencyCode)</td>
+        <td>@Html.DisplayFor(model => item.charge)</td>
+        <td>@Html.DisplayFor(model => item.TCInvoice)</td>
+        <td>@Html.DisplayFor(model => item.TCPayment)</td>
+</tr>
+}
+</table>

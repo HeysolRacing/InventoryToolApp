@@ -37,14 +37,14 @@ namespace InventoryTool.Controllers
                 {
                     if (String.IsNullOrEmpty(InitialDate))
                     {
-                        this.HttpContext.Session["Display"] = "The Initial Date cannot be empty, please set a correct date";
+                        this.HttpContext.Session["Display"] = "The Initial Date cannot be empty, please set a correct date.";
                         band = false;
                     }
                   
 
                     if (String.IsNullOrEmpty(FinalDate))
                     { 
-                        this.HttpContext.Session["Display"] = "The Final Date cannot be empty, please set a correct date";
+                        this.HttpContext.Session["Display"] = "The Final Date cannot be empty, please set a correct date.";
                         band = false;
                     }
 
@@ -52,19 +52,20 @@ namespace InventoryTool.Controllers
                     {
                         if (Convert.ToDateTime(FinalDate) < Convert.ToDateTime(InitialDate))
                         {
-                            this.HttpContext.Session["Display"] = "The Initial Date cannot be major than Final Date, please set a correct date";
+                            this.HttpContext.Session["Display"] = "The Initial Date cannot be major than Final Date, please set a correct date.";
                             band = false;
                         }
                         else if (Convert.ToDateTime(FinalDate) > Convert.ToDateTime(InitialDate).AddDays(7))
                         {
-                            this.HttpContext.Session["Display"] = "The Final Date cannot be more than 7 days major than Initial Date, please set a correct date (" + Convert.ToDateTime(InitialDate).AddDays(7) + ")";
+                            this.HttpContext.Session["Display"] = "The Final Date cannot be more than 7 days major than Initial Date, please set a correct date.)";
                             band = false;
                         }
                     }
                 }
 
                 if (((!String.IsNullOrEmpty(searchString)) || (!String.IsNullOrEmpty(searchUnit)) || (!String.IsNullOrEmpty(searchLogNo)) || (!String.IsNullOrEmpty(searchFee)) ||
-                    (!String.IsNullOrEmpty(InitialDate)) || (!String.IsNullOrEmpty(FinalDate))) && band)
+                    (!String.IsNullOrEmpty(InitialDate)) || (!String.IsNullOrEmpty(FinalDate) || (!String.IsNullOrEmpty(currentFilter)) || (!String.IsNullOrEmpty(currentUnit)) || 
+                    (!String.IsNullOrEmpty(currentLlogNo)) || (!String.IsNullOrEmpty(currentFee)) || (!String.IsNullOrEmpty(InitialFilter)) || (!String.IsNullOrEmpty(FinalFilter)))) && band)
                 {
                     ViewBag.CurrentSort = sortOrder;
 
@@ -85,6 +86,8 @@ namespace InventoryTool.Controllers
                         searchUnit = currentUnit;
                         searchLogNo = currentLlogNo;
                         searchFee = currentFee;
+                        InitialDate = InitialFilter;
+                        FinalDate = FinalFilter;
                     }
 
                     ViewBag.currentFilter = searchString;
@@ -98,36 +101,14 @@ namespace InventoryTool.Controllers
                                  select s;
 
                     //Busqueda por fechas
-                    if ((!String.IsNullOrEmpty(InitialDate)) && (String.IsNullOrEmpty(FinalDate)))
+                    if ((!String.IsNullOrEmpty(InitialDate)) && (!String.IsNullOrEmpty(FinalDate)))
                     {
                         //fecha inicial
-                        pos1 = InitialDate.IndexOf('/');
-                        pos2 = InitialDate.LastIndexOf('/');
-                        trans = InitialDate.Substring(pos2 + 1);
-                        if (pos1 == 1)
-                            trans += "0" + InitialDate.Substring(0, 1);
-                        else
-                            trans += InitialDate.Substring(0, 2);
-
-                        if (pos2 - pos1 <= 2)
-                            trans += "0" + InitialDate.Substring(pos1 + 1, 1);
-                        else
-                            trans += InitialDate.Substring(pos1 + 1, 2);
+                        trans = InitialDate.Replace("-", "");
                         inicio = Convert.ToInt32(trans);
 
                         //Fecha final
-                        pos1 = FinalDate.IndexOf('/');
-                        pos2 = FinalDate.LastIndexOf('/');
-                        trans = FinalDate.Substring(pos2 + 1);
-                        if (pos1 == 1)
-                            trans += "0" + FinalDate.Substring(0, 1);
-                        else
-                            trans += FinalDate.Substring(0, 2);
-
-                        if (pos2 - pos1 <= 2)
-                            trans += "0" + FinalDate.Substring(pos1 + 1, 1);
-                        else
-                            trans += FinalDate.Substring(pos1 + 1, 2);
+                        trans = FinalDate.Replace("-", "");
                         final = Convert.ToInt32(trans);
 
                         fleets = fleets.Where(s => (s.MMYY >= inicio) && (s.MMYY <= final));
@@ -164,7 +145,7 @@ namespace InventoryTool.Controllers
                             break;
                     }
 
-                    int pageSize = 100000;
+                    int pageSize = 100;
                     int pageNumber = (page ?? 1);
                     return View(fleets.ToPagedList(pageNumber, pageSize));
                 }
@@ -175,7 +156,7 @@ namespace InventoryTool.Controllers
                     var fleets = from s in db.FeeCodes
                                  where s.LogNo.Equals(0)
                                  select s;
-                    int pageSize = 100000;
+                    int pageSize = 100;
                     int pageNumber = (page ?? 1);
                     return View(fleets.ToPagedList(pageNumber, pageSize));
                 }
@@ -335,7 +316,7 @@ namespace InventoryTool.Controllers
                 {
                     datos = line.Split(',');
                     //Primero verifico si ya existe el registro
-                    strsql = "Select Fleet From FeeCodes Where Fleet = " + Convert.ToInt32(datos[0]) + " And Lpis = " + Convert.ToInt32(datos[7]);
+                    strsql = "Select Fleet From FeeCodes Where Fleet = '" + datos[0] + "' And Unit = '" + datos[1] + "' And Lpis = " + Convert.ToInt32(datos[7]);
                     strsql += " And Fee = " + Convert.ToInt32(datos[10]);
                     da = new SqlDataAdapter(strsql, conn);
                     ds = new DataSet();
@@ -344,13 +325,13 @@ namespace InventoryTool.Controllers
                     {
                         //Grabo
                         strsql = "Insert into FeeCodes (Fleet, Unit, LogNo, CapCost, BookValue, Rental, Term, Lpis, Scontr, InsPremium, Fee, Descr, MMYY, ";
-                        strsql += "Star, Sto, Amt, Method, Rate, BL, AC, Createdby, Created) values(" + Convert.ToInt32(datos[0]) + "," + Convert.ToInt32(datos[1]) + ",";
+                        strsql += "Star, Sto, Amt, Method, Rate, BL, AC, Createdby, Created) values('" + datos[0] + "','" + datos[1] + "',";
                         strsql += Convert.ToInt32(datos[2]) + "," + Convert.ToDecimal(datos[3]) + "," + Convert.ToDecimal(datos[4]) + ",";
                         strsql += Convert.ToDecimal(datos[5]) + "," + Convert.ToInt32(datos[6]) + "," + Convert.ToInt32(datos[7]) + ",'" + datos[8] + "',";
                         strsql += Convert.ToDecimal(datos[9]) + "," + Convert.ToInt32(datos[10]) + ",'" + datos[11] + "',";
                         strsql += Convert.ToInt32(datos[12]) + "," + Convert.ToInt32(datos[13]) + "," + Convert.ToInt32(datos[14]) + ",";
                         strsql += Convert.ToDecimal(datos[15]) + ",'" + datos[16] + "','" + datos[17] + "','";
-                        strsql += datos[18] + "','" + datos[19] + "','MACRO PROCESS','" + DateTime.Now.ToString() + "')";
+                        strsql += datos[18] + "','" + datos[19] + "','MACRO PROCESS', GETDATE()) ";
 
                         com = new SqlCommand();
                         com.CommandText = strsql;
@@ -361,7 +342,7 @@ namespace InventoryTool.Controllers
                     }
                     else
                     {
-                        this.HttpContext.Session["Display"] = "There were FeeCodes duplicated, please review";
+                        this.HttpContext.Session["Display2"] = "There were FeeCodes duplicated, please review";
                         band = true;
                     }
                     counter++;
@@ -373,7 +354,7 @@ namespace InventoryTool.Controllers
                 conn.Dispose();
 
                 if (!band)
-                    this.HttpContext.Session["Display"] = "FeeCodes imported succesfullly";  
+                    this.HttpContext.Session["Display2"] = "FeeCodes imported succesfullly";  
             }
             
             return RedirectToAction("Index");
@@ -391,49 +372,22 @@ namespace InventoryTool.Controllers
                     (!String.IsNullOrEmpty(InitialDate)) || (!!String.IsNullOrEmpty(FinalDate)))
                 {
                     GridView gv = new GridView();
-                    if (String.IsNullOrEmpty(InitialDate))
-                        inicio = 19000101;
-                    else              // 3/6/2017 
-                    {
-                        pos1 = InitialDate.IndexOf('/');
-                        pos2 = InitialDate.LastIndexOf('/');
-                        trans = InitialDate.Substring(pos2 + 1);
-                        if (pos1 == 1)
-                            trans += "0" + InitialDate.Substring(0, 1);
-                        else
-                            trans += InitialDate.Substring(0, 2);
-
-                        if (pos2 - pos1 <= 2)
-                            trans += "0" + InitialDate.Substring(pos1 + 1, 1);
-                        else
-                            trans += InitialDate.Substring(pos1 + 1, 2);
-                        inicio = Convert.ToInt32(trans);
-
-                    }
-
-                    if (String.IsNullOrEmpty(FinalDate))
-                        final = Convert.ToInt32(DateTime.Now.Year.ToString() + DateTime.Now.Month.ToString("00") + DateTime.Now.Day.ToString("00"));
-                    else
-                    {
-                        pos1 = FinalDate.IndexOf('/');
-                        pos2 = FinalDate.LastIndexOf('/');
-                        trans = FinalDate.Substring(pos2 + 1);
-                        if (pos1 == 1)
-                            trans += "0" + FinalDate.Substring(0, 1);
-                        else
-                            trans += FinalDate.Substring(0, 2);
-
-                        if (pos2 - pos1 <= 2)
-                            trans += "0" + FinalDate.Substring(pos1 + 1, 1);
-                        else
-                            trans += FinalDate.Substring(pos1 + 1, 2);
-                        final = Convert.ToInt32(trans);
-                    }
-
 
                     var fleets = from s in db.FeeCodes
-                                 where s.MMYY >= inicio && s.MMYY <= final
                                  select s;
+
+                    if ((!String.IsNullOrEmpty(InitialDate)) && (!String.IsNullOrEmpty(FinalDate)))
+                    {
+                        //fecha inicial
+                        trans = InitialDate.Replace("-", "");
+                        inicio = Convert.ToInt32(trans);
+
+                        //Fecha final
+                        trans = FinalDate.Replace("-", "");
+                        final = Convert.ToInt32(trans);
+
+                        fleets = fleets.Where(s => (s.MMYY >= inicio) && (s.MMYY <= final));
+                    }
 
                     if (!String.IsNullOrEmpty(searchString))
                         fleets = fleets.Where(s => s.Fleet.ToString().Equals(searchString));

@@ -138,7 +138,7 @@
             </div>
         </div>
 
-        @Html.HiddenFor(model => model.Offroad_date)
+       
         @Html.HiddenFor(model => model.Offroad_process)
         @Html.HiddenFor(model => model.Sold_date)
         @Html.HiddenFor(model => model.Sold_process)
@@ -299,6 +299,18 @@
                 @Html.ValidationMessageFor(model => model.TTL, "", new { @class = "text-danger" })
             </div>
         </div>
+
+            @if (Model.ContractType == "N5")
+            {   <div class="form-group">
+                    @Html.LabelFor(model => model.Offroad_date, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Offroad_date, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Offroad_date, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            }
+            else
+            {  @Html.HiddenFor(model => model.Offroad_date) }
 
         @Html.HiddenFor(model => model.OutletCode)
         @Html.HiddenFor(model => model.OutletName)

@@ -49,6 +49,12 @@
             @Html.ActionLink("Supplier", "General", new { sortOrder = ViewBag.SupplierSortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
+            Supplier number
+        </th>
+        <th>
+            Supplier Legal Name
+        </th>
+        <th>
             @Html.ActionLink("Client name", "General", new { sortOrder = ViewBag.ClientSortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
@@ -128,6 +134,12 @@
 
             <td>
                 @Html.DisplayFor(modelItem => item.Suppliername)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.storenumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LegalName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Clientname)

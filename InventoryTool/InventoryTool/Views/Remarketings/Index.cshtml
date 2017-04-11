@@ -12,9 +12,12 @@
 {
     <p>
         Find by Status: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string) 
-        Or Fleet: @Html.TextBox("fleetString", ViewBag.fleetFilter as string) 
-        Or Log number: @Html.TextBox("logString", ViewBag.logFilter as string) 
+        or Fleet: @Html.TextBox("fleetString", ViewBag.fleetFilter as string) 
+        -Unit number: @Html.TextBox("unitString", ViewBag.UnitSortParm as string)
+        or Log number: @Html.TextBox("logString", ViewBag.logFilter as string) 
         <input type="submit" value="Search" class="btn btn-info" />
+        <h5>@Html.ActionLink("AP Remarketing Report", "ApRemarketing", "Remarketings")</h5> 
+
     </p>
 }
 <br />
@@ -28,7 +31,7 @@
             @Html.ActionLink("Fleet Number", "Index", new { sortOrder = ViewBag.FleetSortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
-        UnitNumber
+            @Html.ActionLink("Unit Number", "Index", new { sortOrder = ViewBag.UnitSortParm, currentFilter = ViewBag.CurrentFilter })      
         </th>
         <th>
             @Html.ActionLink("Log Number", "Index", new { sortOrder = ViewBag.LogSortParm, currentFilter = ViewBag.CurrentFilter })
@@ -101,6 +104,9 @@
         </th>
         <th>
         P&L Gain/Loss
+        </th>
+        <th>
+        Banck Account
         </th>
         <th>OutletCode</th>
         <th>OutletName</th>
@@ -214,6 +220,9 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.PLGainLoss)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BankAccount)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.OutletCode)

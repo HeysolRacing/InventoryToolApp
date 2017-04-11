@@ -1,0 +1,136 @@
+﻿@model InventoryTool.Models.FeeCode
+
+@{
+    ViewBag.Title = "GenFeeCodes";
+}
+
+<h2>Genera FeeCodes</h2>
+
+
+@using (Html.BeginForm("GenFeeCodes", "FeeCodes", new { SearchFleet = ViewBag.CurrentFleet, searchUnit = ViewBag.CurrentUnit, searchLogNo = ViewBag.CurrentLogNo,
+                                                        SearchCapCost = ViewBag.CurrentCapCost, SearchResidualValue = ViewBag.CurrentResidualValue,
+                                                        SearchInsurancePremium = ViewBag.CurrentInsurancePremium, SearchInterestRate = ViewBag.CurrentInterestRate,
+                                                        SearchTerm = ViewBag.CurrentTerm, SearchEBOTerm = ViewBag.CurrentEBOTerm, SearchDateStart = @ViewBag.CurrentDateStart,
+                                                        SearchMethod = ViewBag.CurrentMethod, SearchMarkupPayType = ViewBag.CurrentMarkupPayType,
+                                                        SearchOriginFee = ViewBag.CurrentOriginFee                                               
+                                                    }, FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+        <table>
+            <tr>
+                <td>
+                    Fleet:
+                </td>
+                <td>
+                    @Html.TextBox("SearchFleet", ViewBag.CurrentFleet as string)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Unit:
+                </td>
+                <td>
+                    @Html.TextBox("SearchUnit", ViewBag.CurrentUnit as string)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    LogNumber:
+                </td>
+                <td>
+                    @Html.TextBox("SearchLogNo", ViewBag.CurrentLogNo as string)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    CapCost:
+                </td>
+                <td>
+                    @Html.TextBox("SearchCapCost", ViewBag.CurrentCapCost as string)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Residua lValue:
+                </td>
+                <td>
+                    @Html.TextBox("SearchResidualValue", ViewBag.CurrentResidualValue as string)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Insurance Premium:
+                </td>
+                <td>
+                    @Html.TextBox("SearchInsurancePremium", ViewBag.CurrentInsurancePremium as string)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Interest Rate:
+                </td>
+                <td>
+                    @Html.TextBox("SearchInterestRate", ViewBag.CurrentInteestRate as string)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Term
+                </td>
+                <td>
+                    @Html.TextBox("SearchTerm", ViewBag.CurrentTerm as string)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    EBO Term:
+                </td>
+                <td>
+                    @Html.TextBox("SearchEBOTerm", ViewBag.CurrentEBOTerm as string)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Date of start:
+                </td>
+                <td>
+                    <input type="date" name="SearchDateStart" placeholder="yyyy-mm-dd" value="@ViewBag.CurrentDateStart">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Method:
+                </td>
+                <td>
+                    @Html.TextBox("SearchMethod", ViewBag.CurrentMethod as string)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Markup Pay Type:
+                </td>
+                <td>
+                    @Html.TextBox("SearchMarkupPayType", ViewBag.CurrentMarkupPayType as string)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Origin fee:
+                </td>
+                <td>
+                    @Html.TextBox("SearchOriginFee", ViewBag.CurrentOriginFee as string)
+                </td>
+            </tr>
+        </table>
+        <br />
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+}
+
+
+@*@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}*@

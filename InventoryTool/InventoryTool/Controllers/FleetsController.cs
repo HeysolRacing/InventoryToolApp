@@ -237,13 +237,13 @@ namespace InventoryTool.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "FleetID,LogNumber,CorpCode,FleetNumber,UnitNumber,VinNumber,ContractType,Make,ModelCar,ModelYear,BookValue,CapCost,Inservice_date,Inservice_process,Original_Inservice,Original_Process,Offroad_date,Offroad_process,Sold_date,Sold_process,FleetCancelUnit,Amort_Term,Leased_Months_Billed,End_date,ScontrNumber,Amort,LicenseNumber,State,Roe,DealerName,Insurance,Secdep,DepartmentCode,Residual_Amount,Level_1,Level_2,Level_3,Level_4,Level_5,Level_6,TTL,OutletCode,OutletName,Created,CreatedBy")] Fleet fleet)
+        //[Bind(Include = "FleetID,LogNumber,CorpCode,FleetNumber,UnitNumber,VinNumber,ContractType,Make,ModelCar,ModelYear,BookValue,CapCost,Inservice_date,Inservice_process,Original_Inservice,Original_Process,Offroad_date,Offroad_process,Sold_date,Sold_process,FleetCancelUnit,Amort_Term,Leased_Months_Billed,End_date,ScontrNumber,Amort,LicenseNumber,State,Roe,DealerName,Insurance,Secdep,DepartmentCode,Residual_Amount,Level_1,Level_2,Level_3,Level_4,Level_5,Level_6,TTL,OutletCode,OutletName,Created,CreatedBy")]
+        public ActionResult Edit(Fleet fleet)
         {
             if (ModelState.IsValid)
             {
                 fleet.Created = DateTime.Now;
                 var userIdValue = Environment.UserName;
-
 
                 var claimsIdentity = User.Identity as ClaimsIdentity;
                 if (claimsIdentity != null)
@@ -259,6 +259,10 @@ namespace InventoryTool.Controllers
                     }
                 }
                 fleet.CreatedBy = userIdValue;
+
+                if(fleet.Offroad_date != null && fleet.Offroad_process == null)
+                { fleet.Offroad_process = DateTime.Now; }
+
                 db.Entry(fleet).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
