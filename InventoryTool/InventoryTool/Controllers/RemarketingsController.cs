@@ -299,8 +299,10 @@ namespace InventoryTool.Controllers
             return RedirectToAction("General");
         }
 
-        // POST: Remarketings/Delete/5
-        [HttpPost, ActionName("Delete")]
+    
+
+       // POST: Remarketings/Delete/5
+       [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
