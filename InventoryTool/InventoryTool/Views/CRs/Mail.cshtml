@@ -1,0 +1,125 @@
+﻿@model InventoryTool.Models.CR
+
+@{
+    ViewBag.Title = "Mail";
+}
+<br /><br />
+<p>
+    @Html.ActionLink("Unit Search", "Phantom", "Fleets") | @Html.ActionLink("Phantom Home", "Index", "Phantom")
+</p>
+<br />
+<h2>Approved Order Details</h2>
+<hr />
+        <table class="table table-striped table-condensed">
+            <tr>
+                <td>
+                    <strong>CR Number: </strong>
+                </td>
+            <td>
+                @Html.DisplayFor(model => model.WAnumber)
+            </td>
+            </tr>
+            <tr>
+                <td><strong>VIN number: </strong></td>
+            <td>
+                @Html.DisplayFor(model => model.VINnumber)
+            </td>
+                </tr>
+            <tr>
+            <td>
+                <strong> @Html.DisplayNameFor(model => model.Servicedate): </strong>
+            </td>
+
+            <td>
+                @Html.DisplayFor(model => model.Servicedate)
+            </td>
+                </tr>
+            <tr>
+            <td>
+                <strong> @Html.DisplayNameFor(model => model.Odometer): </strong>
+            </td>
+
+            <td>
+                @Html.DisplayFor(model => model.Odometer)
+            </td>
+            </tr>
+            <tr>
+            <td>
+                <strong> @Html.DisplayNameFor(model => model.Status): </strong>
+            </td>
+
+            <td>
+                @Html.DisplayFor(model => model.Status)
+            </td>
+                </tr>
+            <tr>
+                <td>
+                    <strong> @Html.DisplayNameFor(model => model.Suppliername): </strong>
+                </td>
+
+            <td>
+                @Html.DisplayFor(model => model.Suppliername)
+            </td>
+</tr>
+            <tr>
+                <td>
+                    <strong> @Html.DisplayNameFor(model => model.Clientname): </strong>
+                </td>
+
+                <td>
+                    @Html.DisplayFor(model => model.Clientname)
+                </td>
+            </tr>
+            <tr>
+            <td>
+                <strong> @Html.DisplayNameFor(model => model.Subtotal): </strong>
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.Subtotal)
+            </td>
+</tr>
+            <tr>
+            <td>
+                <strong>  @Html.DisplayNameFor(model => model.IVA): </strong>
+            </td>
+
+            <td>
+                @Html.DisplayFor(model => model.IVA)
+            </td>
+</tr>
+            <tr>
+            <td>
+                <strong> @Html.DisplayNameFor(model => model.Total): </strong>
+            </td>
+
+            <td>
+                @Html.DisplayFor(model => model.Total)
+            </td>
+</tr>
+            <tr>
+            <td>
+                <strong> @Html.DisplayNameFor(model => model.CreatedBy): </strong>
+            </td>
+
+            <td>
+                @Html.DisplayFor(model => model.CreatedBy)
+            </td>
+</tr>
+            <tr>
+        
+                <td><strong> @Html.DisplayNameFor(model => model.OkedBy): </strong></td>
+            
+                <td> @Html.DisplayFor(model => model.OkedBy)</td>
+               </tr>
+        <tr>
+            <td> <strong> @Html.DisplayNameFor(m => m.MaintenanceComments): </strong></td>
+            <td >
+                @Html.DisplayFor(m => m.MaintenanceComments)
+            </td>
+            </tr>
+       
+</table>
+<br />
+<div>
+    <p>@Html.ActionLink("Back to List", "Index")</p>
+</div>

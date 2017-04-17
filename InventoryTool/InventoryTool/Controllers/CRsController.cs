@@ -375,7 +375,6 @@ namespace InventoryTool.Controllers
         // GET: CRs/ClosedReport
         public ActionResult ClosedReport()
         {
-
             var crs = from a in db.CRs
                       where a.ClosedReport == "False" 
                       select a;
@@ -840,6 +839,21 @@ namespace InventoryTool.Controllers
             return View(cR);
         }
 
+        [Authorize(Roles = "PhantomView")]
+        public ActionResult Mail(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            CR cR = db.CRs.Find(id);
+            if (cR == null)
+            {
+                return HttpNotFound();
+            }
+            return View(cR);
+        }
+
         [HttpPost, ActionName("Approve")]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "PhantomEdit")]
@@ -848,7 +862,7 @@ namespace InventoryTool.Controllers
             cR.Status = "Approved";
             db.Entry(cR).State = EntityState.Modified;
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Mail",new { id = cR.crID });
         }
 
         // GET: CRs/Close/5

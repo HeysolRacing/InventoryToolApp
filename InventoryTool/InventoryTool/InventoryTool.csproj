@@ -487,6 +487,7 @@
     <Content Include="Views\CRs\ApMaintenance.cshtml" />
     <Content Include="Views\CRs\ArMaintenance.cshtml" />
     <Content Include="Views\Remarketings\ApRemarketing.cshtml" />
+    <Content Include="Views\CRs\Mail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

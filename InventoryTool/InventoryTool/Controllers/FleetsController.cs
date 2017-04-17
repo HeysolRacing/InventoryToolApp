@@ -307,6 +307,7 @@ namespace InventoryTool.Controllers
             GridView gv = new GridView();
             var fleets = from f in db.Fleets
                          join r in db.Remarketings on f.LogNumber equals r.LogNumber
+                         where f.Offroad_date != null
                          select new
                          {
                              f.FleetNumber,
@@ -352,8 +353,11 @@ namespace InventoryTool.Controllers
             GridView gv = new GridView();
             var fleets = from f in db.Fleets
                          join r in db.Remarketings on f.LogNumber equals r.LogNumber
+                         where f.Sold_date != null
                          select new
                          {
+                             f.FleetNumber,
+                             f.UnitNumber,
                              r.BookValue,         
                              r.SaleValue,
                              r.GainLoss,
