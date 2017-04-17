@@ -847,6 +847,11 @@ namespace InventoryTool.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             CR cR = db.CRs.Find(id);
+            var crdetails = from s in db.CRdetails
+                            select s;
+            crdetails = crdetails.Where(s => s.IDCR.ToString().Contains(cR.crID.ToString()));
+
+            ViewData["CRdetails"] = crdetails.ToList();
             if (cR == null)
             {
                 return HttpNotFound();
