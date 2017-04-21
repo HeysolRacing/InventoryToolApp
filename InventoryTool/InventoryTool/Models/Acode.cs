@@ -14,5 +14,7 @@ namespace InventoryTool.Models
         public int code { get; set; }
         [Display(Name = "Description")]
         public string Description { get; set; }
+        public string Chargecode { get; set; }
+        public string ChargecodeDesc { get; set; }
     }
 }

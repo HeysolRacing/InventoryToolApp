@@ -1,0 +1,222 @@
+﻿@model InventoryTool.Models.CR
+@using InventoryTool.Models
+@{
+    ViewBag.Title = "Mail";
+}
+<br /><br />
+<p>
+    @Html.ActionLink("Unit Search", "Phantom", "Fleets") | @Html.ActionLink("Phantom Home", "Index", "Phantom")
+</p>
+<br />
+<div style="text-align:center">
+    <h2 >  Element Fleet Management </h2>
+    <h2> Departamento de administracion de mantenimiento</h2>
+</div>
+<hr />
+<br />
+<h3>Approved Order</h3>
+
+        <table class="table table-condensed">
+            <tr>
+                <td>
+                    <strong>CR Number: </strong>
+                </td>
+            <td>
+                @Html.DisplayFor(model => model.WAnumber)
+            </td>
+            </tr>
+            <tr>
+                <td><strong>VIN number: </strong></td>
+            <td>
+                @Html.DisplayFor(model => model.VINnumber)
+            </td>
+                </tr>
+            <tr>
+            <td>
+                <strong> @Html.DisplayNameFor(model => model.Servicedate): </strong>
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.Servicedate)
+            </td>
+                </tr>
+            <tr>
+            <td>
+                <strong> @Html.DisplayNameFor(model => model.Odometer): </strong>
+            </td>
+
+            <td>
+                @Html.DisplayFor(model => model.Odometer)
+            </td>
+            </tr>
+            <tr>
+            <td>
+                <strong> @Html.DisplayNameFor(model => model.Status): </strong>
+            </td>
+
+            <td>
+                @Html.DisplayFor(model => model.Status)
+            </td>
+                </tr>
+            <tr>
+                <td>
+                    <strong> @Html.DisplayNameFor(model => model.Suppliername): </strong>
+                </td>
+
+            <td>
+                @Html.DisplayFor(model => model.Suppliername)
+            </td>
+</tr>
+            <tr>
+                <td>
+                    <strong> @Html.DisplayNameFor(model => model.Clientname): </strong>
+                </td>
+
+                <td>
+                    @Html.DisplayFor(model => model.Clientname)
+                </td>
+            </tr>
+            <tr>
+            <td>
+                <strong> @Html.DisplayNameFor(model => model.Subtotal): </strong>
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.Subtotal)
+            </td>
+</tr>
+            <tr>
+            <td>
+                <strong>  @Html.DisplayNameFor(model => model.IVA): </strong>
+            </td>
+
+            <td>
+                @Html.DisplayFor(model => model.IVA)
+            </td>
+</tr>
+            <tr>
+            <td>
+                <strong> @Html.DisplayNameFor(model => model.Total): </strong>
+            </td>
+
+            <td>
+                @Html.DisplayFor(model => model.Total)
+            </td>
+</tr>
+            <tr>
+            <td>
+                <strong> @Html.DisplayNameFor(model => model.CreatedBy): </strong>
+            </td>
+
+            <td>
+                @Html.DisplayFor(model => model.CreatedBy)
+            </td>
+</tr>
+        <tr>
+            <td> <strong> @Html.DisplayNameFor(m => m.MaintenanceComments): </strong></td>
+            <td >
+                @Html.DisplayFor(m => m.MaintenanceComments)
+            </td>
+            </tr>
+       
+</table>
+<div>
+    <p style="color:crimson">
+        Te recordamos que cualquier complemento  adicional a la autorización inicial, será necesario que te comuniques a Element.
+    </p>
+    <p style="color:crimson">
+        Después de 3 días del presupuesto inicial se dará una nueva aprobación para facturar los complementos.
+    </p>
+</div>
+<br />
+<h3>Approved services:</h3>
+@{
+    List<CRdetail> modeldetailList = ViewData["CRdetails"] as List<CRdetail>;
+    var requested = 0.0m;
+    var authorized = 0.0m;
+}
+<table class="table">
+    <tr>
+        <th>
+            Quantity
+        </th>
+        <th>
+            Description
+        </th>
+        <th>
+            Authorized
+        </th>
+        <th>
+            Create date
+        </th>
+        <th>
+            Created By
+        </th>
+    </tr>
+
+
+    @foreach (CRdetail item in modeldetailList)
+    {
+        requested = requested + item.Requested;
+        authorized = authorized + item.Authorized;
+        <tr>
+            <td>
+                @item.Quantity
+            </td>
+            <td>
+                @item.Description
+            </td>
+            <td>
+                @item.Authorized
+            </td>
+            <td>
+                @item.CreateDate
+            </td>
+            <td>
+                @item.CreatedBy
+            </td>
+        </tr>
+    }
+    <tr>
+        <td></td>
+        <td></td>
+        <td>Total (sin IVA)</td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        
+        <td></td>
+        <td></td>
+        <td>@authorized</td>
+
+        <td></td>
+        <td></td>
+    </tr>
+</table>
+<div>
+    <p>
+        Favor de contactarnos lo antes posible al <strong>01-800-716-5205</strong> en caso de tener alguna situación como las siguientes:
+        Al finalizar la reparación exista alguna diferencia (por mínima que sea) en el monto autorizado
+        El tipo de reparación/ servicio es diferente al indicado
+        La unidad ya no se encuentra en la agencia/ taller.
+
+    </p>
+    <p>
+        <h4>Instrucciones de Facturación </h4>
+        Toda factura deberá contener la siguiente información para poder procesar el pago:
+        Número de autorización de trabajo: @Model.WAnumber <br />
+        Datos de la unidad: Año del vehículo, Marca, Modelo, <br />No. de Serie: @Model.VINnumber y lectura de odómetro: @Model.Odometer
+    .Encuesta de satisfacción llenada y firmada por el usuario.
+    Asegurarse de cumplir con los requisitos fiscales.
+    Favor de enviar su factura en los siguientes 8 días después de recibir la autorización, le recordamos que su autorización cuenta con una vigencia.
+
+    Favor de cargar el XML de su factura nuestro portal:
+</p>
+       <p style="color:blue"> https://www.mienlaceb2b.com</p>
+
+
+</div>
+<br />
+
+<div>
+    <p>@Html.ActionLink("Back to List", "Index")</p>
+</div>

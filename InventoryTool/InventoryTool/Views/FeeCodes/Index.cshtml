@@ -3,6 +3,12 @@
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link rel="stylesheet" href="/resources/demos/style.css">
+<script lenguaje="javascript">
+function MiFuncion()
+{
+    alert("Se cargará el archivo, espere a que el nombre desaparesca de la selección.");
+}
+</script>
 
 @{
     ViewBag.Title = "FeeCodes";
@@ -11,7 +17,7 @@
 <h2>FeeCodes</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create") 
+    @Html.ActionLink("Create New", "Create")
 </p>
 @using (Html.BeginForm("Index", "FeeCodes", FormMethod.Get))
 {
@@ -57,12 +63,12 @@
 {
     <table>
         <tr><td>Excel file</td><td><input type="file" id="FileUpload1" name="FileUpload1" /></td>
-        <td></td><td><input type="submit" id="Submit" name="Submit" value="Submit" class="btn btn-info"  /></td></tr>
+        <td></td><td><input type="submit" id="Submit" name="Submit" value="Submit" class="btn btn-info" onclick="MiFuncion()"  /></td></tr>
     </table>
 }
 
 <h4 style="color:red">
-    @Session["Display"] &nbsp; &nbsp; @Session["Display2"]
+    @Session["Displaydgs1"] &nbsp; &nbsp; @Session["Displaydgs2"]
 </h4>
 
 @using (Html.BeginForm("ExportData", "FeeCodes", new { searchString = ViewBag.CurrentFilter, searchUnit = ViewBag.CurrentUnit, searchLogNo = ViewBag.CurrentLogNo, searchFee = ViewBag.CurrentFee,
@@ -130,7 +136,7 @@
            currentFee = ViewBag.CurrentFee,
            InitialDate = ViewBag.InitialFilter,
            FinalDate = ViewBag.FinalFilter
-       })          
+       })
         </th>
         <th>
             Desc
@@ -247,7 +253,7 @@
             @Html.DisplayFor(modelItem => item.Created)
         </td>
         <td>
-            @Html.ActionLink("Details", "Details", new { id = item.FeeCode_Id }) 
+            @Html.ActionLink("Details", "Details", new { id = item.FeeCode_Id })
         </td>
     </tr>
 }

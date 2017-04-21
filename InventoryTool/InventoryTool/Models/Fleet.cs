@@ -154,6 +154,7 @@ namespace InventoryTool.Models
 
         public Driven Driven { get; set; }
 
+        public string Currency { get; set; }
         //public string GetStringTypeInserviceDate  En caso de querer realizar validaciones o comparativas
         //{
         //    get { return Inservice_date != null ? Inservice_date.Value.ToShortDateString() : DateTime.MinValue.ToShortDateString(); }

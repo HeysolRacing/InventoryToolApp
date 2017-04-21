@@ -37,14 +37,14 @@ namespace InventoryTool.Controllers
                 {
                     if (String.IsNullOrEmpty(InitialDate))
                     {
-                        this.HttpContext.Session["Display"] = "The Initial Date cannot be empty, please set a correct date.";
+                        this.HttpContext.Session["Displaydgs1"] = "The Initial Date cannot be empty, please set a correct date.";
                         band = false;
                     }
                   
 
                     if (String.IsNullOrEmpty(FinalDate))
                     { 
-                        this.HttpContext.Session["Display"] = "The Final Date cannot be empty, please set a correct date.";
+                        this.HttpContext.Session["Displaydgs1"] = "The Final Date cannot be empty, please set a correct date.";
                         band = false;
                     }
 
@@ -52,12 +52,12 @@ namespace InventoryTool.Controllers
                     {
                         if (Convert.ToDateTime(FinalDate) < Convert.ToDateTime(InitialDate))
                         {
-                            this.HttpContext.Session["Display"] = "The Initial Date cannot be major than Final Date, please set a correct date.";
+                            this.HttpContext.Session["Displaydgs1"] = "The Initial Date cannot be major than Final Date, please set a correct date.";
                             band = false;
                         }
                         else if (Convert.ToDateTime(FinalDate) > Convert.ToDateTime(InitialDate).AddDays(7))
                         {
-                            this.HttpContext.Session["Display"] = "The Final Date cannot be more than 7 days major than Initial Date, please set a correct date.)";
+                            this.HttpContext.Session["Displaydgs1"] = "The Final Date cannot be more than 7 days major than Initial Date, please set a correct date.)";
                             band = false;
                         }
                     }
@@ -78,7 +78,7 @@ namespace InventoryTool.Controllers
                     if ((searchString != null) || (searchUnit != null) || (searchLogNo != null) || (searchFee != null))
                     {
                         page = 1;
-                        this.HttpContext.Session["Display"] = "";
+                        this.HttpContext.Session["Displaydgs1"] = this.HttpContext.Session["Displaydgs2"] = "";
                     }
                     else
                     {
@@ -152,7 +152,7 @@ namespace InventoryTool.Controllers
                 else
                 {
                     if (band)
-                        this.HttpContext.Session["Display"] = "You must set filters";
+                        this.HttpContext.Session["Displaydgs1"] = "You must set filters";
                     var fleets = from s in db.FeeCodes
                                  where s.LogNo.Equals(0)
                                  select s;
@@ -163,7 +163,7 @@ namespace InventoryTool.Controllers
             }
             catch (Exception ex)
             {
-                this.HttpContext.Session["Display"] = "Error: " + ex.Message + " Try again with more filters"; 
+                this.HttpContext.Session["Displaydgs1"] = "Error: " + ex.Message + " Try again with more filters"; 
                 return RedirectToAction("Index");
             }
         }
@@ -288,73 +288,105 @@ namespace InventoryTool.Controllers
 
         public ActionResult Importexcel()
         {
-            string cadenaconexionSQL, line, strsql;
+            string cadenaconexionSQL, line, strsql = "", strsql2 = "";
             cadenaconexionSQL = System.Configuration.ConfigurationManager.ConnectionStrings["InventoryToolContext"].ConnectionString;
             SqlConnection conn = new SqlConnection(cadenaconexionSQL);
             SqlCommand com = new SqlCommand();
             SqlDataAdapter da = new SqlDataAdapter();
             DataSet ds = new DataSet();
-            int counter = 1;
+            int counter = 1, cont = 0;
             bool band = false;
             string[] datos;
 
-            if (Request.Files["FileUpload1"].ContentLength > 0)
+            try
             {
-                string extension = System.IO.Path.GetExtension(Request.Files["FileUpload1"].FileName);
-                //C:\Proyectos\GitHub\FeeCodes\InventoryToolApp\InventoryTool\InventoryTool\UploadedFiles
-                string path1 = string.Format("{0}/{1}", Server.MapPath("~/UploadedFiles"), Request.Files["FileUpload1"].FileName);
-                if (System.IO.File.Exists(path1))
-                    System.IO.File.Delete(path1);
-
-                Request.Files["FileUpload1"].SaveAs(path1);
-
-                conn.Open();
-                // Read the file and display it line by line.  
-                System.IO.StreamReader file = new System.IO.StreamReader(path1);
-                string dato = file.ReadLine();
-                while ((line = file.ReadLine()) != null)
+                if (Request.Files["FileUpload1"].ContentLength > 0)
                 {
-                    datos = line.Split(',');
-                    //Primero verifico si ya existe el registro
-                    strsql = "Select Fleet From FeeCodes Where Fleet = '" + datos[0] + "' And Unit = '" + datos[1] + "' And Lpis = " + Convert.ToInt32(datos[7]);
-                    strsql += " And Fee = " + Convert.ToInt32(datos[10]);
-                    da = new SqlDataAdapter(strsql, conn);
-                    ds = new DataSet();
-                    da.Fill(ds, "Feecodes");
-                    if (ds.Tables[0].Rows.Count <= 0)    //no existe
-                    {
-                        //Grabo
-                        strsql = "Insert into FeeCodes (Fleet, Unit, LogNo, CapCost, BookValue, Rental, Term, Lpis, Scontr, InsPremium, Fee, Descr, MMYY, ";
-                        strsql += "Star, Sto, Amt, Method, Rate, BL, AC, Createdby, Created) values('" + datos[0] + "','" + datos[1] + "',";
-                        strsql += Convert.ToInt32(datos[2]) + "," + Convert.ToDecimal(datos[3]) + "," + Convert.ToDecimal(datos[4]) + ",";
-                        strsql += Convert.ToDecimal(datos[5]) + "," + Convert.ToInt32(datos[6]) + "," + Convert.ToInt32(datos[7]) + ",'" + datos[8] + "',";
-                        strsql += Convert.ToDecimal(datos[9]) + "," + Convert.ToInt32(datos[10]) + ",'" + datos[11] + "',";
-                        strsql += Convert.ToInt32(datos[12]) + "," + Convert.ToInt32(datos[13]) + "," + Convert.ToInt32(datos[14]) + ",";
-                        strsql += Convert.ToDecimal(datos[15]) + ",'" + datos[16] + "','" + datos[17] + "','";
-                        strsql += datos[18] + "','" + datos[19] + "','MACRO PROCESS', GETDATE()) ";
+                    string extension = System.IO.Path.GetExtension(Request.Files["FileUpload1"].FileName);
+                    //C:\Proyectos\GitHub\FeeCodes\InventoryToolApp\InventoryTool\InventoryTool\UploadedFiles
+                    string path1 = string.Format("{0}/{1}", Server.MapPath("~/UploadedFiles"), Request.Files["FileUpload1"].FileName);
+                    if (System.IO.File.Exists(path1))
+                        System.IO.File.Delete(path1);
 
+                    Request.Files["FileUpload1"].SaveAs(path1);
+
+                    // Read the file and display it line by line.  
+                    System.IO.StreamReader file = new System.IO.StreamReader(path1);
+                    string dato = file.ReadLine();
+                    conn.Open();
+                    while ((line = file.ReadLine()) != null)
+                    {
+                        datos = line.Split(',');
+                        //Primero verifico si ya existe el registro
+                        if (!datos[0].Equals(""))
+                        {
+                            if (conn.State.Equals("Closed"))
+                                conn.Open();
+                            strsql2 = "Select Fleet From FeeCodes Where Fleet = '" + datos[0] + "' And Unit = '" + datos[1] + "' And Lpis = " + Convert.ToInt32(datos[7]);
+                            strsql2 += " And Fee = " + Convert.ToInt32(datos[10]);
+                            da = new SqlDataAdapter(strsql2, conn);
+                            ds = new DataSet();
+                            da.Fill(ds, "Feecodes");
+                            if (ds.Tables[0].Rows.Count <= 0)    //no existe
+                            {
+                                //Grabo
+                                strsql += "Insert into FeeCodes (Fleet, Unit, LogNo, CapCost, BookValue, Rental, Term, Lpis, Scontr, InsPremium, Fee, Descr, MMYY, ";
+                                strsql += "Star, Sto, Amt, Method, Rate, BL, AC, Createdby, Created) values('" + datos[0] + "','" + datos[1] + "',";
+                                strsql += Convert.ToInt32(datos[2]) + "," + Convert.ToDecimal(datos[3]) + "," + Convert.ToDecimal(datos[4]) + ",";
+                                strsql += Convert.ToDecimal(datos[5]) + "," + Convert.ToInt32(datos[6]) + "," + Convert.ToInt32(datos[7]) + ",'" + datos[8] + "',";
+                                strsql += Convert.ToDecimal(datos[9]) + "," + Convert.ToInt32(datos[10]) + ",'" + datos[11] + "',";
+                                strsql += Convert.ToInt32(datos[12]) + "," + Convert.ToInt32(datos[13]) + "," + Convert.ToInt32(datos[14]) + ",";
+                                strsql += Convert.ToDecimal(datos[15]) + ",'" + datos[16] + "','" + datos[17] + "','";
+                                strsql += datos[18] + "','" + datos[19] + "','MACRO PROCESS', GETDATE()) ";
+                                cont++;
+                                if (cont == 500)
+                                {
+                                    com = new SqlCommand();
+                                    com.CommandText = strsql;
+                                    com.CommandTimeout = 0;
+                                    com.CommandType = CommandType.Text;
+                                    if (conn.State.Equals("Closed"))
+                                        conn.Open();
+                                    com.Connection = conn;
+                                    com.ExecuteNonQuery();
+                                    cont = 0;
+                                    strsql = "";
+                                }
+                            }
+                            else
+                            {
+                                this.HttpContext.Session["Displaydgs2"] = "There were FeeCodes duplicated, please review";
+                                band = true;
+                            }
+                        }
+                        counter++;
+                    }
+                    if (cont > 0)
+                    {
+                        //conn.Open();
                         com = new SqlCommand();
                         com.CommandText = strsql;
                         com.CommandTimeout = 0;
                         com.CommandType = CommandType.Text;
+                        if (conn.State.Equals("Closed"))
+                            conn.Open();
                         com.Connection = conn;
                         com.ExecuteNonQuery();
+                        strsql = "";
+                        cont = 0;
                     }
-                    else
-                    {
-                        this.HttpContext.Session["Display2"] = "There were FeeCodes duplicated, please review";
-                        band = true;
-                    }
-                    counter++;
+                    file.Close();
+                    file.Dispose();
+                    conn.Close();
+                    conn.Dispose();
+
+                    if (!band)
+                        this.HttpContext.Session["Displaydgs2"] = "FeeCodes imported succesfullly";
                 }
-
-                file.Close();
-                file.Dispose();
-                conn.Close();
-                conn.Dispose();
-
-                if (!band)
-                    this.HttpContext.Session["Display2"] = "FeeCodes imported succesfullly";  
+            }
+            catch (Exception ex)
+            {
+                this.HttpContext.Session["Displaydgs2"] = "Error: " + ex.Message;
             }
             
             return RedirectToAction("Index");

@@ -18,6 +18,8 @@
 {
     <p>
         Find by: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+        or Fleet: @Html.TextBox("fleetString", ViewBag.fleetFilter as string)
+        -Unit number: @Html.TextBox("unitString", ViewBag.UnitSortParm as string)
         <input type="submit" value="Search" class="btn btn-info" />
     </p>
 }
@@ -27,8 +29,12 @@
         <th>
             @Html.ActionLink("C&R number", "APlist", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
-        <th>Fleet Number</th>
-        <th>Unit Number</th>
+        <th>
+            @Html.ActionLink("Fleet Number", "APlist", new { sortOrder = ViewBag.FleetSortParm, currentFilter = ViewBag.CurrentFilter })
+        </th>
+        <th>
+            Unit Number
+        </th>
         <th>
             @Html.ActionLink("VIN number", "APlist", new { sortOrder = ViewBag.ObligorSortParm, currentFilter = ViewBag.CurrentFilter })
         </th>

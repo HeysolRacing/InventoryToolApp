@@ -302,6 +302,91 @@ namespace InventoryTool.Controllers
             return RedirectToAction("Index");
         }
 
+        public ActionResult EOL()
+        {
+            GridView gv = new GridView();
+            var fleets = from f in db.Fleets
+                         join r in db.Remarketings on f.LogNumber equals r.LogNumber
+                         where f.Offroad_date != null
+                         select new
+                         {
+                             f.FleetNumber,
+                             f.UnitNumber,
+                             f.LogNumber,
+                             f.VinNumber,
+                             f.Make,
+                             f.ModelCar,
+                             f.ModelYear,
+                             f.CapCost,
+                             f.BookValue,
+                             r.Amortization,
+                             f.Inservice_date,
+                             f.Offroad_date,
+                             f.End_date,
+                             f.Sold_date,
+                             r.SaleValue,
+                             f.Roe,
+                             r.SpotRate,
+                             r.GainLoss,
+                             f.Currency
+                             
+                         };
+            gv.DataSource = fleets.ToList();
+            gv.DataBind();
+            Response.ClearContent();
+            Response.Buffer = true;
+            Response.AddHeader("content-disposition", "attachment; filename=EOL.xls");
+            Response.ContentType = "application/ms-excel";
+            Response.Charset = "";
+            StringWriter sw = new StringWriter();
+            HtmlTextWriter htw = new HtmlTextWriter(sw);
+            gv.RenderControl(htw);
+            Response.Output.Write(sw.ToString());
+            Response.Flush();
+            Response.End();
+
+            return RedirectToAction("Home");
+        }
+
+        public ActionResult SoldUnits()
+        {
+            GridView gv = new GridView();
+            var fleets = from f in db.Fleets
+                         join r in db.Remarketings on f.LogNumber equals r.LogNumber
+                         where f.Sold_date != null
+                         select new
+                         {
+                             f.FleetNumber,
+                             f.UnitNumber,
+                             r.BookValue,         
+                             r.SaleValue,
+                             r.GainLoss,
+                             r.ProfitShareAmount,
+                             r.ProfitSharePercentage,
+                             r.ComplementaryRent,
+                             r.SoldDate,
+                             r.Roe,
+                             r.SpotRate,
+                            f.Currency
+
+                         };
+            gv.DataSource = fleets.ToList();
+            gv.DataBind();
+            Response.ClearContent();
+            Response.Buffer = true;
+            Response.AddHeader("content-disposition", "attachment; filename=SoldUnits.xls");
+            Response.ContentType = "application/ms-excel";
+            Response.Charset = "";
+            StringWriter sw = new StringWriter();
+            HtmlTextWriter htw = new HtmlTextWriter(sw);
+            gv.RenderControl(htw);
+            Response.Output.Write(sw.ToString());
+            Response.Flush();
+            Response.End();
+
+            return RedirectToAction("Home");
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
