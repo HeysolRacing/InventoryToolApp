@@ -22,13 +22,14 @@ namespace InventoryTool.Controllers
 
         // GET: CRs
         [Authorize(Roles = "PhantomView")]
-        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
+        public ActionResult Index(string sortOrder, string currentFilter, string searchString, string fleetString, string unitString, int? page)
         {
             ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "WA number" : "";
             ViewBag.DateSortParm = String.IsNullOrEmpty(sortOrder) ? "VIN number" : "";
             ViewBag.ObligorSortParm = String.IsNullOrEmpty(sortOrder) ? "Client name" : "";
             ViewBag.StatusSortParm = String.IsNullOrEmpty(sortOrder) ? "Status" : "";
+            ViewBag.FleetSortParm = String.IsNullOrEmpty(sortOrder) ? "Fleet Number" : "";
 
             if (searchString != null)
             {
@@ -40,6 +41,8 @@ namespace InventoryTool.Controllers
             }
 
             ViewBag.CurrentFilter = searchString;
+            ViewBag.fleetFilter = fleetString;
+            ViewBag.UnitSortParm = unitString;
 
             var crs = from s in db.CRs
                             select s;
@@ -54,11 +57,18 @@ namespace InventoryTool.Controllers
                                        || s.Clientname.ToString().Contains(searchString)
                                        || s.Status.ToString().Contains(searchString));
             }
-            
+            if (!String.IsNullOrEmpty(fleetString))
+                crs = crs.Where(s => s.FleetNumber.ToString().Contains(fleetString));
+            if (!String.IsNullOrEmpty(unitString))
+                crs = crs.Where(s => s.UnitNumber.ToString().Contains(unitString));
+
             switch (sortOrder)
             {
                 case "WA number":
                     crs = crs.OrderByDescending(s => s.WAnumber);
+                    break;
+                case "Fleet Number":
+                    crs = crs.OrderBy(s => s.FleetNumber);
                     break;
                 case "VIN number":
                     crs = crs.OrderBy(s => s.VINnumber);
@@ -81,12 +91,13 @@ namespace InventoryTool.Controllers
         }
         // GET: CRs
         [Authorize(Roles = "APhantomView")]
-        public ActionResult APlist(string sortOrder, string currentFilter, string searchString, int? page)
+        public ActionResult APlist(string sortOrder, string currentFilter, string searchString, string fleetString, string unitString, int? page)
         {
             ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "WA number" : "";
             ViewBag.DateSortParm = String.IsNullOrEmpty(sortOrder) ? "VIN number" : "";
             ViewBag.ObligorSortParm = String.IsNullOrEmpty(sortOrder) ? "Client name" : "";
+            ViewBag.FleetSortParm = String.IsNullOrEmpty(sortOrder) ? "Fleet Number" : "";
 
             if (searchString != null)
             {
@@ -98,6 +109,8 @@ namespace InventoryTool.Controllers
             }
 
             ViewBag.CurrentFilter = searchString;
+            ViewBag.fleetFilter = fleetString;
+            ViewBag.UnitSortParm = unitString;
 
             var crs = from s in db.CRs
                       select s;
@@ -109,11 +122,18 @@ namespace InventoryTool.Controllers
                                        || s.Clientname.ToString().Contains(searchString)
                                        );
             }
+            if (!String.IsNullOrEmpty(fleetString))
+                crs = crs.Where(s => s.FleetNumber.ToString().Contains(fleetString));
+            if (!String.IsNullOrEmpty(unitString))
+                crs = crs.Where(s => s.UnitNumber.ToString().Contains(unitString));
 
             switch (sortOrder)
             {
                 case "WA number":
                     crs = crs.OrderByDescending(s => s.WAnumber);
+                    break;
+                case "Fleet Number":
+                    crs = crs.OrderBy(s => s.FleetNumber);
                     break;
                 case "VIN number":
                     crs = crs.OrderBy(s => s.VINnumber);
