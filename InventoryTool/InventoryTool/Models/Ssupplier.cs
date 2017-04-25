@@ -55,5 +55,9 @@ namespace InventoryTool.Models
         public string Type { get; set; }
         [Display(Name = "Tax Id")]
         public string TaxID { get; set; }
+        [Display(Name = "Created bY")]
+        public string Createdby { get; set; }
+        [Display(Name = "Created")]
+        public string Created { get; set; }
     }
 }

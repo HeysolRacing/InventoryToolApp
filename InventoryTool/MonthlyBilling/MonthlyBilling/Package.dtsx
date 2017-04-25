@@ -1,0 +1,585 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="4/21/2017 12:13:06 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="EFMMXCL-4452"
+  DTS:CreatorName="FLEET\SUgalde"
+  DTS:DTSID="{6D06D94E-CEDF-4744-BADB-319D75898898}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="14.0.0500.272"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Package"
+  DTS:PackageType="5"
+  DTS:VersionBuild="17"
+  DTS:VersionGUID="{B07C693A-40B7-4D86-AF6C-6B5E25FDB6E4}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Flat File Connection Manager]"
+      DTS:CreationName="FLATFILE"
+      DTS:DTSID="{843CA503-F60A-456A-9D50-4DA5AEE43422}"
+      DTS:ObjectName="Flat File Connection Manager">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">"C:\\estilos\\Code_B" + @[User::CurrentChargeCode]  + ".csv"</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:Format="Delimited"
+          DTS:LocaleID="1033"
+          DTS:Unicode="True"
+          DTS:HeaderRowDelimiter="_x000D__x000A_"
+          DTS:ColumnNamesInFirstDataRow="True"
+          DTS:RowDelimiter=""
+          DTS:TextQualifier="_x003C_none_x003E_"
+          DTS:CodePage="1252"
+          DTS:ConnectionString="C:\estilos\Code_B.csv">
+          <DTS:FlatFileColumns>
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="3"
+              DTS:TextQualified="True"
+              DTS:ObjectName="ID"
+              DTS:DTSID="{30223E53-BC07-40F6-A6E9-A488A5366BF9}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="3"
+              DTS:TextQualified="True"
+              DTS:ObjectName="code"
+              DTS:DTSID="{DC434DEE-8670-4CBC-B811-C59C3719A6D7}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="303"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Description"
+              DTS:DTSID="{75DE591F-3890-47E6-B638-7E43E3225FB2}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="303"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Chargecode"
+              DTS:DTSID="{734EB060-9882-4281-BCA2-423DE862B49B}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x000D__x000A_"
+              DTS:DataType="303"
+              DTS:TextQualified="True"
+              DTS:ObjectName="ChargecodeDesc"
+              DTS:DTSID="{699AAF68-7707-478D-9864-25EE540CD891}"
+              DTS:CreationName="" />
+          </DTS:FlatFileColumns>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{D16C4E3A-17FF-485D-A405-5DAE961B866D}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="ChargeCodeCollection">
+      <DTS:VariableValue
+        DTS:DataSubType="ManagedSerializable"
+        DTS:DataType="13">
+        <SOAP-ENV:Envelope xmlns:clr="http://schemas.microsoft.com/soap/encoding/clr/1.0" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+          <SOAP-ENV:Body>
+            <xsd:anyType
+              id="ref-1"></xsd:anyType>
+          </SOAP-ENV:Body>
+        </SOAP-ENV:Envelope>
+      </DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{8B171401-C93C-4754-8031-C79C88B9E0B5}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="CurrentChargeCode">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Execute SQL Task"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{41B01EFE-5126-46AE-AB6A-1005FD2529F5}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Execute SQL Task"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server vNext CTP2.0; © 2017 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{9108201F-886B-4F33-A225-92D728BF306C}"
+          SQLTask:SqlStatementSource="select distinct ChargeCode from Acodes"
+          SQLTask:ResultType="ResultSetType_Rowset" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ResultBinding
+            SQLTask:ResultName="0"
+            SQLTask:DtsVariableName="User::ChargeCodeCollection" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Foreach Loop Container"
+      DTS:CreationName="STOCK:FOREACHLOOP"
+      DTS:Description="Foreach Loop Container"
+      DTS:DTSID="{2BEDD980-00A4-4889-8922-A1E8790F01AA}"
+      DTS:ExecutableType="STOCK:FOREACHLOOP"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Foreach Loop Container">
+      <DTS:ForEachEnumerator
+        DTS:CreationName="Microsoft.ForEachADOEnumerator"
+        DTS:DTSID="{822F454D-6384-49BE-BCA9-A8C1042D4EC4}"
+        DTS:ObjectName="{822F454D-6384-49BE-BCA9-A8C1042D4EC4}">
+        <DTS:ObjectData>
+          <FEEADO
+            EnumType="EnumerateRowsInFirstTable"
+            VarName="ChargeCodeCollection" />
+        </DTS:ObjectData>
+      </DTS:ForEachEnumerator>
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\Foreach Loop Container\ExportToCSV"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:Description="Data Flow Task"
+          DTS:DTSID="{00F3413A-3555-4F19-9206-D1F99FFCBB64}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="ExportToCSV"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              version="1">
+              <components>
+                <component
+                  refId="Package\Foreach Loop Container\ExportToCSV\Flat File Destination"
+                  componentClassID="Microsoft.FlatFileDestination"
+                  contactInfo="Flat File Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+                  description="Flat File Destination"
+                  localeId="1033"
+                  name="Flat File Destination">
+                  <properties>
+                    <property
+                      dataType="System.Boolean"
+                      description="Specifies whether the data will overwrite or append to the destination file."
+                      name="Overwrite">true</property>
+                    <property
+                      dataType="System.Null"
+                      description="Specifies the text to write to the destination file before any data is written."
+                      expressionType="Notify"
+                      name="Header" />
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Foreach Loop Container\ExportToCSV\Flat File Destination.Connections[FlatFileConnection]"
+                      connectionManagerID="Package.ConnectionManagers[Flat File Connection Manager]"
+                      connectionManagerRefId="Package.ConnectionManagers[Flat File Connection Manager]"
+                      name="FlatFileConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\Foreach Loop Container\ExportToCSV\Flat File Destination.Inputs[Flat File Destination Input]"
+                      hasSideEffects="true"
+                      name="Flat File Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\ExportToCSV\Flat File Destination.Inputs[Flat File Destination Input].Columns[ID]"
+                          cachedDataType="i4"
+                          cachedName="ID"
+                          externalMetadataColumnId="Package\Foreach Loop Container\ExportToCSV\Flat File Destination.Inputs[Flat File Destination Input].ExternalColumns[ID]"
+                          lineageId="Package\Foreach Loop Container\ExportToCSV\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\ExportToCSV\Flat File Destination.Inputs[Flat File Destination Input].Columns[code]"
+                          cachedDataType="i4"
+                          cachedName="code"
+                          externalMetadataColumnId="Package\Foreach Loop Container\ExportToCSV\Flat File Destination.Inputs[Flat File Destination Input].ExternalColumns[code]"
+                          lineageId="Package\Foreach Loop Container\ExportToCSV\OLE DB Source.Outputs[OLE DB Source Output].Columns[code]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\ExportToCSV\Flat File Destination.Inputs[Flat File Destination Input].Columns[Description]"
+                          cachedDataType="nText"
+                          cachedName="Description"
+                          externalMetadataColumnId="Package\Foreach Loop Container\ExportToCSV\Flat File Destination.Inputs[Flat File Destination Input].ExternalColumns[Description]"
+                          lineageId="Package\Foreach Loop Container\ExportToCSV\OLE DB Source.Outputs[OLE DB Source Output].Columns[Description]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\ExportToCSV\Flat File Destination.Inputs[Flat File Destination Input].ExternalColumns[ID]"
+                          dataType="i4"
+                          name="ID" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\ExportToCSV\Flat File Destination.Inputs[Flat File Destination Input].ExternalColumns[code]"
+                          dataType="i4"
+                          name="code" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\ExportToCSV\Flat File Destination.Inputs[Flat File Destination Input].ExternalColumns[Description]"
+                          dataType="nText"
+                          name="Description" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\ExportToCSV\Flat File Destination.Inputs[Flat File Destination Input].ExternalColumns[Chargecode]"
+                          dataType="nText"
+                          name="Chargecode" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\ExportToCSV\Flat File Destination.Inputs[Flat File Destination Input].ExternalColumns[ChargecodeDesc]"
+                          dataType="nText"
+                          name="ChargecodeDesc" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                </component>
+                <component
+                  refId="Package\Foreach Loop Container\ExportToCSV\OLE DB Source"
+                  componentClassID="Microsoft.OLEDBSource"
+                  contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+                  description="OLE DB Source"
+                  name="OLE DB Source"
+                  usesDispositions="true"
+                  version="7">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset"></property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">SELECT [ID]
+      ,[code]
+      ,[Description]
+      ,[Chargecode]
+      ,[ChargecodeDesc]
+  FROM [dbo].[Acodes]
+where [Chargecode] = ?</property>
+                    <property
+                      dataType="System.String"
+                      description="The variable that contains the SQL command to be executed."
+                      name="SqlCommandVariable"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">2</property>
+                    <property
+                      dataType="System.String"
+                      description="The mappings between the parameters in the SQL command and variables."
+                      name="ParameterMapping">"Parameter0:Input",{8B171401-C93C-4754-8031-C79C88B9E0B5};</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Foreach Loop Container\ExportToCSV\OLE DB Source.Connections[OleDbConnection]"
+                      connectionManagerID="{9108201F-886B-4F33-A225-92D728BF306C}:external"
+                      connectionManagerRefId="Project.ConnectionManagers[EFMMXCL5714]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\Foreach Loop Container\ExportToCSV\OLE DB Source.Outputs[OLE DB Source Output]"
+                      name="OLE DB Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\ExportToCSV\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\ExportToCSV\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ID]"
+                          lineageId="Package\Foreach Loop Container\ExportToCSV\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID]"
+                          name="ID"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\ExportToCSV\OLE DB Source.Outputs[OLE DB Source Output].Columns[code]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\ExportToCSV\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[code]"
+                          lineageId="Package\Foreach Loop Container\ExportToCSV\OLE DB Source.Outputs[OLE DB Source Output].Columns[code]"
+                          name="code"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\ExportToCSV\OLE DB Source.Outputs[OLE DB Source Output].Columns[Description]"
+                          dataType="nText"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\ExportToCSV\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Description]"
+                          lineageId="Package\Foreach Loop Container\ExportToCSV\OLE DB Source.Outputs[OLE DB Source Output].Columns[Description]"
+                          name="Description"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\ExportToCSV\OLE DB Source.Outputs[OLE DB Source Output].Columns[Chargecode]"
+                          dataType="nText"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\ExportToCSV\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Chargecode]"
+                          lineageId="Package\Foreach Loop Container\ExportToCSV\OLE DB Source.Outputs[OLE DB Source Output].Columns[Chargecode]"
+                          name="Chargecode"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\ExportToCSV\OLE DB Source.Outputs[OLE DB Source Output].Columns[ChargecodeDesc]"
+                          dataType="nText"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\ExportToCSV\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ChargecodeDesc]"
+                          lineageId="Package\Foreach Loop Container\ExportToCSV\OLE DB Source.Outputs[OLE DB Source Output].Columns[ChargecodeDesc]"
+                          name="ChargecodeDesc"
+                          truncationRowDisposition="FailComponent" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\ExportToCSV\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ID]"
+                          dataType="i4"
+                          name="ID" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\ExportToCSV\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[code]"
+                          dataType="i4"
+                          name="code" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\ExportToCSV\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Description]"
+                          dataType="nText"
+                          name="Description" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\ExportToCSV\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Chargecode]"
+                          dataType="nText"
+                          name="Chargecode" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\ExportToCSV\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ChargecodeDesc]"
+                          dataType="nText"
+                          name="ChargecodeDesc" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\Foreach Loop Container\ExportToCSV\OLE DB Source.Outputs[OLE DB Source Error Output]"
+                      isErrorOut="true"
+                      name="OLE DB Source Error Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\ExportToCSV\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ID]"
+                          dataType="i4"
+                          lineageId="Package\Foreach Loop Container\ExportToCSV\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ID]"
+                          name="ID" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\ExportToCSV\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[code]"
+                          dataType="i4"
+                          lineageId="Package\Foreach Loop Container\ExportToCSV\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[code]"
+                          name="code" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\ExportToCSV\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Description]"
+                          dataType="nText"
+                          lineageId="Package\Foreach Loop Container\ExportToCSV\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Description]"
+                          name="Description" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\ExportToCSV\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Chargecode]"
+                          dataType="nText"
+                          lineageId="Package\Foreach Loop Container\ExportToCSV\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Chargecode]"
+                          name="Chargecode" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\ExportToCSV\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ChargecodeDesc]"
+                          dataType="nText"
+                          lineageId="Package\Foreach Loop Container\ExportToCSV\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ChargecodeDesc]"
+                          name="ChargecodeDesc" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\ExportToCSV\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Foreach Loop Container\ExportToCSV\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\ExportToCSV\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Foreach Loop Container\ExportToCSV\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\Foreach Loop Container\ExportToCSV.Paths[OLE DB Source Output]"
+                  endId="Package\Foreach Loop Container\ExportToCSV\Flat File Destination.Inputs[Flat File Destination Input]"
+                  name="OLE DB Source Output"
+                  startId="Package\Foreach Loop Container\ExportToCSV\OLE DB Source.Outputs[OLE DB Source Output]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:ForEachVariableMappings>
+        <DTS:ForEachVariableMapping
+          DTS:CreationName=""
+          DTS:DTSID="{79FC09B8-46D1-4F05-ACBB-C079DA13F872}"
+          DTS:ObjectName="{79FC09B8-46D1-4F05-ACBB-C079DA13F872}"
+          DTS:ValueIndex="0"
+          DTS:VariableName="User::CurrentChargeCode" />
+      </DTS:ForEachVariableMappings>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{D542B0B9-59ED-4A82-91FF-D025E2F493B6}"
+      DTS:From="Package\Execute SQL Task"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Foreach Loop Container" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="163.5,42"
+          Id="Package\Execute SQL Task"
+          TopLeft="75.25,6.75" />
+        <NodeLayout
+          Size="140,42"
+          Id="Package\Foreach Loop Container\ExportToCSV"
+          TopLeft="33.5,19.75" />
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="214,117"
+          Size="214,160"
+          Id="Package\Foreach Loop Container"
+          TopLeft="154,116.833333333333" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="157,48.75">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="104,68.083333333333"
+              Start="0,0"
+              End="104,60.583333333333">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,30.0416666666665" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,30.0416666666665"
+                    Point2="0,34.0416666666665"
+                    Point3="4,34.0416666666665" />
+                  <mssgle:LineSegment
+                    End="100,34.0416666666665" />
+                  <mssgle:CubicBezierSegment
+                    Point1="100,34.0416666666665"
+                    Point2="104,34.0416666666665"
+                    Point3="104,38.0416666666665" />
+                  <mssgle:LineSegment
+                    End="104,60.583333333333" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Foreach Loop Container\ExportToCSV">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="172,42"
+          Id="Package\Foreach Loop Container\ExportToCSV\Flat File Destination"
+          TopLeft="126.428571428571,148.928571428571" />
+        <NodeLayout
+          Size="150,42"
+          Id="Package\Foreach Loop Container\ExportToCSV\OLE DB Source"
+          TopLeft="68.6785714285714,45.3214285714286" />
+        <EdgeLayout
+          Id="Package\Foreach Loop Container\ExportToCSV.Paths[OLE DB Source Output]"
+          TopLeft="143.678571428571,87.3214285714286">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="68.75,61.6071428571429"
+              Start="0,0"
+              End="68.75,54.1071428571429">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,26.8035714285714" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,26.8035714285714"
+                    Point2="0,30.8035714285714"
+                    Point3="4,30.8035714285714" />
+                  <mssgle:LineSegment
+                    End="64.75,30.8035714285714" />
+                  <mssgle:CubicBezierSegment
+                    Point1="64.75,30.8035714285714"
+                    Point2="68.75,30.8035714285714"
+                    Point3="68.75,34.8035714285714" />
+                  <mssgle:LineSegment
+                    End="68.75,54.1071428571429" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Foreach Loop Container\ExportToCSV\OLE DB Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

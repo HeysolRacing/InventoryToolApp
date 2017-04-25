@@ -10,6 +10,7 @@ using System.Web.UI;
 using InventoryTool.Models;
 using PagedList;
 using System.Security.Claims;
+using System.Data.SqlClient;
 
 namespace InventoryTool.Controllers
 {
@@ -226,10 +227,22 @@ namespace InventoryTool.Controllers
                         userIdValue = userIdClaim.Value;
                     }
                 }
+
                 fleet.CreatedBy = userIdValue;
-                db.Fleets.Add(fleet);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+
+                if (!VerifyData(fleet.LogNumber, fleet.FleetNumber, fleet.UnitNumber, fleet.VinNumber))
+                {
+                    ViewBag.Display = "";
+                    db.Fleets.Add(fleet);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");    
+                }
+                else
+                {
+                    ViewBag.Display = "Error: This Unit already exists.";
+                    return View();
+                }
+                
             }
 
             return View(fleet);
@@ -278,6 +291,21 @@ namespace InventoryTool.Controllers
             db.Fleets.Remove(fleet);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+        [HttpPost]
+        public Boolean VerifyData(int LogNumber, string Fleet, string Unit, string VIN)
+        {
+            string cadenaconexionSQL = System.Configuration.ConfigurationManager.ConnectionStrings["InventoryToolContext"].ConnectionString;
+            SqlConnection conn = new SqlConnection(cadenaconexionSQL);
+            string strsql = "EXEC [dbo].[sp_VerificaFleet] " + LogNumber + ",'" + Fleet + "','" + Unit + "','" + VIN + "'";
+            conn.Open();
+            SqlDataAdapter da = new SqlDataAdapter(strsql, conn);
+            DataSet ds = new DataSet();
+            da.Fill(ds, "Fleets");
+            if (ds.Tables[0].Rows.Count <= 0)
+                return false;
+            else
+                return true;
         }
 
         [HttpPost]
