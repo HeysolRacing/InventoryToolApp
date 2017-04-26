@@ -62,7 +62,7 @@ function MiFuncion()
 @using (Html.BeginForm("Importexcel", "FeeCodes", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     <table>
-        <tr><td>Excel file</td><td><input type="file" id="FileUpload1" name="FileUpload1" /></td>
+        <tr><td>CSV file</td><td><input type="file" id="FileUpload1" name="FileUpload1" /></td>
         <td></td><td><input type="submit" id="Submit" name="Submit" value="Submit" class="btn btn-info" onclick="MiFuncion()"  /></td></tr>
     </table>
 }

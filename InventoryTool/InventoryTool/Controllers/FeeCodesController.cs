@@ -288,7 +288,7 @@ namespace InventoryTool.Controllers
 
         public ActionResult Importexcel()
         {
-            string cadenaconexionSQL, line, strsql = "", strsql2 = "";
+            string cadenaconexionSQL, line, strsql = "", strsql2 = "", strsql3 = "";
             cadenaconexionSQL = System.Configuration.ConfigurationManager.ConnectionStrings["InventoryToolContext"].ConnectionString;
             SqlConnection conn = new SqlConnection(cadenaconexionSQL);
             SqlCommand com = new SqlCommand();
@@ -305,10 +305,26 @@ namespace InventoryTool.Controllers
                     string extension = System.IO.Path.GetExtension(Request.Files["FileUpload1"].FileName);
                     //C:\Proyectos\GitHub\FeeCodes\InventoryToolApp\InventoryTool\InventoryTool\UploadedFiles
                     string path1 = string.Format("{0}/{1}", Server.MapPath("~/UploadedFiles"), Request.Files["FileUpload1"].FileName);
+                    string path2 = string.Format("{0}/{1}", Server.MapPath("~/UploadedFiles"), "Cappings-c.fmt");
                     if (System.IO.File.Exists(path1))
                         System.IO.File.Delete(path1);
 
                     Request.Files["FileUpload1"].SaveAs(path1);
+
+
+
+                    //strsql = path1.ToString().Replace("/", "\\");
+                    //strsql2 = path2.ToString().Replace("/", "\\");
+                    //strsql3 = "EXEC [dbo].[sp_CargaCappings] '" + strsql + "','" + strsql2 + "'";
+
+                    //conn.Open();
+                    //com.CommandText = strsql3;
+                    //com.CommandTimeout = 0;
+                    //com.CommandType = CommandType.Text;
+                    //com.Connection = conn;
+                    //com.ExecuteNonQuery();
+                    //conn.Close();
+                    //conn.Dispose();
 
                     // Read the file and display it line by line.  
                     System.IO.StreamReader file = new System.IO.StreamReader(path1);

@@ -11,6 +11,7 @@ using PagedList;
 using System.Web.UI.WebControls;
 using System.IO;
 using System.Web.UI;
+using System.Data.SqlClient;
 
 namespace InventoryTool.Controllers
 {
@@ -95,6 +96,7 @@ namespace InventoryTool.Controllers
         public ActionResult List(string sortOrder, string currentFilter, string searchString, int? page, int? id, int? screen,
                                   string currentZIPCode, string searchZIPCode, string searchMainPhone, string currentMainPhone, string SearchID)
         {
+            ViewBag.Display = "";
             ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "Supplier Name" : "";
             ViewBag.DateSortParm = String.IsNullOrEmpty(sortOrder) ? "Telephone/fax/email" : "";
@@ -215,14 +217,28 @@ namespace InventoryTool.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "SupplierCreate")]
-        public ActionResult Create([Bind(Include = "SupplierID,SupplierName,LegalName,Street,City,State,Country_cd,ZIPCode,StoreNumber,NatlAccountCode,BillMethod,DiscParts,DiscLabor,PaymentTerms,disc_cap_amt,supplier_typ_cd,Telephone,Fax,WebLink,email,ContactName,Status,Type,TaxID")] Ssupplier ssupplier)
-        {
+        public ActionResult Create([Bind(Include = "SupplierID,SupplierName,LegalName,Street,City,State,Country_cd,ZIPCode,StoreNumber,NatlAccountCode,BillMethod,DiscParts,DiscLabor,PaymentTerms,disc_cap_amt,supplier_typ_cd,Telephone,Fax,WebLink,email,ContactName,Status,Type,TaxID,,Createdby,Created")] Ssupplier ssupplier)
+        {  
             if (ModelState.IsValid)
             {
                 ssupplier.Status = "A";
-                db.Suppliers.Add(ssupplier);
-                db.SaveChanges();
-                return RedirectToAction("List");
+                ssupplier.Createdby = Environment.UserName;
+                ssupplier.Created = DateTime.Now.ToString();
+                if (!VerifyData(ssupplier.SupplierName, ssupplier.LegalName, ssupplier.ZIPCode))
+                {
+                    this.HttpContext.Session["Displaydgs1"] = "";
+                    db.Suppliers.Add(ssupplier);
+                    db.SaveChanges();
+                    ViewBag.Display = "";
+                    return RedirectToAction("List");
+                }
+                else
+                {
+                    ViewBag.Display = "Error: This Supplier already exists.";
+                    return View();
+                }
+                
+
             }
 
             return View(ssupplier);
@@ -250,7 +266,7 @@ namespace InventoryTool.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "SupplierEdit")]
-        public ActionResult Edit([Bind(Include = "SupplierID,SupplierName,LegalName,Street,City,State,Country_cd,ZIPCode,StoreNumber,NatlAccountCode,BillMethod,DiscParts,DiscLabor,PaymentTerms,disc_cap_amt,supplier_typ_cd,Telephone,Fax,WebLink,email,ContactName,Status,Type,TaxID")] Ssupplier ssupplier)
+        public ActionResult Edit([Bind(Include = "SupplierID,SupplierName,LegalName,Street,City,State,Country_cd,ZIPCode,StoreNumber,NatlAccountCode,BillMethod,DiscParts,DiscLabor,PaymentTerms,disc_cap_amt,supplier_typ_cd,Telephone,Fax,WebLink,email,ContactName,Status,Type,TaxID,Createdby,Created")] Ssupplier ssupplier) 
         {
             if (ModelState.IsValid)
             {
@@ -317,6 +333,22 @@ namespace InventoryTool.Controllers
             db.Suppliers.Remove(ssupplier);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public Boolean VerifyData (string SupplierName, string LegalName, int ZipCode)
+        {
+            string cadenaconexionSQL = System.Configuration.ConfigurationManager.ConnectionStrings["InventoryToolContext"].ConnectionString;
+            SqlConnection conn = new SqlConnection(cadenaconexionSQL);
+            string strsql = "EXEC [dbo].[sp_VerificaSupplier] '" + SupplierName + "','" + LegalName + "',"+ ZipCode;
+            conn.Open();
+            SqlDataAdapter da = new SqlDataAdapter(strsql, conn);
+            DataSet ds = new DataSet();
+            da.Fill(ds, "Suppliers");
+            if (ds.Tables[0].Rows.Count <= 0)
+                return false;
+            else
+                return true;
         }
 
         [HttpPost]
