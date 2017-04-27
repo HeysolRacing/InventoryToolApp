@@ -232,7 +232,7 @@ namespace InventoryTool.Controllers
 
             var bankaccounts = db.BankAccounts.ToList();
             foreach (BankAccounts item in bankaccounts)
-            { item.Currency = item.Currency + "-" + item.Account; }
+            { item.Currency = item.Currency + " - " + item.Account; }
             ViewBag.BankAccounts = bankaccounts;
 
             return View(remarketing);

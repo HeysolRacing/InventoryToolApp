@@ -288,13 +288,13 @@ namespace InventoryTool.Controllers
 
         public ActionResult Importexcel()
         {
-            string cadenaconexionSQL, line, strsql = "", strsql2 = "", strsql3 = "";
+            string cadenaconexionSQL, line, strsql = "";
             cadenaconexionSQL = System.Configuration.ConfigurationManager.ConnectionStrings["InventoryToolContext"].ConnectionString;
             SqlConnection conn = new SqlConnection(cadenaconexionSQL);
             SqlCommand com = new SqlCommand();
             SqlDataAdapter da = new SqlDataAdapter();
             DataSet ds = new DataSet();
-            int counter = 1, cont = 0;
+            int counter = 1;
             bool band = false;
             string[] datos;
 
@@ -303,97 +303,42 @@ namespace InventoryTool.Controllers
                 if (Request.Files["FileUpload1"].ContentLength > 0)
                 {
                     string extension = System.IO.Path.GetExtension(Request.Files["FileUpload1"].FileName);
-                    //C:\Proyectos\GitHub\FeeCodes\InventoryToolApp\InventoryTool\InventoryTool\UploadedFiles
-                    string path1 = string.Format("{0}/{1}", Server.MapPath("~/UploadedFiles"), Request.Files["FileUpload1"].FileName);
-                    string path2 = string.Format("{0}/{1}", Server.MapPath("~/UploadedFiles"), "Cappings-c.fmt");
+                    string path1 = string.Format("{0}\\{1}", Server.MapPath("~/UploadedFiles"), Request.Files["FileUpload1"].FileName);
+
                     if (System.IO.File.Exists(path1))
                         System.IO.File.Delete(path1);
 
                     Request.Files["FileUpload1"].SaveAs(path1);
 
-
-
-                    //strsql = path1.ToString().Replace("/", "\\");
-                    //strsql2 = path2.ToString().Replace("/", "\\");
-                    //strsql3 = "EXEC [dbo].[sp_CargaCappings] '" + strsql + "','" + strsql2 + "'";
-
-                    //conn.Open();
-                    //com.CommandText = strsql3;
-                    //com.CommandTimeout = 0;
-                    //com.CommandType = CommandType.Text;
-                    //com.Connection = conn;
-                    //com.ExecuteNonQuery();
-                    //conn.Close();
-                    //conn.Dispose();
-
                     // Read the file and display it line by line.  
                     System.IO.StreamReader file = new System.IO.StreamReader(path1);
                     string dato = file.ReadLine();
-                    conn.Open();
+
                     while ((line = file.ReadLine()) != null)
                     {
                         datos = line.Split(',');
-                        //Primero verifico si ya existe el registro
                         if (!datos[0].Equals(""))
                         {
-                            if (conn.State.Equals("Closed"))
-                                conn.Open();
-                            strsql2 = "Select Fleet From FeeCodes Where Fleet = '" + datos[0] + "' And Unit = '" + datos[1] + "' And Lpis = " + Convert.ToInt32(datos[7]);
-                            strsql2 += " And Fee = " + Convert.ToInt32(datos[10]);
-                            da = new SqlDataAdapter(strsql2, conn);
-                            ds = new DataSet();
-                            da.Fill(ds, "Feecodes");
-                            if (ds.Tables[0].Rows.Count <= 0)    //no existe
-                            {
-                                //Grabo
-                                strsql += "Insert into FeeCodes (Fleet, Unit, LogNo, CapCost, BookValue, Rental, Term, Lpis, Scontr, InsPremium, Fee, Descr, MMYY, ";
-                                strsql += "Star, Sto, Amt, Method, Rate, BL, AC, Createdby, Created) values('" + datos[0] + "','" + datos[1] + "',";
-                                strsql += Convert.ToInt32(datos[2]) + "," + Convert.ToDecimal(datos[3]) + "," + Convert.ToDecimal(datos[4]) + ",";
-                                strsql += Convert.ToDecimal(datos[5]) + "," + Convert.ToInt32(datos[6]) + "," + Convert.ToInt32(datos[7]) + ",'" + datos[8] + "',";
-                                strsql += Convert.ToDecimal(datos[9]) + "," + Convert.ToInt32(datos[10]) + ",'" + datos[11] + "',";
-                                strsql += Convert.ToInt32(datos[12]) + "," + Convert.ToInt32(datos[13]) + "," + Convert.ToInt32(datos[14]) + ",";
-                                strsql += Convert.ToDecimal(datos[15]) + ",'" + datos[16] + "','" + datos[17] + "','";
-                                strsql += datos[18] + "','" + datos[19] + "','MACRO PROCESS', GETDATE()) ";
-                                cont++;
-                                if (cont == 500)
-                                {
-                                    com = new SqlCommand();
-                                    com.CommandText = strsql;
-                                    com.CommandTimeout = 0;
-                                    com.CommandType = CommandType.Text;
-                                    if (conn.State.Equals("Closed"))
-                                        conn.Open();
-                                    com.Connection = conn;
-                                    com.ExecuteNonQuery();
-                                    cont = 0;
-                                    strsql = "";
-                                }
-                            }
-                            else
-                            {
-                                this.HttpContext.Session["Displaydgs2"] = "There were FeeCodes duplicated, please review";
-                                band = true;
-                            }
+                            strsql += "EXEC [dbo].[sp_CargaFeeCappings] '" + datos[0] + "','" + datos[1] + "',";
+                            strsql += Convert.ToInt32(datos[2]) + "," + Convert.ToDecimal(datos[3]) + "," + Convert.ToDecimal(datos[4]) + ",";
+                            strsql += Convert.ToDecimal(datos[5]) + "," + Convert.ToInt32(datos[6]) + "," + Convert.ToInt32(datos[7]) + ",'" + datos[8] + "',";
+                            strsql += Convert.ToDecimal(datos[9]) + "," + Convert.ToInt32(datos[10]) + ",'" + datos[11] + "',";
+                            strsql += Convert.ToInt32(datos[12]) + "," + Convert.ToInt32(datos[13]) + "," + Convert.ToInt32(datos[14]) + ",";
+                            strsql += Convert.ToDecimal(datos[15]) + ",'" + datos[16] + "','" + datos[17] + "','";
+                            strsql += datos[18] + "','" + datos[19] + "','MACRO PROCESS'";
+                            com = new SqlCommand();
+                            com.CommandText = strsql;
+                            com.CommandTimeout = 0;
+                            com.CommandType = CommandType.Text;
+                            conn.Open();
+                            com.Connection = conn;
+                            com.ExecuteNonQuery();
+                            conn.Close();
                         }
                         counter++;
                     }
-                    if (cont > 0)
-                    {
-                        //conn.Open();
-                        com = new SqlCommand();
-                        com.CommandText = strsql;
-                        com.CommandTimeout = 0;
-                        com.CommandType = CommandType.Text;
-                        if (conn.State.Equals("Closed"))
-                            conn.Open();
-                        com.Connection = conn;
-                        com.ExecuteNonQuery();
-                        strsql = "";
-                        cont = 0;
-                    }
                     file.Close();
                     file.Dispose();
-                    conn.Close();
                     conn.Dispose();
 
                     if (!band)
@@ -404,7 +349,73 @@ namespace InventoryTool.Controllers
             {
                 this.HttpContext.Session["Displaydgs2"] = "Error: " + ex.Message;
             }
-            
+
+            return RedirectToAction("Index");
+        }
+        public ActionResult Importexcel_old()
+        {
+            string cadenaconexionSQL, line, strsql = "";
+            cadenaconexionSQL = System.Configuration.ConfigurationManager.ConnectionStrings["InventoryToolContext"].ConnectionString;
+            SqlConnection conn = new SqlConnection(cadenaconexionSQL);
+            SqlCommand com = new SqlCommand();
+            SqlDataAdapter da = new SqlDataAdapter();
+            DataSet ds = new DataSet();
+            int counter = 1;
+            bool band = false;
+            string[] datos;
+
+            try
+            {
+                if (Request.Files["FileUpload1"].ContentLength > 0)
+                {
+                    string extension = System.IO.Path.GetExtension(Request.Files["FileUpload1"].FileName);
+                    string path1 = string.Format("{0}\\{1}", Server.MapPath("~/UploadedFiles"), Request.Files["FileUpload1"].FileName);
+
+                    if (System.IO.File.Exists(path1))
+                        System.IO.File.Delete(path1);
+
+                    Request.Files["FileUpload1"].SaveAs(path1);
+
+                    // Read the file and display it line by line.  
+                    System.IO.StreamReader file = new System.IO.StreamReader(path1);
+                    string dato = file.ReadLine();
+
+                    while ((line = file.ReadLine()) != null)
+                    {
+                        datos = line.Split(',');
+                        if (!datos[0].Equals(""))
+                        {
+                            strsql += "EXEC [dbo].[sp_CargaFeeCodes] '" + datos[0] + "','" + datos[1] + "',";
+                            strsql += Convert.ToInt32(datos[2]) + "," + Convert.ToDecimal(datos[3]) + "," + Convert.ToDecimal(datos[4]) + ",";
+                            strsql += Convert.ToDecimal(datos[5]) + "," + Convert.ToInt32(datos[6]) + "," + Convert.ToInt32(datos[7]) + ",'" + datos[8] + "',";
+                            strsql += Convert.ToDecimal(datos[9]) + "," + Convert.ToInt32(datos[10]) + ",'" + datos[11] + "',";
+                            strsql += Convert.ToInt32(datos[12]) + "," + Convert.ToInt32(datos[13]) + "," + Convert.ToInt32(datos[14]) + ",";
+                            strsql += Convert.ToDecimal(datos[15]) + ",'" + datos[16] + "','" + datos[17] + "','";
+                            strsql += datos[18] + "','" + datos[19] + "','MACRO PROCESS'";
+                            com = new SqlCommand();
+                            com.CommandText = strsql;
+                            com.CommandTimeout = 0;
+                            com.CommandType = CommandType.Text;
+                            conn.Open();
+                            com.Connection = conn;
+                            com.ExecuteNonQuery();
+                            conn.Close();
+                        }
+                        counter++;
+                    }
+                    file.Close();
+                    file.Dispose();
+                    conn.Dispose();
+
+                    if (!band)
+                        this.HttpContext.Session["Displaydgs2"] = "FeeCodes imported succesfullly";
+                }
+            }
+            catch (Exception ex)
+            {
+                this.HttpContext.Session["Displaydgs2"] = "Error: " + ex.Message;
+            }
+
             return RedirectToAction("Index");
         }
 
