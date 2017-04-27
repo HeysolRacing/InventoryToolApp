@@ -1,94 +1,99 @@
 ﻿@model PagedList.IPagedList<InventoryTool.Models.FeeCode>
-@using PagedList.Mvc;
-<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<link rel="stylesheet" href="/resources/demos/style.css">
-
-@{
-    ViewBag.Title = "FeeCodes";
-}
-
-<h2>FeeCodes</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create") 
-</p>
-@using (Html.BeginForm("Index", "FeeCodes", FormMethod.Get))
+    @using PagedList.Mvc;
+    <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script lenguaje="javascript">
+function MiFuncion()
 {
-    <table>
-        <tr>
-            <td>
-                Find by Fleet: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
-            </td>
-            <td width="15px"></td>
-            <td>
-                Find by Unit: @Html.TextBox("SearchUnit", ViewBag.CurrentUnit as string)
-            </td>
-            <td width="15px"></td>
-            <td>
-                Find by LogNumber: @Html.TextBox("SearchLogNo", ViewBag.CurrentLogNo as string)
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Find by Fee: @Html.TextBox("SearchFee", ViewBag.CurrentFee as string)
-            </td>
-            <td width="15px"></td>
-            <td>
-                <!--Initial Date (mm/dd/yyyy): @Html.JQueryUI().Datepicker("InitialDate").AutoSize(true)-->
-                Initial Date: <input type="date" name="InitialDate" placeholder="yyyy-mm-dd" value="@ViewBag.InitialFilter">
-            </td>
-            <td width="15px"></td>
-            <td>
-                <!--Final Date (mm/dd/yyyy): @Html.JQueryUI().Datepicker("FinalDate").AutoSize(true)-->
-                Final Date: <input type="date" name="FinalDate" placeholder="yyyy-mm-dd" value="@ViewBag.FinalFilter">
-            </td>
-            <td width="15px"></td>
-            <td>
-                <input type="submit" value="Search" class="btn btn-info" />
-            </td>
-        </tr>
-    </table>
-
+    alert("The file is going to process, please wait until the name of the file disappears.");
 }
+    </script>
+
+    @{
+        ViewBag.Title = "FeeCodes";
+    }
+
+    <h2>FeeCodes</h2>
+
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    @using (Html.BeginForm("Index", "FeeCodes", FormMethod.Get))
+    {
+        <table>
+            <tr>
+                <td>
+                    Find by Fleet: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+                </td>
+                <td width="15px"></td>
+                <td>
+                    Find by Unit: @Html.TextBox("SearchUnit", ViewBag.CurrentUnit as string)
+                </td>
+                <td width="15px"></td>
+                <td>
+                    Find by LogNumber: @Html.TextBox("SearchLogNo", ViewBag.CurrentLogNo as string)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Find by Fee: @Html.TextBox("SearchFee", ViewBag.CurrentFee as string)
+                </td>
+                <td width="15px"></td>
+                <td>
+                    <!--Initial Date (mm/dd/yyyy): @Html.JQueryUI().Datepicker("InitialDate").AutoSize(true)-->
+                    Initial Date: <input type="date" name="InitialDate" placeholder="yyyy-mm-dd" value="@ViewBag.InitialFilter">
+                </td>
+                <td width="15px"></td>
+                <td>
+                    <!--Final Date (mm/dd/yyyy): @Html.JQueryUI().Datepicker("FinalDate").AutoSize(true)-->
+                    Final Date: <input type="date" name="FinalDate" placeholder="yyyy-mm-dd" value="@ViewBag.FinalFilter">
+                </td>
+                <td width="15px"></td>
+                <td>
+                    <input type="submit" value="Search" class="btn btn-info" />
+                </td>
+            </tr>
+        </table>
+
+    }
 
 
-@using (Html.BeginForm("Importexcel", "FeeCodes", FormMethod.Post, new { enctype = "multipart/form-data" }))
-{
-    <table>
-        <tr><td>Excel file</td><td><input type="file" id="FileUpload1" name="FileUpload1" /></td>
-        <td></td><td><input type="submit" id="Submit" name="Submit" value="Submit" class="btn btn-info"  /></td></tr>
-    </table>
-}
+    @using (Html.BeginForm("Importexcel", "FeeCodes", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <table>
+            <tr>
+                <td>CSV file</td>
+                <td><input type="file" id="FileUpload1" name="FileUpload1" /></td>
+                <td></td>
+                <td><input type="submit" id="Submit" name="Submit" value="Submit" class="btn btn-info" onclick="MiFuncion()" /></td>
+            </tr>
+        </table>
+    }
 
-<h4 style="color:red">
-    @Session["Display"] &nbsp; &nbsp; @Session["Display2"]
-</h4>
+    <h4 style="color:red">
+        @Session["Displaydgs1"] &nbsp; &nbsp; @Session["Displaydgs2"]
+    </h4>
 
-@using (Html.BeginForm("ExportData", "FeeCodes", new { searchString = ViewBag.CurrentFilter, searchUnit = ViewBag.CurrentUnit, searchLogNo = ViewBag.CurrentLogNo, searchFee = ViewBag.CurrentFee,
-                                                       InitialDate = ViewBag.InitialFilter, FinalDate = ViewBag.FinalFilter },
-                        FormMethod.Post, new { enctype = "multipart/form-data" }))
-{
-<table class="table">
-    <tr><td width="5px"></td></tr>
-    <tr>
-        <th>
-            Fleet
-        </th>
-        <th>
-            @Html.ActionLink("Unit", "Index", new
-       {
-           sortOrder = ViewBag.UnitSortParm,
-           currentFilter = ViewBag.CurrentFilter,
-           currentUnit = ViewBag.CurrentUnit,
-           currentLogNo = ViewBag.CurrentLogNo,
-           currentFee = ViewBag.CurrentFee,
-           InitialDate = ViewBag.InitialFilter,
-           FinalDate = ViewBag.FinalFilter
-            })
-        </th>
-        <th>
-            @Html.ActionLink("LogNo", "Index", new
+    @using (Html.BeginForm("ExportData", "FeeCodes", new
+    {
+        searchString = ViewBag.CurrentFilter,
+        searchUnit = ViewBag.CurrentUnit,
+        searchLogNo = ViewBag.CurrentLogNo,
+        searchFee = ViewBag.CurrentFee,
+        InitialDate = ViewBag.InitialFilter,
+        FinalDate = ViewBag.FinalFilter
+    },
+                                FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <table class="table">
+            <tr><td width="5px"></td></tr>
+            <tr>
+                <th>
+                    Fleet
+                </th>
+                <th>
+                    @Html.ActionLink("Unit", "Index", new
        {
            sortOrder = ViewBag.UnitSortParm,
            currentFilter = ViewBag.CurrentFilter,
@@ -98,30 +103,42 @@
            InitialDate = ViewBag.InitialFilter,
            FinalDate = ViewBag.FinalFilter
        })
-        </th>
-        <th>
-            CapCost
-        </th>
-        <th>
-            BookValue
-        </th>
-        <th>
-            Rental
-        </th>
-       <th>
-           Term
-        </th>
-        <th>
-            Lpis
-        </th>
-        <th>
-           Scontr
-        </th>
-        <th>
-           InsPremium
-        </th>
-        <th>
-            @Html.ActionLink("Fee", "Index", new
+                </th>
+                <th>
+                    @Html.ActionLink("LogNo", "Index", new
+       {
+           sortOrder = ViewBag.UnitSortParm,
+           currentFilter = ViewBag.CurrentFilter,
+           currentUnit = ViewBag.CurrentUnit,
+           currentLogNo = ViewBag.CurrentLogNo,
+           currentFee = ViewBag.CurrentFee,
+           InitialDate = ViewBag.InitialFilter,
+           FinalDate = ViewBag.FinalFilter
+       })
+                </th>
+                <th>
+                    CapCost
+                </th>
+                <th>
+                    BookValue
+                </th>
+                <th>
+                    Rental
+                </th>
+                <th>
+                    Term
+                </th>
+                <th>
+                    Lpis
+                </th>
+                <th>
+                    Scontr
+                </th>
+                <th>
+                    InsPremium
+                </th>
+                <th>
+                    @Html.ActionLink("Fee", "Index", new
        {
            sortOrder = ViewBag.FeeSortParm,
            currentFilter = ViewBag.CurrentFilter,
@@ -130,13 +147,13 @@
            currentFee = ViewBag.CurrentFee,
            InitialDate = ViewBag.InitialFilter,
            FinalDate = ViewBag.FinalFilter
-       })          
-        </th>
-        <th>
-            Desc
-        </th>
-        <th>
-            @Html.ActionLink("MM/YY", "Index", new
+       })
+                </th>
+                <th>
+                    Desc
+                </th>
+                <th>
+                    @Html.ActionLink("MM/YY", "Index", new
        {
            sortOrder = ViewBag.DateSortParm,
            currentFilter = ViewBag.CurrentFilter,
@@ -146,124 +163,131 @@
            InitialDate = ViewBag.InitialFilter,
            FinalDate = ViewBag.FinalFilter
        })
-        </th>
-        <th>
-            Start
-        </th>
-        <th>
-           Stop
-        </th>
-        <th>
-            Amt
-        </th>
-        <th>
-            Method
-        </th>
-        <th>
-           Rate
-        </th>
-        <th>
-            BL
-        </th>
-        <th>
-            AC
-        </th>
-        <th>
-            Createdby
-        </th>
-        <th>
-            Created
-        </th>
-        <th></th>
-    </tr>
+                </th>
+                <th>
+                    Start
+                </th>
+                <th>
+                    Stop
+                </th>
+                <th>
+                    Amt
+                </th>
+                <th>
+                    Method
+                </th>
+                <th>
+                    Rate
+                </th>
+                <th>
+                    BL
+                </th>
+                <th>
+                    AC
+                </th>
+                <th>
+                    Createdby
+                </th>
+                <th>
+                    Created
+                </th>
+                <th></th>
+            </tr>
 
-@foreach (var item in Model)
-{
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Fleet)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Unit)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.LogNo)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CapCost)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.BookValue)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Rental)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Term)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Lpis)
-        </td>
-         <td>
-            @Html.DisplayFor(modelItem => item.Scontr)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.InsPremium)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Fee)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Descr)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.MMYY)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Star)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Sto)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Amt)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Method)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Rate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.BL)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AC)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Createdby)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Created)
-        </td>
-        <td>
-            @Html.ActionLink("Details", "Details", new { id = item.FeeCode_Id }) 
-        </td>
-    </tr>
-}
-    <tr>
-        <td>
-            <input type="submit" name="Export" id="Export" value="Export" class="btn btn-success" />
-        </td>
-    </tr>
-</table>
-}
-<br />
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Fleet)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Unit)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LogNo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CapCost)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BookValue)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Rental)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Term)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Lpis)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Scontr)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.InsPremium)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Fee)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Descr)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MMYY)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Star)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Sto)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Amt)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Method)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Rate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BL)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AC)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Createdby)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Created)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Details", "Details", new { id = item.FeeCode_Id })
+                    </td>
+                </tr>
+            }
+            <tr>
+                <td>
+                    <input type="submit" name="Export" id="Export" value="Export" class="btn btn-success" />
+                </td>
+            </tr>
+        </table>
+    }
+    <br />
 
-Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 
-@Html.PagedListPager(Model, page => Url.Action("Index",
-        new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter, currentUnit = ViewBag.CurrentUnit,
-            currentLogNo = ViewBag.CurrentLogNo,currentFee = ViewBag.CurrentFee,
-            InitialFilter = ViewBag.InitialFilter, FinalFilter = ViewBag.FinalFilter }))
-      
+    @Html.PagedListPager(Model, page => Url.Action("Index",
+        new
+        {
+            page,
+            sortOrder = ViewBag.CurrentSort,
+            currentFilter = ViewBag.CurrentFilter,
+            currentUnit = ViewBag.CurrentUnit,
+            currentLogNo = ViewBag.CurrentLogNo,
+            currentFee = ViewBag.CurrentFee,
+            InitialFilter = ViewBag.InitialFilter,
+            FinalFilter = ViewBag.FinalFilter
+        }))

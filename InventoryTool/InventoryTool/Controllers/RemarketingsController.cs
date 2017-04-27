@@ -20,7 +20,7 @@ namespace InventoryTool.Controllers
         private InventoryToolContext db = new InventoryToolContext();
 
         // GET: Remarketings
-        public ActionResult Index(string sortOrder, string currentFilter, string searchString, string fleetString, string unitString, string logString,  int? page)
+        public ActionResult Index(string sortOrder, string currentFilter, string searchString, string fleetString, string unitString, string logString, int? page)
         {
             ViewBag.CurrentSort = sortOrder;
             ViewBag.FleetSortParm = String.IsNullOrEmpty(sortOrder) ? "Fleet Number" : "";
@@ -195,7 +195,7 @@ namespace InventoryTool.Controllers
         public ActionResult QuoteEdit([Bind(Include = "ID,FleetNumber,UnitNumber,LogNumber,Roe,SpotRate,ScontrNumber,OnroadDate,EndDate,Term,OffroadDate,CurrentPeriod,Amortization,Interest,Rent,RemainingMonths,Rate,Penalty,SaleValue,BookValue,GainLoss,ProfitShareAmount,ProfitSharePercentage,ComplementaryRent,CreditNote,PLGainLoss,Status,SoldDate,OutletCode,Outletname,Quote")] Remarketing remarketing)
         {
             if (ModelState.IsValid)
-            {              
+            {
                 db.Entry(remarketing).State = EntityState.Modified;
                 db.SaveChanges();
                 if (!String.IsNullOrEmpty(remarketing.CurrentPeriod.ToString()) && String.IsNullOrEmpty(remarketing.Amortization.ToString()))
@@ -225,8 +225,8 @@ namespace InventoryTool.Controllers
             {
                 return HttpNotFound();
             }
-           var outletcodes = db.OutletCodes.ToList();
-            foreach(OutletCode item in outletcodes)
+            var outletcodes = db.OutletCodes.ToList();
+            foreach (OutletCode item in outletcodes)
             { item.Outletname = item.Outletcode + "-" + item.Outletname; }
             ViewBag.OutletCodes = outletcodes;
 
@@ -299,10 +299,10 @@ namespace InventoryTool.Controllers
             return RedirectToAction("General");
         }
 
-    
 
-       // POST: Remarketings/Delete/5
-       [HttpPost, ActionName("Delete")]
+
+        // POST: Remarketings/Delete/5
+        [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
