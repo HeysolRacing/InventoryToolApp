@@ -450,7 +450,6 @@
     <Content Include="Views\Ssuppliers\Edit.cshtml" />
     <Content Include="Views\Ssuppliers\Index.cshtml" />
     <Content Include="Views\Ssuppliers\List.cshtml" />
-    <Content Include="Views\Fleets\Create.cshtml" />
     <Content Include="Views\Fleets\Delete.cshtml" />
     <Content Include="Views\Fleets\Details.cshtml" />
     <Content Include="Views\Fleets\Edit.cshtml" />
@@ -464,6 +463,7 @@
     <Content Include="Views\CRs\ArMaintenance.cshtml" />
     <Content Include="Views\Remarketings\ApRemarketing.cshtml" />
     <Content Include="Views\CRs\Mail.cshtml" />
+    <Content Include="Views\Fleets\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
