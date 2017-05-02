@@ -107,7 +107,7 @@ namespace InventoryTool.Models
         public Nullable<DateTime> End_date { get; set; }
 
         [Required(ErrorMessage = "You must enter {0}")]
-        [StringLength(5, ErrorMessage = "The field {0} must be between {2} and {1} characters", MinimumLength = 2)]
+        [StringLength(10, ErrorMessage = "The field {0} must be between {2} and {1} characters", MinimumLength = 2)]
         public string ScontrNumber { get; set; }
 
         public decimal? Amort { get; set; }
