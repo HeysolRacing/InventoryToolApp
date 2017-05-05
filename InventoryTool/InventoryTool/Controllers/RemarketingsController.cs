@@ -12,6 +12,7 @@ using System.Web.UI.WebControls;
 using System.IO;
 using System.Web.UI;
 using System.Globalization;
+using System.Security.Claims;
 
 namespace InventoryTool.Controllers
 {
@@ -164,7 +165,25 @@ namespace InventoryTool.Controllers
         {
             if (ModelState.IsValid)
             {
+                var userIdValue = Environment.UserName;
+
+
+                var claimsIdentity = User.Identity as ClaimsIdentity;
+                if (claimsIdentity != null)
+                {
+                    // the principal identity is a claims identity.
+                    // now we need to find the NameIdentifier claim
+                    var userIdClaim = claimsIdentity.Claims
+                        .FirstOrDefault(x => x.Type == ClaimTypes.Name);
+
+                    if (userIdClaim != null)
+                    {
+                        userIdValue = userIdClaim.Value;
+                    }
+                }
                 remarketing.Quote = "FALSE";
+                remarketing.Created = DateTime.Now;
+                remarketing.CreatedBy = userIdValue;
                 db.Entry(remarketing).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -247,6 +266,26 @@ namespace InventoryTool.Controllers
         {
             if (ModelState.IsValid)
             {
+
+                var userIdValue = Environment.UserName;
+
+
+                var claimsIdentity = User.Identity as ClaimsIdentity;
+                if (claimsIdentity != null)
+                {
+                    // the principal identity is a claims identity.
+                    // now we need to find the NameIdentifier claim
+                    var userIdClaim = claimsIdentity.Claims
+                        .FirstOrDefault(x => x.Type == ClaimTypes.Name);
+
+                    if (userIdClaim != null)
+                    {
+                        userIdValue = userIdClaim.Value;
+                    }
+                }
+                remarketing.Created = DateTime.Now;
+                remarketing.CreatedBy = userIdValue;
+
                 var outlet = from s in db.OutletCodes
                              where s.Outletcode.Contains(remarketing.OutletCode)
                              select s;

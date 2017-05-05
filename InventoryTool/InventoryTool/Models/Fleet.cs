@@ -29,15 +29,15 @@ namespace InventoryTool.Models
 
         [Display(Name = "Contract Type")]
         [Required(ErrorMessage = "You must enter {0}")]
-        [StringLength(10, ErrorMessage = "The field {0} must be between {2} and {1} characters", MinimumLength = 2)]
+        [StringLength(15, ErrorMessage = "The field {0} must be between {2} and {1} characters", MinimumLength = 1)]
         public string ContractType { get; set; }
 
         [Required(ErrorMessage = "You must enter {0}")]
-        [StringLength(10, ErrorMessage = "The field {0} must be between {2} and {1} characters", MinimumLength = 2)]
+        [StringLength(15, ErrorMessage = "The field {0} must be between {2} and {1} characters", MinimumLength = 1)]
         public string Make { get; set; }
 
         [Required(ErrorMessage = "You must enter {0}")]
-        [StringLength(20, ErrorMessage = "The field {0} must be between {2} and {1} characters", MinimumLength = 5)]
+        [StringLength(50, ErrorMessage = "The field {0} must be between {2} and {1} characters", MinimumLength = 1)]
         public string ModelCar { get; set; }
 
         public int ModelYear { get; set; }
@@ -107,13 +107,13 @@ namespace InventoryTool.Models
         public Nullable<DateTime> End_date { get; set; }
 
         [Required(ErrorMessage = "You must enter {0}")]
-        [StringLength(10, ErrorMessage = "The field {0} must be between {2} and {1} characters", MinimumLength = 2)]
+        [StringLength(10, ErrorMessage = "The field {0} must be between {2} and {1} characters", MinimumLength = 1)]
         public string ScontrNumber { get; set; }
 
         public decimal? Amort { get; set; }
 
         [Required(AllowEmptyStrings = true)]
-        [DisplayFormat(ConvertEmptyStringToNull = false)]
+        //[DisplayFormat(ConvertEmptyStringToNull = false)]
         public string  LicenseNumber { get; set; }
 
         public string State { get; set; }  

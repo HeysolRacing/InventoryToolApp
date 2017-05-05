@@ -106,5 +106,9 @@ namespace InventoryTool.Models
 
         [Display(Name = "Bank Account")]
         public string BankAccount { get; set; }
+
+        public Nullable<DateTime> Created { get; set; }
+
+        public string CreatedBy { get; set; }
     }
 }

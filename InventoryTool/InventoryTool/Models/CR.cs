@@ -55,5 +55,9 @@ namespace InventoryTool.Models
         public string ApComments { get; set; }
         public string ClosedReport { get; set; }
         public string LegalName { get; set; }
+        [Display(Name = "Modified Date")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
+        public DateTime ModifiedDate { get; set; }
     }
 }

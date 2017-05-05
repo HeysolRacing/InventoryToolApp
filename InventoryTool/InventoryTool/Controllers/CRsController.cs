@@ -700,6 +700,7 @@ namespace InventoryTool.Controllers
                 cR.Subtotal = subtotal;
                 cR.IVA = subtotal * 0.16m;
                 cR.Total = subtotal * 1.16m;
+                cR.ModifiedDate = DateTime.Now;
                 //db.CRs.Add(cR);
                 db.Entry(cR).State = EntityState.Modified;
                 db.SaveChanges();
@@ -783,6 +784,7 @@ namespace InventoryTool.Controllers
                 cR.Subtotal = subtotal;
                 cR.IVA = subtotal * 0.16m;
                 cR.Total = subtotal * 1.16m;
+                cR.ModifiedDate = DateTime.Now;
                 db.Entry(cR).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Edit", new { id = cR.crID });
@@ -885,6 +887,7 @@ namespace InventoryTool.Controllers
         public ActionResult ApproveConfirmed(CR cR)
         {
             cR.Status = "Approved";
+            cR.ModifiedDate = DateTime.Now;
             db.Entry(cR).State = EntityState.Modified;
             db.SaveChanges();
             return RedirectToAction("Mail",new { id = cR.crID });
@@ -912,6 +915,7 @@ namespace InventoryTool.Controllers
         public ActionResult CloseConfirmed(CR cR)
         {
             cR.Status = "Closed";
+            cR.ModifiedDate = DateTime.Now;
             db.Entry(cR).State = EntityState.Modified;
             db.SaveChanges();
             return RedirectToAction("APlist");
