@@ -24,6 +24,8 @@ namespace InventoryTool.Models
         public int Supplier { get; set; }
         [Display(Name = "Supplier Name")]
         public string Suppliername { get; set; }
+        [Display(Name = "Supplier ID")]
+        public string SupplierID { get; set; }
         [Display(Name = "Client Name")]
         public string Clientname { get; set; }
         [DisplayFormat(DataFormatString = "{0:#,###0.00}")]
