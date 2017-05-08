@@ -180,6 +180,7 @@ namespace InventoryTool.Controllers
             CR cR = db.CRs.Find(cr);
             cR.Supplier = ssupplier.SupplierID;
             cR.Suppliername = ssupplier.SupplierName;
+            cR.SupplierID = ssupplier.StoreNumber;
             TryUpdateModel(cR);
             db.Entry(cR).State = EntityState.Modified;
             db.SaveChanges();

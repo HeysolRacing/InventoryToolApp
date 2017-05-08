@@ -146,6 +146,7 @@ namespace InventoryTool.Controllers
             cr.Servicedate = DateTime.Now;
             cr.Invoicedate = DateTime.Now;
             cr.Paymentdate = DateTime.Now;
+            cr.ModifiedDate = DateTime.Now;
             db.CRs.Add(cr);
             db.SaveChanges();
             var crid = cr.crID;

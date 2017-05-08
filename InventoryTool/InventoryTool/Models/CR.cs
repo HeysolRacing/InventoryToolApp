@@ -24,6 +24,8 @@ namespace InventoryTool.Models
         public int Supplier { get; set; }
         [Display(Name = "Supplier Name")]
         public string Suppliername { get; set; }
+        [Display(Name = "Supplier ID")]
+        public string SupplierID { get; set; }
         [Display(Name = "Client Name")]
         public string Clientname { get; set; }
         [DisplayFormat(DataFormatString = "{0:#,###0.00}")]
@@ -55,5 +57,9 @@ namespace InventoryTool.Models
         public string ApComments { get; set; }
         public string ClosedReport { get; set; }
         public string LegalName { get; set; }
+        [Display(Name = "Modified Date")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
+        public DateTime ModifiedDate { get; set; }
     }
 }

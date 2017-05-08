@@ -47,6 +47,9 @@
             @Html.ActionLink("Status", "Index", new { sortOrder = ViewBag.StatusSortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
+            Supplier ID
+        </th>
+        <th>
       Supplier
         </th>
         <th>
@@ -108,7 +111,9 @@
         <td>
             @Html.DisplayFor(modelItem => item.Status)
         </td>
-        
+        <td>
+            @Html.DisplayFor(modelItem => item.SupplierID)
+        </td>
         <td>
             @Html.DisplayFor(modelItem => item.Suppliername)
         </td>
