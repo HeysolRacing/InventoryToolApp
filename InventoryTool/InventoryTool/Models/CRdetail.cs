@@ -12,7 +12,7 @@ namespace InventoryTool.Models
         public int ID { get; set; }
         public int IDCR { get; set; }
         [Display(Name = "Quantity")]
-        [Range(0, int.MaxValue, ErrorMessage = "Please enter positive integer number")]
+        [Range(1, int.MaxValue, ErrorMessage = "Please enter positive integer number")]
         public int Quantity { get; set; }
         [Display(Name = "ATA code")]
         public int Atacode { get; set; }
