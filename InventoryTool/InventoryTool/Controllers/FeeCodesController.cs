@@ -37,14 +37,14 @@ namespace InventoryTool.Controllers
                 {
                     if (String.IsNullOrEmpty(InitialDate))
                     {
-                        this.HttpContext.Session["Display"] = "The Initial Date cannot be empty, please set a correct date.";
+                        this.HttpContext.Session["Display1"] = "The Initial Date cannot be empty, please set a correct date.";
                         band = false;
                     }
                   
 
                     if (String.IsNullOrEmpty(FinalDate))
                     { 
-                        this.HttpContext.Session["Display"] = "The Final Date cannot be empty, please set a correct date.";
+                        this.HttpContext.Session["Display1"] = "The Final Date cannot be empty, please set a correct date.";
                         band = false;
                     }
 
@@ -52,12 +52,12 @@ namespace InventoryTool.Controllers
                     {
                         if (Convert.ToDateTime(FinalDate) < Convert.ToDateTime(InitialDate))
                         {
-                            this.HttpContext.Session["Display"] = "The Initial Date cannot be major than Final Date, please set a correct date.";
+                            this.HttpContext.Session["Display1"] = "The Initial Date cannot be major than Final Date, please set a correct date.";
                             band = false;
                         }
                         else if (Convert.ToDateTime(FinalDate) > Convert.ToDateTime(InitialDate).AddDays(7))
                         {
-                            this.HttpContext.Session["Display"] = "The Final Date cannot be more than 7 days major than Initial Date, please set a correct date.)";
+                            this.HttpContext.Session["Display1"] = "The Final Date cannot be more than 7 days major than Initial Date, please set a correct date.)";
                             band = false;
                         }
                     }
@@ -78,7 +78,8 @@ namespace InventoryTool.Controllers
                     if ((searchString != null) || (searchUnit != null) || (searchLogNo != null) || (searchFee != null))
                     {
                         page = 1;
-                        this.HttpContext.Session["Display"] = "";
+                        this.HttpContext.Session["Display1"] = "";
+                        this.HttpContext.Session["Display2"] = "";
                     }
                     else
                     {
@@ -163,7 +164,7 @@ namespace InventoryTool.Controllers
             }
             catch (Exception ex)
             {
-                this.HttpContext.Session["Display"] = "Error: " + ex.Message + " Try again with more filters"; 
+                this.HttpContext.Session["Display1"] = "Error: " + ex.Message + " Try again with more filters"; 
                 return RedirectToAction("Index");
             }
         }
@@ -292,65 +293,33 @@ namespace InventoryTool.Controllers
             cadenaconexionSQL = System.Configuration.ConfigurationManager.ConnectionStrings["InventoryToolContext"].ConnectionString;
             SqlConnection conn = new SqlConnection(cadenaconexionSQL);
             SqlCommand com = new SqlCommand();
-            SqlDataAdapter da = new SqlDataAdapter();
-            DataSet ds = new DataSet();
-            int counter = 1;
+  
             bool band = false;
-            string[] datos;
 
             if (Request.Files["FileUpload1"].ContentLength > 0)
             {
                 string extension = System.IO.Path.GetExtension(Request.Files["FileUpload1"].FileName);
                 //C:\Proyectos\GitHub\FeeCodes\InventoryToolApp\InventoryTool\InventoryTool\UploadedFiles
-                string path1 = string.Format("{0}/{1}", Server.MapPath("~/UploadedFiles"), Request.Files["FileUpload1"].FileName);
+                //string path1 = string.Format("{0}/{1}", Server.MapPath("~/UploadedFiles"), Request.Files["FileUpload1"].FileName);
+                var path1 = Path.Combine("C:\\SSIS\\FeeCodes\\",(Request.Files["FileUpload1"].FileName));
                 if (System.IO.File.Exists(path1))
                     System.IO.File.Delete(path1);
 
                 Request.Files["FileUpload1"].SaveAs(path1);
 
+                // Read the file, correct and fill table Cappings
+                var path2 = "C:\\SSIS\\FeeCodes\\Cappings-d.fmt";
+                strsql = "EXEC [dbo].[sp_CargaCappings] '" + path1 + "','" + path2 + "'";
                 conn.Open();
-                // Read the file and display it line by line.  
-                System.IO.StreamReader file = new System.IO.StreamReader(path1);
-                string dato = file.ReadLine();
-                while ((line = file.ReadLine()) != null)
-                {
-                    datos = line.Split(',');
-                    //Primero verifico si ya existe el registro
-                    strsql = "Select Fleet From FeeCodes Where Fleet = '" + datos[0] + "' And Unit = '" + datos[1] + "' And Lpis = " + Convert.ToInt32(datos[7]);
-                    strsql += " And Fee = " + Convert.ToInt32(datos[10]);
-                    da = new SqlDataAdapter(strsql, conn);
-                    ds = new DataSet();
-                    da.Fill(ds, "Feecodes");
-                    if (ds.Tables[0].Rows.Count <= 0)    //no existe
-                    {
-                        //Grabo
-                        strsql = "Insert into FeeCodes (Fleet, Unit, LogNo, CapCost, BookValue, Rental, Term, Lpis, Scontr, InsPremium, Fee, Descr, MMYY, ";
-                        strsql += "Star, Sto, Amt, Method, Rate, BL, AC, Createdby, Created) values('" + datos[0] + "','" + datos[1] + "',";
-                        strsql += Convert.ToInt32(datos[2]) + "," + Convert.ToDecimal(datos[3]) + "," + Convert.ToDecimal(datos[4]) + ",";
-                        strsql += Convert.ToDecimal(datos[5]) + "," + Convert.ToInt32(datos[6]) + "," + Convert.ToInt32(datos[7]) + ",'" + datos[8] + "',";
-                        strsql += Convert.ToDecimal(datos[9]) + "," + Convert.ToInt32(datos[10]) + ",'" + datos[11] + "',";
-                        strsql += Convert.ToInt32(datos[12]) + "," + Convert.ToInt32(datos[13]) + "," + Convert.ToInt32(datos[14]) + ",";
-                        strsql += Convert.ToDecimal(datos[15]) + ",'" + datos[16] + "','" + datos[17] + "','";
-                        strsql += datos[18] + "','" + datos[19] + "','MACRO PROCESS', GETDATE()) ";
-
-                        com = new SqlCommand();
-                        com.CommandText = strsql;
-                        com.CommandTimeout = 0;
-                        com.CommandType = CommandType.Text;
-                        com.Connection = conn;
-                        com.ExecuteNonQuery();
-                    }
-                    else
-                    {
-                        this.HttpContext.Session["Display2"] = "There were FeeCodes duplicated, please review";
-                        band = true;
-                    }
-                    counter++;
-                }
-
-                file.Close();
-                file.Dispose();
+                conn.Open();
+                com = new SqlCommand();
+                com.CommandText = strsql;
+                com.CommandTimeout = 0;
+                com.CommandType = CommandType.Text;
+                com.Connection = conn;
+                com.ExecuteNonQuery();
                 conn.Close();
+                com.Dispose();
                 conn.Dispose();
 
                 if (!band)
@@ -359,6 +328,91 @@ namespace InventoryTool.Controllers
             
             return RedirectToAction("Index");
         }
+
+        public ActionResult ImportexcelOld()
+        {
+            //string cadenaconexionSQL, line, strsql;
+            //cadenaconexionSQL = System.Configuration.ConfigurationManager.ConnectionStrings["InventoryToolContext"].ConnectionString;
+            //SqlConnection conn = new SqlConnection(cadenaconexionSQL);
+            //SqlCommand com = new SqlCommand();
+            //SqlDataAdapter da = new SqlDataAdapter();
+            //DataSet ds = new DataSet();
+            //int counter = 1;
+            //bool band = false;
+            //string[] datos;
+
+            //if (Request.Files["FileUpload1"].ContentLength > 0)
+            //{
+            //    string extension = System.IO.Path.GetExtension(Request.Files["FileUpload1"].FileName);
+            //    //C:\Proyectos\GitHub\FeeCodes\InventoryToolApp\InventoryTool\InventoryTool\UploadedFiles
+            //    //string path1 = string.Format("{0}/{1}", Server.MapPath("~/UploadedFiles"), Request.Files["FileUpload1"].FileName);
+            //    string path1 = @"C:\SSIS\FeeCodes\" + (Request.Files["FileUpload1"].FileName);
+            //    if (System.IO.File.Exists(path1))
+            //        System.IO.File.Delete(path1);
+
+            //    Request.Files["FileUpload1"].SaveAs(path1);
+
+            //    // Read the file and display it line by line.  
+            //    System.IO.StreamReader file = new System.IO.StreamReader(path1);
+            //    string dato = file.ReadLine();
+            //    while ((line = file.ReadLine()) != null)
+            //    {
+            //        datos = line.Split(',');
+            //        //Primero verifico si ya existe el registro
+            //        strsql = "Select Fleet From FeeCodes Where Fleet = '" + datos[0] + "' And Unit = '" + datos[1] + "' And Lpis = " + Convert.ToInt32(datos[7]);
+            //        strsql += " And Fee = " + Convert.ToInt32(datos[10]);
+            //        conn.Open();
+            //        da = new SqlDataAdapter(strsql, conn);
+            //        ds = new DataSet();
+            //        da.Fill(ds, "Feecodes");
+            //        conn.Close();
+            //        if (ds.Tables[0].Rows.Count <= 0)    //no existe
+            //        {
+            //            //Grabo
+            //            strsql = "Insert into FeeCodes (Fleet, Unit, LogNo, CapCost, BookValue, Rental, Term, Lpis, Scontr, InsPremium, Fee, Descr, MMYY, ";
+            //            strsql += "Star, Sto, Amt, Method, Rate, BL, AC, Createdby, Created) values('" + datos[0] + "','" + datos[1] + "',";
+            //            strsql += Convert.ToInt32(datos[2]) + "," + Convert.ToDecimal(datos[3]) + "," + Convert.ToDecimal(datos[4]) + ",";
+            //            strsql += Convert.ToDecimal(datos[5]) + "," + Convert.ToInt32(datos[6]) + "," + Convert.ToInt32(datos[7]) + ",'" + datos[8] + "',";
+            //            strsql += Convert.ToDecimal(datos[9]) + "," + Convert.ToInt32(datos[10]) + ",'" + datos[11] + "',";
+            //            strsql += Convert.ToInt32(datos[12]) + "," + Convert.ToInt32(datos[13]) + "," + Convert.ToInt32(datos[14]) + ",";
+            //            strsql += Convert.ToDecimal(datos[15]) + ",'" + datos[16] + "','" + datos[17] + "','";
+            //            strsql += datos[18] + "','" + datos[19] + "','MACRO PROCESS', GETDATE()) ";
+
+            //        }
+            //        else
+            //        {
+            //            strsql = "Update FeeCodes Set CapCost = " + Convert.ToDecimal(datos[3]) + ", BookValue = " + Convert.ToDecimal(datos[4]);
+            //            strsql += ", Rental  = " + Convert.ToDecimal(datos[5]) + ", Term = " + Convert.ToDecimal(datos[6]);
+            //            strsql += ", InsPremium  = " + Convert.ToDecimal(datos[9]) + ", MMYY  = " + Convert.ToDecimal(datos[12]);
+            //            strsql += ", Amt  = " + Convert.ToDecimal(datos[15]) + ", Rate  = " + Convert.ToDecimal(datos[17]);
+            //            strsql += ", BL  = " + Convert.ToDecimal(datos[18]) + ", AC  = " + Convert.ToDecimal(datos[19]);
+            //            strsql += ",Createdby = 'MACRO PROCESS', Created = GETDATE() ";
+            //            strsql += " Where LogNo = '" + datos[2] + "' And Lpis = " + Convert.ToInt32(datos[7]);
+            //            this.HttpContext.Session["Display2"] = "There were FeeCodes duplicated, please review";
+            //            band = true;
+            //        }
+            //        conn.Open();
+            //        com = new SqlCommand();
+            //        com.CommandText = strsql;
+            //        com.CommandTimeout = 0;
+            //        com.CommandType = CommandType.Text;
+            //        com.Connection = conn;
+            //        com.ExecuteNonQuery();
+            //        conn.Close();
+            //        counter++;
+            //    }
+
+            //    file.Close();
+            //    file.Dispose();
+            //    conn.Dispose();
+
+            //    if (!band)
+            //        this.HttpContext.Session["Display2"] = "FeeCodes imported succesfullly";
+            //}
+
+            return RedirectToAction("Index");
+        }
+
 
         [HttpPost]
         public ActionResult ExportData(string searchString, string searchUnit, string searchLogNo, string searchFee, string InitialDate, string FinalDate)
@@ -415,11 +469,11 @@ namespace InventoryTool.Controllers
                     Response.End();
                 }
                 else
-                    this.HttpContext.Session["Display"] = "You must set filters";
+                    this.HttpContext.Session["Display1"] = "You must set filters";
             }
             catch (Exception ex)
             {
-                this.HttpContext.Session["Display"] = "Error: " + ex.Message + " Try again with more filters";
+                this.HttpContext.Session["Display1"] = "Error: " + ex.Message + " Try again with more filters";
             }
             return RedirectToAction("Index");
         }

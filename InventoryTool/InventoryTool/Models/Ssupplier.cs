@@ -25,6 +25,7 @@ namespace InventoryTool.Models
         [Display(Name = "ZIP Code")]
         public int ZIPCode { get; set; }
         [Display(Name = "Affiliate Store")]
+        [Required(ErrorMessage = "You must enter {0}")]
         public string StoreNumber { get; set; }
         [Display(Name = "Account Code")]
         [Range(0, int.MaxValue, ErrorMessage = "Please enter positive integer number")]
