@@ -292,42 +292,62 @@ namespace InventoryTool.Controllers
             string cadenaconexionSQL, line, strsql;
             cadenaconexionSQL = System.Configuration.ConfigurationManager.ConnectionStrings["InventoryToolContext"].ConnectionString;
             SqlConnection conn = new SqlConnection(cadenaconexionSQL);
-            SqlCommand com = new SqlCommand();
-  
+
             bool band = false;
+            string Resultado = string.Empty;
 
-            if (Request.Files["FileUpload1"].ContentLength > 0)
+            try
             {
-                string extension = System.IO.Path.GetExtension(Request.Files["FileUpload1"].FileName);
-                //C:\Proyectos\GitHub\FeeCodes\InventoryToolApp\InventoryTool\InventoryTool\UploadedFiles
-                //string path1 = string.Format("{0}/{1}", Server.MapPath("~/UploadedFiles"), Request.Files["FileUpload1"].FileName);
-                string path1 = @"C:\SSIS\FeeCodes\"  +  (Request.Files["FileUpload1"].FileName);
-                if (System.IO.File.Exists(path1))
-                    System.IO.File.Delete(path1);
+                if (Request.Files["FileUpload1"].ContentLength > 0)
+                {
+                    string extension = System.IO.Path.GetExtension(Request.Files["FileUpload1"].FileName);
 
-                Request.Files["FileUpload1"].SaveAs(path1);
+                    if (extension.ToUpper().Trim().Equals(".CSV"))
+                    {
+                        //string path1 = string.Format("{0}/{1}", Server.MapPath("~/UploadedFiles"), Request.Files["FileUpload1"].FileName);
+                        string path1 = @"\SSIS\FeeCodes\" + (Request.Files["FileUpload1"].FileName);
+                        if (System.IO.File.Exists(path1))
+                            System.IO.File.Delete(path1);
 
-                // Read the file, correct and fill table Cappings
-                string path2 = @"C:\SSIS\FeeCodes\Cappings-d.fmt";
-                strsql = "EXEC [dbo].[sp_CargaCappings] '" + path1 + "','" + path2 + "'";
-                conn.Open();
-                conn.Open();
-                com = new SqlCommand();
-                com.CommandText = strsql;
-                com.CommandTimeout = 0;
-                com.CommandType = CommandType.Text;
-                com.Connection = conn;
-                com.ExecuteNonQuery();
-                conn.Close();
-                com.Dispose();
-                conn.Dispose();
+                        Request.Files["FileUpload1"].SaveAs(path1);
 
-                if (!band)
-                    this.HttpContext.Session["Display2"] = "FeeCodes imported succesfullly";  
+                        // Read the file, correct and fill table Cappings
+                        //string path2 = @"xxx";
+                        //strsql = "EXEC [dbo].[sp_CargaCappings] '" + path1 + "','" + path2 + "'";
+                        strsql = "EXEC [dbo].[sp_CargaCappings] '" + path1 + "'";
+                        conn.Open();
+                        SqlDataAdapter da = new SqlDataAdapter(strsql, conn);
+                        DataSet ds = new DataSet();
+                        da.Fill(ds, "FeeCodes");
+                        if (ds.Tables[0].Rows.Count > 0)
+                            Resultado = ds.Tables[0].Rows[0][0].ToString();
+                        else
+                            Resultado = "There were problems with the generation of FeeCodes, please call IT Area";
+                        conn.Close();
+                        conn.Dispose();
+                    }
+                    else
+                        Resultado = "The file selected is not in the right format (.CSV)";
+                }
+                else
+                    Resultado = "The file selected is not in the right format (.CSV)";
+                
+                this.HttpContext.Session["Display2"] = Resultado;
             }
-            
+            catch (Exception ex)
+            {
+                if (System.IO.File.Exists(@"C:\SSIS\FeeCodes\Error.txt"))
+                    System.IO.File.Delete(@"C:\SSIS\FeeCodes\Error.txt");
+                StreamWriter sw = new StreamWriter(@"C:\SSIS\FeeCodes\Error.txt");
+                String contenido = "Error: " + ex.Message;
+                sw.WriteLine(contenido.ToString());
+                sw.Close();
+                sw.Dispose();
+            }
+
             return RedirectToAction("Index");
         }
+
 
         public ActionResult ImportexcelOld()
         {
