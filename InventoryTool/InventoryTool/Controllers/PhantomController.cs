@@ -73,7 +73,7 @@ namespace InventoryTool.Controllers
                         if (item.StoreNumber != null)
                         {
                             string store = Regex.Match(item.StoreNumber, @"\d+").Value; 
-                            int storenumber = int.Parse(store);
+                            uint storenumber = uint.Parse(store);
                             string storenumberfix = storenumber.ToString("0000000000");
                             string formatdate = date.Year.ToString() + date.Month.ToString("00") + date.Day.ToString("00");
                             string record = xwa + "|" + vin + "|" + outputValue + "|" + formatdate + "|" + storenumberfix;
