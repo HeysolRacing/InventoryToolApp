@@ -26,7 +26,10 @@ namespace InventoryTool.Controllers
             ViewBag.DateSortParm = sortOrder == "UnitNumber" ? "date_desc" : "Date";
 
             if (searchString != null && logString != null)
+            {
                 page = 1;
+                this.HttpContext.Session["Display2"] = "";
+            }
             else
                 searchString = currentFilter;
             ViewBag.CurrentFilter = searchString;
@@ -415,6 +418,64 @@ namespace InventoryTool.Controllers
 
             return RedirectToAction("Home");
         }
+
+        public ActionResult Importexcel()
+        {
+            string cadenaconexionSQL, strsql;
+            cadenaconexionSQL = System.Configuration.ConfigurationManager.ConnectionStrings["InventoryToolContext"].ConnectionString;
+            SqlConnection conn = new SqlConnection(cadenaconexionSQL);
+
+            bool band = false;
+            string Resultado = string.Empty;
+
+            try
+            {
+                if (Request.Files["FileUpload1"].ContentLength > 0)
+                {
+                    string extension = System.IO.Path.GetExtension(Request.Files["FileUpload1"].FileName);
+
+                    if (extension.ToUpper().Trim().Equals(".TXT"))
+                    {
+                        string path1 = @"\SSIS\FeeCodes\" + (Request.Files["FileUpload1"].FileName);
+                        if (System.IO.File.Exists(path1))
+                            System.IO.File.Delete(path1);
+
+                        Request.Files["FileUpload1"].SaveAs(path1);
+                        
+                        strsql = "EXEC [dbo].[sp_CargaFleets] '" + path1 + "'";
+                        conn.Open();
+                        SqlDataAdapter da = new SqlDataAdapter(strsql, conn);
+                        DataSet ds = new DataSet();
+                        da.Fill(ds, "FeeCodes");
+                        if (ds.Tables[0].Rows.Count > 0)
+                            Resultado = ds.Tables[0].Rows[0][0].ToString();
+                        else
+                            Resultado = "There were problems with the charge of Fleets, please call IT Area";
+                        conn.Close();
+                        conn.Dispose();
+                    }
+                    else
+                        Resultado = "The file selected is not in the right format (.TXT)";
+                }
+                else
+                    Resultado = "The file selected is not in the right format (.TXT)";
+
+                this.HttpContext.Session["Display2"] = Resultado;
+            }
+            catch (Exception ex)
+            {
+                if (System.IO.File.Exists(@"C:\SSIS\FeeCodes\ErrorF.txt"))
+                    System.IO.File.Delete(@"C:\SSIS\FeeCodes\ErrorF.txt");
+                StreamWriter sw = new StreamWriter(@"C:\SSIS\FeeCodes\ErrorF.txt");
+                String contenido = "Error: " + ex.Message;
+                sw.WriteLine(contenido.ToString());
+                sw.Close();
+                sw.Dispose();
+            }
+
+            return RedirectToAction("Index");
+        }
+
 
         protected override void Dispose(bool disposing)
         {

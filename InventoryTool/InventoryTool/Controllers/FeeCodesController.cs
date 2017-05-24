@@ -153,7 +153,7 @@ namespace InventoryTool.Controllers
                 else
                 {
                     if (band)
-                        this.HttpContext.Session["Display"] = "You must set filters";
+                        this.HttpContext.Session["Display1"] = "You must set filters";
                     var fleets = from s in db.FeeCodes
                                  where s.LogNo.Equals(0)
                                  select s;

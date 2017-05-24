@@ -19,6 +19,21 @@
     </p>
 }
 
+@using (Html.BeginForm("Importexcel", "Fleets", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <table>
+        <tr>
+            <td>TXT File</td>
+            <td><input type="file" id="FileUpload1" name="FileUpload1" /></td>
+            <td></td>
+            <td><input type="submit" id="Submit" name="Submit" value="Submit" class="btn btn-info" /></td>
+        </tr>
+    </table>
+}
+
+<h4 style="color:red">
+@Session["Display2"]
+</h4>
  
 @using (Html.BeginForm("ExportData", "Fleets", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
