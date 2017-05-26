@@ -78,8 +78,6 @@ namespace InventoryTool.Controllers
                     if ((searchString != null) || (searchUnit != null) || (searchLogNo != null) || (searchFee != null))
                     {
                         page = 1;
-                        this.HttpContext.Session["Display1"] = "";
-                        this.HttpContext.Session["Display2"] = "";
                     }
                     else
                     {
@@ -116,16 +114,16 @@ namespace InventoryTool.Controllers
                     }
 
                     if (!String.IsNullOrEmpty(searchString))
-                        fleets = fleets.Where(s => s.Fleet.ToString().Equals(searchString));
+                        fleets = fleets.Where(s => s.Fleet.ToString().Contains(searchString));
 
                     if (!String.IsNullOrEmpty(searchUnit))
-                        fleets = fleets.Where(s => s.Unit.ToString().Equals(searchUnit));
+                        fleets = fleets.Where(s => s.Unit.ToString().Contains(searchUnit));
 
                     if (!String.IsNullOrEmpty(searchLogNo))
-                        fleets = fleets.Where(s => s.LogNo.ToString().Equals(searchLogNo));
+                        fleets = fleets.Where(s => s.LogNo.ToString().Contains(searchLogNo));
 
                     if (!String.IsNullOrEmpty(searchFee))
-                        fleets = fleets.Where(s => s.Fee.ToString().Equals(searchFee));
+                        fleets = fleets.Where(s => s.Fee.ToString().Contains(searchFee));
 
                     switch (sortOrder)
                     {
@@ -153,7 +151,21 @@ namespace InventoryTool.Controllers
                 else
                 {
                     if (band)
-                        this.HttpContext.Session["Display1"] = "You must set filters";
+                    {
+                        if (this.HttpContext.Session["Display1"].ToString().Equals("X"))
+                        {
+                            this.HttpContext.Session["Display1"] = "";
+                        }
+                        else
+                        {
+                            this.HttpContext.Session["Display1"] = "You must set filters";
+                            this.HttpContext.Session["Display2"] = "";
+                        }
+                    }
+                    else
+                    {
+                        this.HttpContext.Session["Display1"] =  this.HttpContext.Session["Display2"] = "";
+                    }
                     var fleets = from s in db.FeeCodes
                                  where s.LogNo.Equals(0)
                                  select s;
@@ -331,7 +343,8 @@ namespace InventoryTool.Controllers
                 }
                 else
                     Resultado = "The file selected is not in the right format (.CSV)";
-                
+
+                this.HttpContext.Session["Display1"] = "X";
                 this.HttpContext.Session["Display2"] = Resultado;
             }
             catch (Exception ex)

@@ -4,6 +4,13 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link rel="stylesheet" href="/resources/demos/style.css">
 
+<SCRIPT LANGUAGE="JavaScript">
+    function Espere() {
+        //alert("Cargando FeeCodes, Espere por favor")
+        document.getElementById('Wait').innerHTML = 'Please wait...'
+}
+</SCRIPT>
+
 @{
     ViewBag.Title = "FeeCodes";
 }
@@ -18,30 +25,48 @@
     <table>
         <tr>
             <td>
-                Find by Fleet: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+                Find by Fleet: 
+            </td>
+            <td>
+                @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
             </td>
             <td width="15px"></td>
             <td>
-                Find by Unit: @Html.TextBox("SearchUnit", ViewBag.CurrentUnit as string)
+                Find by Unit:
+            </td>
+            <td>
+                @Html.TextBox("SearchUnit", ViewBag.CurrentUnit as string)
             </td>
             <td width="15px"></td>
             <td>
-                Find by LogNumber: @Html.TextBox("SearchLogNo", ViewBag.CurrentLogNo as string)
+                Find by LogNumber:
+            </td>
+            <td>
+                @Html.TextBox("SearchLogNo", ViewBag.CurrentLogNo as string)
             </td>
         </tr>
         <tr>
             <td>
-                Find by Fee: @Html.TextBox("SearchFee", ViewBag.CurrentFee as string)
+                Find by Fee:
+            </td>
+            <td>
+                @Html.TextBox("SearchFee", ViewBag.CurrentFee as string)
             </td>
             <td width="15px"></td>
             <td>
                 <!--Initial Date (mm/dd/yyyy): @Html.JQueryUI().Datepicker("InitialDate").AutoSize(true)-->
-                Initial Date: <input type="date" name="InitialDate" placeholder="yyyy-mm-dd" value="@ViewBag.InitialFilter">
+                Initial Date:
+            </td>
+            <td>
+                <input type="date" name="InitialDate" placeholder="yyyy-mm-dd" value="@ViewBag.InitialFilter">
             </td>
             <td width="15px"></td>
             <td>
                 <!--Final Date (mm/dd/yyyy): @Html.JQueryUI().Datepicker("FinalDate").AutoSize(true)-->
-                Final Date: <input type="date" name="FinalDate" placeholder="yyyy-mm-dd" value="@ViewBag.FinalFilter">
+                Final Date:
+            </td>
+            <td>
+                <input type="date" name="FinalDate" placeholder="yyyy-mm-dd" value="@ViewBag.FinalFilter">
             </td>
             <td width="15px"></td>
             <td>
@@ -55,20 +80,25 @@
 
 @using (Html.BeginForm("Importexcel", "FeeCodes", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
+    <div id="Uno">
     <table>
         <tr><td>CSV File: </td><td><input type="file" id="FileUpload1" name="FileUpload1" /></td>
-        <td></td><td><input type="submit" id="Submit" name="Submit" value="Submit" class="btn btn-info"  /></td></tr>
+        <td></td><td><input type="submit" id="Submit" name="Submit" value="Submit" class="btn btn-info" onclick="Espere()" /></td></tr>
     </table>
+        </div>
 }
 
 <h4 style="color:red">
-    @Session["Display1"] &nbsp; &nbsp; @Session["Display2"]
+    @Session["Display1"] &nbsp; &nbsp; @Session["Display2"] &nbsp; &nbsp;<a id="Wait" style="color:red"></a>
+</h4>
+
 </h4>
 
 @using (Html.BeginForm("ExportData", "FeeCodes", new { searchString = ViewBag.CurrentFilter, searchUnit = ViewBag.CurrentUnit, searchLogNo = ViewBag.CurrentLogNo, searchFee = ViewBag.CurrentFee,
                                                        InitialDate = ViewBag.InitialFilter, FinalDate = ViewBag.FinalFilter },
                         FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
+
 <table class="table">
     <tr><td width="5px"></td></tr>
     <tr>

@@ -66,7 +66,7 @@ namespace InventoryTool.Controllers
                     break;
             }
 
-            int pageSize = 200;
+            int pageSize = 100;
             int pageNumber = (page ?? 1);
             return View(Remarketings.ToPagedList(pageNumber, pageSize));
 

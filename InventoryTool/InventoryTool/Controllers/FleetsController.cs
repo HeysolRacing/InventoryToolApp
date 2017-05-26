@@ -11,6 +11,7 @@ using InventoryTool.Models;
 using PagedList;
 using System.Security.Claims;
 using System.Data.SqlClient;
+using System.Web;
 
 namespace InventoryTool.Controllers
 {
@@ -28,7 +29,6 @@ namespace InventoryTool.Controllers
             if (searchString != null && logString != null)
             {
                 page = 1;
-                this.HttpContext.Session["Display2"] = "";
             }
             else
                 searchString = currentFilter;
@@ -419,6 +419,11 @@ namespace InventoryTool.Controllers
             return RedirectToAction("Home");
         }
 
+        public ActionResult Import()
+        {
+            return View();
+        }
+
         public ActionResult Importexcel()
         {
             string cadenaconexionSQL, strsql;
@@ -430,17 +435,17 @@ namespace InventoryTool.Controllers
 
             try
             {
-                if (Request.Files["FileUpload1"].ContentLength > 0)
+                if (Request.Files["FileUpload2"].ContentLength > 0)
                 {
-                    string extension = System.IO.Path.GetExtension(Request.Files["FileUpload1"].FileName);
+                    string extension = System.IO.Path.GetExtension(Request.Files["FileUpload2"].FileName);
 
-                    if (extension.ToUpper().Trim().Equals(".TXT"))
-                    {
-                        string path1 = @"\SSIS\FeeCodes\" + (Request.Files["FileUpload1"].FileName);
+                    //if (extension.ToUpper().Trim().Equals(".TXT"))
+                    //{
+                        string path1 = @"\SSIS\FeeCodes\" + (Request.Files["FileUpload2"].FileName);
                         if (System.IO.File.Exists(path1))
                             System.IO.File.Delete(path1);
 
-                        Request.Files["FileUpload1"].SaveAs(path1);
+                        Request.Files["FileUpload2"].SaveAs(path1);
                         
                         strsql = "EXEC [dbo].[sp_CargaFleets] '" + path1 + "'";
                         conn.Open();
@@ -453,14 +458,14 @@ namespace InventoryTool.Controllers
                             Resultado = "There were problems with the charge of Fleets, please call IT Area";
                         conn.Close();
                         conn.Dispose();
-                    }
-                    else
-                        Resultado = "The file selected is not in the right format (.TXT)";
+                    //}
+                    //else
+                    //    Resultado = "The file selected is not in the right format (.TXT)";
                 }
                 else
                     Resultado = "The file selected is not in the right format (.TXT)";
 
-                this.HttpContext.Session["Display2"] = Resultado;
+                this.HttpContext.Session["Display3"] = Resultado;
             }
             catch (Exception ex)
             {

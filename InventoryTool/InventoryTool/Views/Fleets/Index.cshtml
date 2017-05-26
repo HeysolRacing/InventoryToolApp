@@ -1,5 +1,13 @@
 ﻿@model PagedList.IPagedList<InventoryTool.Models.Fleet>
 @using PagedList.Mvc;
+
+<SCRIPT LANGUAGE="JavaScript">
+    function Espere() {
+        //alert("Cargando FeeCodes, Espere por favor")
+        document.getElementById('Wait').innerHTML = 'Please wait...'
+}
+</SCRIPT>
+
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 @{
     ViewBag.Title = "Index";
@@ -22,17 +30,14 @@
 @using (Html.BeginForm("Importexcel", "Fleets", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     <table>
-        <tr>
-            <td>TXT File</td>
-            <td><input type="file" id="FileUpload1" name="FileUpload1" /></td>
-            <td></td>
-            <td><input type="submit" id="Submit" name="Submit" value="Submit" class="btn btn-info" /></td>
-        </tr>
+        <tr><td>TXT File: </td><td><input type="file" id="FileUpload2" name="FileUpload2" /></td>
+        <td></td><td><input type="submit" id="Submit" name="Submit" value="Submit" class="btn btn-info"  onclick="Espere()" /></td></tr>
     </table>
 }
 
+
 <h4 style="color:red">
-@Session["Display2"]
+@Session["Display3"] &nbsp; &nbsp;<a id="Wait" style="color:red"></a>
 </h4>
  
 @using (Html.BeginForm("ExportData", "Fleets", FormMethod.Post, new { enctype = "multipart/form-data" }))
