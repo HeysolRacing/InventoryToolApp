@@ -60,7 +60,7 @@ namespace InventoryTool.Controllers
                     fleets = fleets.OrderBy(s => s.Inservice_date);
                     break;
             }
-
+            this.HttpContext.Session["Display3"] = "";
             int pageSize = 100;
             int pageNumber = (page ?? 1);
             return View(fleets.ToPagedList(pageNumber, pageSize));
@@ -424,6 +424,8 @@ namespace InventoryTool.Controllers
             return View();
         }
 
+        [HttpPost]
+        [Authorize(Roles = "InventoryUpload")]
         public ActionResult Importexcel()
         {
             string cadenaconexionSQL, strsql;
@@ -439,8 +441,8 @@ namespace InventoryTool.Controllers
                 {
                     string extension = System.IO.Path.GetExtension(Request.Files["FileUpload2"].FileName);
 
-                    //if (extension.ToUpper().Trim().Equals(".TXT"))
-                    //{
+                    if (extension.ToUpper().Trim().Equals(".TXT"))
+                    {
                         string path1 = @"\SSIS\FeeCodes\" + (Request.Files["FileUpload2"].FileName);
                         if (System.IO.File.Exists(path1))
                             System.IO.File.Delete(path1);
@@ -449,18 +451,27 @@ namespace InventoryTool.Controllers
                         
                         strsql = "EXEC [dbo].[sp_CargaFleets] '" + path1 + "'";
                         conn.Open();
-                        SqlDataAdapter da = new SqlDataAdapter(strsql, conn);
-                        DataSet ds = new DataSet();
-                        da.Fill(ds, "FeeCodes");
-                        if (ds.Tables[0].Rows.Count > 0)
-                            Resultado = ds.Tables[0].Rows[0][0].ToString();
+                         SqlCommand com = new SqlCommand();
+                        com.CommandText = strsql;
+                        com.CommandTimeout = 0;
+                        com.CommandType = CommandType.Text;
+                        com.Connection = conn;
+                        SqlDataReader reader = com.ExecuteReader();
+                        int i = reader.FieldCount;
+                        if (i > 0)
+                        {
+                            while (reader.Read())
+                            {
+                                Resultado = reader[0].ToString();
+                            }
+                        }
                         else
                             Resultado = "There were problems with the charge of Fleets, please call IT Area";
                         conn.Close();
                         conn.Dispose();
-                    //}
-                    //else
-                    //    Resultado = "The file selected is not in the right format (.TXT)";
+                    }
+                    else
+                        Resultado = "The file selected is not in the right format (.TXT)";
                 }
                 else
                     Resultado = "The file selected is not in the right format (.TXT)";

@@ -251,3 +251,4 @@ paket-files/
 .idea/
 *.sln.iml
 /InventoryTool/InventoryTool/Migrations
+/InventoryTool/InventoryTool/HtmlPage1.html
