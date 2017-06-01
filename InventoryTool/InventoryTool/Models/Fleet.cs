@@ -142,6 +142,9 @@ namespace InventoryTool.Models
 
         public string Level_6 { get; set; }
 
+        [Required(ErrorMessage = "You must enter {0}")]
+        public string Level_Unit { get; set; }
+
         public string TTL { get; set; }
 
         public string OutletCode { get; set; }
@@ -152,12 +155,24 @@ namespace InventoryTool.Models
 
         public string CreatedBy { get; set; }
 
-        public Driven Driven { get; set; }
+        //public Driven Driven { get; set; }
 
         public string Currency { get; set; }
         //public string GetStringTypeInserviceDate  En caso de querer realizar validaciones o comparativas
         //{
         //    get { return Inservice_date != null ? Inservice_date.Value.ToShortDateString() : DateTime.MinValue.ToShortDateString(); }
         //}
+        [Required(ErrorMessage = "You must enter {0}")]
+        public string CostumerReference { get; set; }
+        public string ClientUnit { get; set; }
+        public int VRN { get; set; }
+        [Required(ErrorMessage = "You must enter {0}")]
+        public string DriverName { get; set; }
+        [Required(ErrorMessage = "You must enter {0}")]
+        public string DriverLastName { get; set; }
+        public string Address1 { get; set; }
+        public string Address2 { get; set; }
+        public string City { get; set; }
+        public int ZIP { get; set; }
     }
 }

@@ -35,7 +35,7 @@ namespace InventoryTool.Controllers
             ViewBag.CurrentFilter = searchString;
             ViewBag.logString = logString;
 
-            var fleets = from s in db.Fleets.Include(d => d.Driven)
+            var fleets = from s in db.Fleets
                          select s;
 
             if (!String.IsNullOrEmpty(searchString) )
@@ -210,7 +210,7 @@ namespace InventoryTool.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "FleetID,LogNumber,CorpCode,FleetNumber,UnitNumber,VinNumber,ContractType,Make,ModelCar,ModelYear,BookValue,CapCost,Inservice_date,Inservice_process,Original_Inservice,Original_Process,Offroad_date,Offroad_process,Sold_date,Sold_process,FleetCancelUnit,Amort_Term,Leased_Months_Billed,End_date,ScontrNumber,Amort,LicenseNumber,State,Roe,DealerName,Insurance,Secdep,DepartmentCode,Residual_Amount,Level_1,Level_2,Level_3,Level_4,Level_5,Level_6,TTL,OutletCode,OutletName,Created,CreatedBy")] Fleet fleet)
+        public ActionResult Create([Bind(Include = "FleetID,LogNumber,CorpCode,FleetNumber,UnitNumber,VinNumber,ContractType,Make,ModelCar,ModelYear,BookValue,CapCost,Inservice_date,Inservice_process,Original_Inservice,Original_Process,Offroad_date,Offroad_process,Sold_date,Sold_process,FleetCancelUnit,Amort_Term,Leased_Months_Billed,End_date,ScontrNumber,Amort,LicenseNumber,State,Roe,DealerName,Insurance,Secdep,DepartmentCode,Residual_Amount,Level_1,Level_2,Level_3,Level_4,Level_5,Level_6,Level_Unit,TTL,OutletCode,OutletName,Created,CreatedBy")] Fleet fleet)
         {
             if (ModelState.IsValid)
             {
@@ -491,7 +491,6 @@ namespace InventoryTool.Controllers
 
             return RedirectToAction("Index");
         }
-
 
         protected override void Dispose(bool disposing)
         {
