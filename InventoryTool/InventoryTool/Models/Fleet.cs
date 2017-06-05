@@ -14,12 +14,12 @@ namespace InventoryTool.Models
 
         [Display(Name = "Fleet Number")]
         [Required(ErrorMessage = "You must enter {0}")]
-        [StringLength(30, ErrorMessage = "The field {0} must be between {2} and {1} characters", MinimumLength = 5)]
+        [StringLength(30, ErrorMessage = "The field {0} must be between {2} and {1} characters", MinimumLength = 1)]
         public string FleetNumber { get; set; }
 
         [Display(Name = "Unit Number")]
         [Required(ErrorMessage = "You must enter {0}")]
-        [StringLength(30, ErrorMessage = "The field {0} must be between {2} and {1} characters", MinimumLength = 7)]
+        [StringLength(30, ErrorMessage = "The field {0} must be between {2} and {1} characters", MinimumLength = 1)]
         public string UnitNumber { get; set; }
 
         [Display(Name = "Vin Number")]
@@ -155,13 +155,14 @@ namespace InventoryTool.Models
 
         public string CreatedBy { get; set; }
 
-        //public Driven Driven { get; set; }
+        public Driven Driven { get; set; }
 
         public string Currency { get; set; }
         //public string GetStringTypeInserviceDate  En caso de querer realizar validaciones o comparativas
         //{
         //    get { return Inservice_date != null ? Inservice_date.Value.ToShortDateString() : DateTime.MinValue.ToShortDateString(); }
         //}
+        [Display(Name = "Customer Reference")]
         [Required(ErrorMessage = "You must enter {0}")]
         public string CostumerReference { get; set; }
         public string ClientUnit { get; set; }

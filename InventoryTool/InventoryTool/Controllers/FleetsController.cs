@@ -22,6 +22,7 @@ namespace InventoryTool.Controllers
         [Authorize(Roles = "InventoryView")]
         public ViewResult Index(string sortOrder, string currentFilter, string searchString, string logString, int? page)
         {
+
             ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "LogNumber" : "";
             ViewBag.DateSortParm = sortOrder == "UnitNumber" ? "date_desc" : "Date";
@@ -35,6 +36,12 @@ namespace InventoryTool.Controllers
             ViewBag.CurrentFilter = searchString;
             ViewBag.logString = logString;
 
+            var roles = ((ClaimsIdentity)User.Identity).Claims
+                .Where(c => c.Type == ClaimTypes.Role)
+                .Select(c => c.Value);
+
+            ViewData["Roles"] = roles.ToList();
+            
             var fleets = from s in db.Fleets
                          select s;
 
@@ -210,7 +217,7 @@ namespace InventoryTool.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "FleetID,LogNumber,CorpCode,FleetNumber,UnitNumber,VinNumber,ContractType,Make,ModelCar,ModelYear,BookValue,CapCost,Inservice_date,Inservice_process,Original_Inservice,Original_Process,Offroad_date,Offroad_process,Sold_date,Sold_process,FleetCancelUnit,Amort_Term,Leased_Months_Billed,End_date,ScontrNumber,Amort,LicenseNumber,State,Roe,DealerName,Insurance,Secdep,DepartmentCode,Residual_Amount,Level_1,Level_2,Level_3,Level_4,Level_5,Level_6,Level_Unit,TTL,OutletCode,OutletName,Created,CreatedBy")] Fleet fleet)
+        public ActionResult Create([Bind(Include = "FleetID,LogNumber,CorpCode,FleetNumber,UnitNumber,VinNumber,ContractType,Make,ModelCar,ModelYear,BookValue,CapCost,Inservice_date,Inservice_process,Original_Inservice,Original_Process,Offroad_date,Offroad_process,Sold_date,Sold_process,FleetCancelUnit,Amort_Term,Leased_Months_Billed,End_date,ScontrNumber,Amort,LicenseNumber,State,Roe,DealerName,Insurance,Secdep,DepartmentCode,Residual_Amount,Level_1,Level_2,Level_3,Level_4,Level_5,Level_6,Level_Unit,TTL,OutletCode,OutletName,Created,CreatedBy,CostumerReference,ClientUnit,VRN,DriverName,DriverLastName,Address1,Address2,City,ZIP")] Fleet fleet)
         {
             if (ModelState.IsValid)
             {
