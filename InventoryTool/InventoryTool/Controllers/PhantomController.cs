@@ -76,7 +76,7 @@ namespace InventoryTool.Controllers
                             uint storenumber = uint.Parse(store);
                             string storenumberfix = storenumber.ToString("0000000000");
                             string formatdate = date.Year.ToString() + date.Month.ToString("00") + date.Day.ToString("00");
-                            string record = xwa + "|" + vin + "|" + outputValue + "|" + formatdate + "|" + storenumberfix;
+                            string record = xwa + "|" + vin.Trim() + "|" + outputValue + "|" + formatdate + "|" + storenumberfix;
                             sw.WriteLine(record);
                         }
                     }
