@@ -35,6 +35,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <UseVSHostingProcess>false</UseVSHostingProcess>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -311,6 +312,10 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Car.jpg" />
+    <Content Include="Content\ElementColour_RGB-PNG.png" />
+    <Content Include="Content\ElementReverseColour_RGB-PNG.png" />
+    <Content Include="Content\ElementWhite_CMYK-PNG.png" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\Phantom.jpg" />
     <Content Include="Content\themes\base\accordion.css" />

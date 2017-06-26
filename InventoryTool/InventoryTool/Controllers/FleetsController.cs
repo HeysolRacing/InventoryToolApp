@@ -12,6 +12,7 @@ using PagedList;
 using System.Security.Claims;
 using System.Data.SqlClient;
 using System.Web;
+using System.Collections.Generic;
 
 namespace InventoryTool.Controllers
 {
@@ -180,7 +181,7 @@ namespace InventoryTool.Controllers
 
         [Authorize(Roles = "InventoryCreate")]
         public ActionResult Create()
-        {
+        {   
             return View();
         }
 

@@ -11,11 +11,9 @@
 </h4>
 
 <script>
-    $(document).ready(function () {
-        $("#Level_Unit").keyup(checklevel);
-    });
     function checklevel() {
-        var valor = $("#Level_Unit").val();
+
+        var valor = document.getElementById("Level_Unit").value;
         var level1 = $("#Level_1").val();
         var level2 = $("#Level_2").val();
         var level3 = $("#Level_3").val();
@@ -29,21 +27,10 @@
         $("#divCheckLevel4").html("");
         $("#divCheckLevel5").html("");
         $("#divCheckLevel6").html("");
-       
-
-        if (valor == 0 || valor == 2 || valor == 3 || valor == 4 || valor == 5 || valor == 6) {
-            $("#divCheckLevelUnit").html("Level unit key ok.");
-            if (valor == 0 && level1.length > 0)
+ 
+            if (valor == 0 )
             {
-                $("#divCheckLevel1").html("level_1 ok");
                 $("#btn_create").prop('disabled', false);
-            }
-            else
-            {
-                if (valor == 0 && level1.length == 0) {
-                    $("#divCheckLevel1").html("level_1 don't must be empty");
-                    $("#btn_create").prop('disabled', true);
-                }
             }
 
             if (valor == 2 && level2.length > 0) {
@@ -96,13 +83,7 @@
                     $("#divCheckLevel6").html("level_6 don't must be empty");
                     $("#btn_create").prop('disabled', true);
                 }
-            }
-                
-        }
-        else {
-            $("#divCheckLevelUnit").html("Level Unit Key Invalid, value must be in (0,2,3,4,5,6)");
-            $("#btn_create").prop('disabled', true);
-        }
+            }            
     }
 </script>
 <script>
@@ -564,14 +545,21 @@
             <div class="registrationFormAlert" id="divCheckLevel6" style="color:crimson;">
             </div>
         </div>
-
+        @{ 
+            List<int> levelUnit = new List<int>();
+            levelUnit.Add(0);
+            levelUnit.Add(2);
+            levelUnit.Add(3);
+            levelUnit.Add(4);
+            levelUnit.Add(5);
+            levelUnit.Add(6);
+        }
         <div class="form-group">
             @Html.LabelFor(model => model.Level_Unit, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Level_Unit, new { htmlAttributes = new { @class = "form-control", @onchange = "checklevel();" } })
+                @Html.DropDownListFor(model => model.Level_Unit, new SelectList(levelUnit, "Level unit"),
+                 "-- Please select a level unit --", new  {@onchange = "checklevel()" } )
                 @Html.ValidationMessageFor(model => model.Level_Unit, "", new { @class = "text-danger" })
-            </div>
-            <div class="registrationFormAlert" id="divCheckLevelUnit" style="color:crimson;">
             </div>
         </div>
 

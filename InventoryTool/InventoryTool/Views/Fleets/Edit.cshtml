@@ -6,6 +6,209 @@
 
 <h2>Edit</h2>
 
+<script>
+    function checklevel() {
+
+        var valor = document.getElementById("Level_Unit").value;
+        var level1 = $("#Level_1").val();
+        var level2 = $("#Level_2").val();
+        var level3 = $("#Level_3").val();
+        var level4 = $("#Level_4").val();
+        var level5 = $("#Level_5").val();
+        var level6 = $("#Level_6").val();
+
+        $("#divCheckLevel1").html("");
+        $("#divCheckLevel2").html("");
+        $("#divCheckLevel3").html("");
+        $("#divCheckLevel4").html("");
+        $("#divCheckLevel5").html("");
+        $("#divCheckLevel6").html("");
+
+            if (valor == 0 )
+            {
+                $("#btn_create").prop('disabled', false);
+            }
+
+            if (valor == 2 && level2.length > 0) {
+                $("#divCheckLevel2").html("level_2 ok");
+                $("#btn_create").prop('disabled', false);
+            }
+            else {
+                if (valor == 2 && level2.length == 0) {
+                    $("#divCheckLevel2").html("level_2 don't must be empty");
+                    $("#btn_create").prop('disabled', true);
+                }
+            }
+
+            if (valor == 3 && level3.length > 0) {
+                $("#divCheckLevel3").html("level_3 ok");
+                $("#btn_create").prop('disabled', false);
+            }
+            else {
+                if (valor == 3 && level3.length == 0) {
+                    $("#divCheckLevel3").html("level_3 don't must be empty");
+                    $("#btn_create").prop('disabled', true);
+                }
+            }
+            if (valor == 4 && level4.length > 0) {
+                $("#divCheckLevel4").html("level_4 ok");
+                $("#btn_create").prop('disabled', false);
+            }
+            else {
+                if (valor == 4 && level4.length == 0) {
+                    $("#divCheckLevel4").html("level_4 don't must be empty");
+                    $("#btn_create").prop('disabled', true);
+                }
+            }
+            if (valor == 5 && level5.length > 0) {
+                $("#divCheckLevel5").html("level_5 ok");
+                $("#btn_create").prop('disabled', false);
+            }
+            else {
+                if (valor == 5 && level5.length == 0) {
+                    $("#divCheckLevel5").html("level_5 don't must be empty");
+                    $("#btn_create").prop('disabled', true);
+                }
+            }
+            if (valor == 6 && level6.length > 0) {
+                $("#divCheckLevel6").html("level_6 ok");
+                $("#btn_create").prop('disabled', false);
+            }
+            else {
+                if (valor == 6 && level6.length == 0) {
+                    $("#divCheckLevel6").html("level_6 don't must be empty");
+                    $("#btn_create").prop('disabled', true);
+                }
+            }
+    }
+</script>
+<script>
+    $(document).ready(function () {
+        $("#Level_1").keyup(checklevel1);
+    });
+    function checklevel1() {
+        var valor = $("#Level_Unit").val();
+        var level1 = $("#Level_1").val();
+            if (valor == 0 && level1.length > 0)
+            {
+                $("#btn_create").prop('disabled', false);
+                $("#divCheckLevel1").html("level_1 ok");
+            }
+            else
+            {
+                if (valor == 0 && level1.length == 0) {
+                    $("#btn_create").prop('disabled', true);
+                    $("#divCheckLevel1").html("level_1 don't must be empty");
+                }
+            }
+    }
+</script>
+<script>
+    $(document).ready(function () {
+        $("#Level_2").keyup(checklevel2);
+    });
+    function checklevel2() {
+        var valor = $("#Level_Unit").val();
+        var level2 = $("#Level_2").val();
+            if (valor == 2 && level2.length > 0)
+            {
+                $("#btn_create").prop('disabled', false);
+                $("#divCheckLevel2").html("level_2 ok");
+            }
+            else
+            {
+                if (valor == 2 && level2.length == 0) {
+                    $("#btn_create").prop('disabled', true);
+                    $("#divCheckLevel2").html("level_2 don't must be empty");
+                }
+            }
+    }
+</script>
+<script>
+    $(document).ready(function () {
+        $("#Level_3").keyup(checklevel3);
+    });
+    function checklevel3() {
+        var valor = $("#Level_Unit").val();
+        var level3 = $("#Level_3").val();
+            if (valor == 3 && level3.length > 0)
+            {
+                $("#btn_create").prop('disabled', false);
+                $("#divCheckLevel3").html("level_3 ok");
+            }
+            else
+            {
+                if (valor == 3 && level3.length == 0) {
+                    $("#btn_create").prop('disabled', true);
+                    $("#divCheckLevel3").html("level_3 don't must be empty");
+                }
+            }
+    }
+</script>
+<script>
+    $(document).ready(function () {
+        $("#Level_4").keyup(checklevel4);
+    });
+    function checklevel4() {
+        var valor = $("#Level_Unit").val();
+        var level4 = $("#Level_4").val();
+            if (valor == 4 && level4.length > 0)
+            {
+                $("#btn_create").prop('disabled', false);
+                $("#divCheckLevel4").html("level_4 ok");
+            }
+            else
+            {
+                if (valor == 4 && level4.length == 0) {
+                    $("#btn_create").prop('disabled', true);
+                    $("#divCheckLevel4").html("level_4 don't must be empty");
+                }
+            }
+    }
+</script>
+<script>
+    $(document).ready(function () {
+        $("#Level_5").keyup(checklevel5);
+    });
+    function checklevel5() {
+        var valor = $("#Level_Unit").val();
+        var level5 = $("#Level_5").val();
+            if (valor == 5 && level5.length > 0)
+            {
+                $("#btn_create").prop('disabled', false);
+                $("#divCheckLevel5").html("level_5 ok");
+            }
+            else
+            {
+                if (valor == 5 && level5.length == 0) {
+                    $("#btn_create").prop('disabled', true);
+                    $("#divCheckLevel5").html("level_5 don't must be empty");
+                }
+            }
+    }
+</script>
+<script>
+    $(document).ready(function () {
+        $("#Level_6").keyup(checklevel6);
+    });
+    function checklevel6() {
+        var valor = $("#Level_Unit").val();
+        var level6 = $("#Level_6").val();
+            if (valor == 6 && level6.length > 0)
+            {
+                $("#btn_create").prop('disabled', false);
+                $("#divCheckLevel6").html("level_6 ok");
+            }
+            else
+            {
+                if (valor == 6 && level6.length == 0) {
+                    $("#btn_create").prop('disabled', true);
+                    $("#divCheckLevel6").html("level_6 don't must be empty");
+                }
+            }
+    }
+</script>
+
 
 @using (Html.BeginForm())
 {
@@ -247,55 +450,76 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Level_1, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Level_1, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.Level_1, new { htmlAttributes = new { @class = "form-control", @onchange = "checklevel1();" } })
                 @Html.ValidationMessageFor(model => model.Level_1, "", new { @class = "text-danger" })
+            </div>
+            <div class="registrationFormAlert" id="divCheckLevel1" style="color:crimson;">
             </div>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.Level_2, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Level_2, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.Level_2, new { htmlAttributes = new { @class = "form-control", @onchange = "checklevel2();" } })
                 @Html.ValidationMessageFor(model => model.Level_2, "", new { @class = "text-danger" })
+            </div>
+            <div class="registrationFormAlert" id="divCheckLevel2" style="color:crimson;">
             </div>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.Level_3, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Level_3, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.Level_3, new { htmlAttributes = new { @class = "form-control", @onchange = "checklevel3();" } })
                 @Html.ValidationMessageFor(model => model.Level_3, "", new { @class = "text-danger" })
+            </div>
+            <div class="registrationFormAlert" id="divCheckLevel3" style="color:crimson;">
             </div>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.Level_4, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Level_4, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.Level_4, new { htmlAttributes = new { @class = "form-control", @onchange = "checklevel4();" } })
                 @Html.ValidationMessageFor(model => model.Level_4, "", new { @class = "text-danger" })
+            </div>
+            <div class="registrationFormAlert" id="divCheckLevel4" style="color:crimson;">
             </div>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.Level_5, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Level_5, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.Level_5, new { htmlAttributes = new { @class = "form-control", @onchange = "checklevel5();" } })
                 @Html.ValidationMessageFor(model => model.Level_5, "", new { @class = "text-danger" })
+            </div>
+            <div class="registrationFormAlert" id="divCheckLevel5" style="color:crimson;">
             </div>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.Level_6, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Level_6, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.Level_6, new { htmlAttributes = new { @class = "form-control", @onchange = "checklevel6();" } })
                 @Html.ValidationMessageFor(model => model.Level_6, "", new { @class = "text-danger" })
             </div>
+            <div class="registrationFormAlert" id="divCheckLevel6" style="color:crimson;">
+            </div>
         </div>
-
+        @{
+            List<int> levelUnit = new List<int>();
+            levelUnit.Add(0);
+            levelUnit.Add(2);
+            levelUnit.Add(3);
+            levelUnit.Add(4);
+            levelUnit.Add(5);
+            levelUnit.Add(6);
+        }
         <div class="form-group">
             @Html.LabelFor(model => model.Level_Unit, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Level_Unit, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.DropDownListFor(model => model.Level_Unit, new SelectList(levelUnit, "Level unit"),
+                 "-- Please select a level unit --", new { @onchange = "checklevel()" })
                 @Html.ValidationMessageFor(model => model.Level_Unit, "", new { @class = "text-danger" })
             </div>
         </div>
