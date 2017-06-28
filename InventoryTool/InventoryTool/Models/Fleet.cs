@@ -116,8 +116,9 @@ namespace InventoryTool.Models
         //[DisplayFormat(ConvertEmptyStringToNull = false)]
         public string  LicenseNumber { get; set; }
 
-        public string State { get; set; }  
+        public string State { get; set; }
 
+        [DisplayFormat(DataFormatString = "{0:#.####}")]
         public decimal Roe { get; set; }
 
         public string DealerName { get; set; }

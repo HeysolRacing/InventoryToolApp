@@ -1031,7 +1031,7 @@ namespace InventoryTool.Controllers
                 ag.IVA = 16;
                 ag.CRNumber = item.WAnumber;
                 CRclosed.Add(ag);
-                db.Entry(item).State = EntityState.Modified;
+                //db.Entry(item).State = EntityState.Modified;
             }
             gv.DataSource = CRclosed;
             gv.DataBind();
@@ -1047,7 +1047,7 @@ namespace InventoryTool.Controllers
             Response.Flush();
             Response.End();
 
-            db.SaveChanges();
+            //db.SaveChanges();
 
             return RedirectToAction("CRsClosed");
         }
