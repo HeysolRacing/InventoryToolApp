@@ -119,7 +119,7 @@ namespace InventoryTool.Models
         public string State { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:#.####}")]
-        public decimal Roe { get; set; }
+        public double Roe { get; set; }
 
         public string DealerName { get; set; }
 

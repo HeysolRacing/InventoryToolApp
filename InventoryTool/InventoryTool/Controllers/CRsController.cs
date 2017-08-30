@@ -626,8 +626,11 @@ namespace InventoryTool.Controllers
 
         // GET: CRs/Create
         [Authorize(Roles = "PhantomCreate")]
-        public ActionResult Create(int? id)
+        public ActionResult Create(int? id, int? valida)
         {
+            if(valida != null)
+            { ViewBag.Msj = "Debe seleccionar un provedor antes de aprovar una CR"; }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -685,35 +688,38 @@ namespace InventoryTool.Controllers
         [Authorize(Roles = "PhantomCreate")]
         public ActionResult Create(CR cR)
         {
-            if (ModelState.IsValid)
+            if (cR.Supplier > 0)
             {
-                var crdetail = from s in db.CRdetails
-                               where s.IDCR.ToString().Contains(cR.crID.ToString())
-                               select s;
-                decimal subtotal = 0.0m; 
-                foreach(CRdetail item in crdetail)
+                if (ModelState.IsValid)
                 {
-                    subtotal = subtotal + item.Authorized;
+                    var crdetail = from s in db.CRdetails
+                                   where s.IDCR.ToString().Contains(cR.crID.ToString())
+                                   select s;
+                    decimal subtotal = 0.0m;
+                    foreach (CRdetail item in crdetail)
+                    {
+                        subtotal = subtotal + item.Authorized;
+                    }
+                    cR.Status = "Pending Aproval";
+                    cR.ClosedReport = "False";
+                    cR.Subtotal = subtotal;
+                    cR.IVA = subtotal * 0.16m;
+                    cR.Total = subtotal * 1.16m;
+                    cR.ModifiedDate = DateTime.Now;
+                    db.Entry(cR).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Edit", new { id = cR.crID, folio = 1 });
                 }
-                cR.Status = "Pending Aproval";
-                cR.ClosedReport = "False";
-                cR.Subtotal = subtotal;
-                cR.IVA = subtotal * 0.16m;
-                cR.Total = subtotal * 1.16m;
-                cR.ModifiedDate = DateTime.Now;
-                //db.CRs.Add(cR);
-                db.Entry(cR).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Edit",new { id=cR.crID});
             }
-
-            return View(cR);
+    
+            return RedirectToAction("Create", new { id = cR.crID, valida = 1 });
         }
 
         // GET: CRs/Edit/5
         [Authorize(Roles = "PhantomEdit")]
-        public ActionResult Edit(int? id)
+        public ActionResult Edit(int? id, int? folio)
         {
+            
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -758,6 +764,8 @@ namespace InventoryTool.Controllers
             {
                 return HttpNotFound();
             }
+            if (folio != null)
+            {  ViewBag.Msj = "new C&R creado: " + request.cr.WAnumber; } 
 
             return View(request);
         }
@@ -886,11 +894,19 @@ namespace InventoryTool.Controllers
         [Authorize(Roles = "PhantomEdit")]
         public ActionResult ApproveConfirmed(CR cR)
         {
-            cR.Status = "Approved";
-            cR.ModifiedDate = DateTime.Now;
-            db.Entry(cR).State = EntityState.Modified;
-            db.SaveChanges();
-            return RedirectToAction("Mail",new { id = cR.crID });
+            if (cR.Supplier > 0)
+            {
+                cR.Status = "Approved";
+                cR.ModifiedDate = DateTime.Now;
+                db.Entry(cR).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Mail", new { id = cR.crID });
+            }
+            else
+            {
+                ViewBag.Msj = "Debe seleccionar un provedor antes de aprovar una CR";
+                return View(cR);
+            }
         }
 
         // GET: CRs/Close/5
